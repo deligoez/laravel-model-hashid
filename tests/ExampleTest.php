@@ -1,6 +1,6 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace Deligoez\LaravelModelHashids\Tests;
 
 class ExampleTest extends TestCase
 {

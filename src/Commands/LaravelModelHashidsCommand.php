@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Deligoez\LaravelModelHashids\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LaravelModelHashidsCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-model-hashids';
 
     public $description = 'My command';
 

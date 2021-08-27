@@ -1,17 +1,17 @@
 {
-    "name": "vendor_slug/package_slug",
-    "description": ":package_description",
+    "name": "deligoez/laravel-model-hashids",
+    "description": "This is my package LaravelModelHashids",
     "keywords": [
-        ":vendor_name",
+        "deligoez",
         "laravel",
-        "package_slug"
+        "laravel-model-hashids"
     ],
-    "homepage": "https://github.com/vendor_slug/package_slug",
+    "homepage": "https://github.com/deligoez/laravel-model-hashids",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Yunus Emre Deligöz",
+            "email": "ye@deligoz.me",
             "role": "Developer"
         }
     ],
@@ -30,13 +30,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Deligoez\\LaravelModelHashids\\": "src",
+            "Deligoez\\LaravelModelHashids\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Deligoez\\LaravelModelHashids\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -50,10 +50,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Deligoez\\LaravelModelHashids\\LaravelModelHashidsServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\SkeletonFacade"
+                "LaravelModelHashids": "Deligoez\\LaravelModelHashids\\LaravelModelHashidsFacade"
             }
         }
     },
