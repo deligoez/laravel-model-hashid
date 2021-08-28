@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class ModelA extends Model
 {
     use HasFactory;
+    use HasHashIDs;
 
     protected $fillable = ['name'];
 }
