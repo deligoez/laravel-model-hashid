@@ -1,12 +1,14 @@
 <?php
 
-namespace Deligoez\LaravelModelHashids;
+declare(strict_types=1);
+
+namespace Deligoez\LaravelModelHashIDs;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Deligoez\LaravelModelHashids\Commands\LaravelModelHashidsCommand;
 
-class LaravelModelHashidsServiceProvider extends PackageServiceProvider
+class LaravelModelHashIDsServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {

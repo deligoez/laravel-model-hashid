@@ -17,6 +17,7 @@
     ],
     "require": {
         "php": "^8.0",
+        "hashids/hashids": "^4.1",
         "illuminate/contracts": "^8.57",
         "spatie/laravel-package-tools": "^1.9"
     },
@@ -33,13 +34,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Deligoez\\LaravelModelHashids\\": "src",
-            "Deligoez\\LaravelModelHashids\\Database\\Factories\\": "database/factories"
+            "Deligoez\\LaravelModelHashIDs\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Deligoez\\LaravelModelHashids\\Tests\\": "tests"
+            "Deligoez\\LaravelModelHashIDs\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -53,10 +53,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Deligoez\\LaravelModelHashids\\LaravelModelHashidsServiceProvider"
+                "LaravelModelHashIDsServiceProvider"
             ],
             "aliases": {
-                "LaravelModelHashids": "Deligoez\\LaravelModelHashids\\LaravelModelHashidsFacade"
+                "LaravelModelHashids": "LaravelModelHashIDsFacade"
             }
         }
     },

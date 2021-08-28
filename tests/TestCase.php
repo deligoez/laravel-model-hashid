@@ -1,10 +1,12 @@
 <?php
 
-namespace Deligoez\LaravelModelHashids\Tests;
+declare(strict_types=1);
+
+namespace Deligoez\LaravelModelHashIDs\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Deligoez\LaravelModelHashids\LaravelModelHashidsServiceProvider;
+use Deligoez\LaravelModelHashIDs\LaravelModelHashIDsServiceProvider;
 
 class TestCase extends Orchestra
 {

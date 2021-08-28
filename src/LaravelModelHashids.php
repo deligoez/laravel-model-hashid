@@ -1,7 +1,9 @@
 <?php
 
-namespace Deligoez\LaravelModelHashids;
+declare(strict_types=1);
 
-class LaravelModelHashids
+namespace Deligoez\LaravelModelHashIDs;
+
+class LaravelModelHashIDs
 {
 }

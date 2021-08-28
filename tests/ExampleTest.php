@@ -1,6 +1,11 @@
 <?php
 
-namespace Deligoez\LaravelModelHashids\Tests;
+declare(strict_types=1);
+
+namespace Deligoez\LaravelModelHashIDs\Tests;
+
+use Deligoez\LaravelModelHashIDs\Tests\Models\SampleModel;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ExampleTest extends TestCase
 {

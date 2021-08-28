@@ -1,15 +1,17 @@
 <?php
 
-namespace Deligoez\LaravelModelHashids;
+declare(strict_types=1);
+
+namespace Deligoez\LaravelModelHashIDs;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Deligoez\LaravelModelHashids\LaravelModelHashids
+ * @see \Deligoez\LaravelModelHashids\LaravelModelHashIDs
  */
-class LaravelModelHashidsFacade extends Facade
+class LaravelModelHashIDsFacade extends Facade
 {
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return 'laravel-model-hashids';
     }
