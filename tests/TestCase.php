@@ -14,25 +14,20 @@ class TestCase extends Orchestra
     {
         parent::setUp();
 
+        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Deligoez\\LaravelModelHashids\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Deligoez\\LaravelModelHashIDs\\Tests\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
-        return [
-            LaravelModelHashidsServiceProvider::class,
-        ];
+        return [LaravelModelHashIDsServiceProvider::class];
     }
 
-    public function getEnvironmentSetUp($app)
+    public function getEnvironmentSetUp($app): void
     {
         config()->set('database.default', 'testing');
-
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_laravel-model-hashids_table.php.stub';
-        $migration->up();
-        */
     }
 }

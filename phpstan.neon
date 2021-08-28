@@ -3,7 +3,6 @@ parameters:
     paths:
         - src
         - config
-        - database
         - tests
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
