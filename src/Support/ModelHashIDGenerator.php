@@ -14,8 +14,12 @@ class ModelHashIDGenerator
     {
         $shortClassName = (new ReflectionClass($model))->getShortName();
         $prefixLength = Config::get('hashids.prefix_length', 3); // for model or generic
-        $prefix = mb_strtolower(rtrim(mb_strimwidth($shortClassName, 0, $prefixLength, '', 'UTF-8'))); // for model or generic
+        $prefix = rtrim(mb_strimwidth($shortClassName, 0, $prefixLength, '', 'UTF-8'));
 
-        return $prefix;
+        return match (Config::get('hashids.prefix_case', 'lower')) {
+            'upper' => Str::upper($prefix),
+            default => Str::lower($prefix),
+        };
+    }
     }
 }

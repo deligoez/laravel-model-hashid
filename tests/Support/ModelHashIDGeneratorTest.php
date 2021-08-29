@@ -15,6 +15,8 @@ class ModelHashIDGeneratorTest extends TestCase
 {
     use WithFaker;
 
+    // region prefix_length
+
     /** @test */
     public function it_can_set_prefix_length_for_a_model(): void
     {
@@ -64,11 +66,15 @@ class ModelHashIDGeneratorTest extends TestCase
         $this->assertEquals($shortClassNameLength, mb_strlen($prefix));
     }
 
+    // endregion
+
+    // region prefix_case
+
     /** @test */
     public function it_can_build_a_lowercase_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        Config::set('hashids.prefix_length', 3);
+        Config::set('hashids.prefix_length', 6);
         Config::set('hashids.prefix_case', 'lower');
 
         $model = new ModelA();
@@ -77,6 +83,24 @@ class ModelHashIDGeneratorTest extends TestCase
         $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
 
         // 3️⃣ Assert ✅
-        $this->assertEquals('mod', $prefix);
+        $this->assertEquals('modela', $prefix);
     }
+
+    /** @test */
+    public function it_can_build_a_uppercase_prefix_from_a_model(): void
+    {
+        // 1️⃣ Arrange 🏗
+        Config::set('hashids.prefix_length', 6);
+        Config::set('hashids.prefix_case', 'upper');
+
+        $model = new ModelA();
+
+        // 2️⃣ Act 🏋🏻‍
+        $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
+
+        // 3️⃣ Assert ✅
+        $this->assertEquals('MODELA', $prefix);
+    }
+
+    // endregion
 }
