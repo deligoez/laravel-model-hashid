@@ -7,6 +7,7 @@ namespace Deligoez\LaravelModelHashIDs\Models\Concerns;
 use Config;
 use Hashids\Hashids;
 use Hashids\HashidsInterface;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
 use Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException;
 
@@ -35,8 +36,15 @@ trait HasHashIDs
      */
     public static function bootHasHashIDs(): void
     {
-        Builder::macro('findByHashID', function ($id, $columns = ['*']) {
+        Builder::macro('findByHashID', function (mixed $id, $columns = ['*']) {
             return $this->find($this->getModel()->decodeHashID($id), $columns);
+        });
+
+        Builder::macro('findManyByHashID', function (Arrayable|array $ids, $columns = ['*']) {
+            $ids = $ids instanceof Arrayable ? $ids->toArray() : $ids;
+            $ids = array_map(fn(string $hashID) => $this->getModel()->decodeHashID($hashID), $ids);
+
+            return $this->findMany($ids, $columns);
         });
 
         Builder::macro('findOrFailByHashID', function ($id, $columns = ['*']) {

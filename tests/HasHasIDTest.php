@@ -17,6 +17,8 @@ class HasHasIDTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    // region Trait Initialization
+
     /** @test */
     public function model_hashID_salt_can_be_defined(): void
     {
@@ -66,6 +68,10 @@ class HasHasIDTest extends TestCase
             $this->assertContains($char, $alphabetAsArray);
         }
     }
+
+    // endregion
+
+    // region Trait Functions
 
     /** @test */
     public function model_can_encode_its_key(): void
@@ -121,6 +127,10 @@ class HasHasIDTest extends TestCase
         $this->assertEquals($decodedValue, $randomNumber);
     }
 
+    // endregion
+
+    // region Accessors
+
     /** @test */
     public function model_has_a_hashID_attribute(): void
     {
@@ -137,6 +147,20 @@ class HasHasIDTest extends TestCase
         $this->assertEquals($hashID, $model->encodeHashID());
     }
 
+    // endregion
+
+    // region Macros
+
+    /** @test */
+    public function it_throws_CouldNotDecodeHashIDException_for_an_invalid_hashID(): void
+    {
+        // 3️⃣ Assert ✅
+        $this->expectException(CouldNotDecodeHashIDException::class);
+
+        // 2️⃣ Act 🏋🏻‍
+        ModelA::findByHashID('not-found');
+    }
+
     /** @test */
     public function it_can_find_a_model_by_its_hashID(): void
     {
@@ -151,16 +175,6 @@ class HasHasIDTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_CouldNotDecodeHashIDException_for_an_invalid_hashID(): void
-    {
-        // 3️⃣ Assert ✅
-        $this->expectException(CouldNotDecodeHashIDException::class);
-
-        // 2️⃣ Act 🏋🏻‍
-        ModelA::findByHashID('not-found');
-    }
-
-    /** @test */
     public function it_returns_null_if_can_not_find_a_model_with_given_hashID(): void
     {
         // 1️⃣ Arrange 🏗
@@ -172,7 +186,24 @@ class HasHasIDTest extends TestCase
         // 3️⃣ Assert ✅
         $this->assertNull($foundModel);
     }
-    
+
+    /** @test */
+    public function it_can_find_many_models_by_its_hashIDs(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $models = ModelA::factory()
+                        ->count($this->faker->numberBetween(2, 5))
+                        ->create();
+
+        $modelHashIDs = $models->pluck('hashID')->toArray();
+
+        // 2️⃣ Act 🏋🏻‍
+        $foundModels = ModelA::findManyByHashID($modelHashIDs);
+
+        // 3️⃣ Assert ✅
+        $this->assertSame($models->pluck('id')->toArray(), $foundModels->pluck('id')->toArray());
+    }
+
     /** @test */
     public function it_can_find_or_fail_a_model_by_its_hashID(): void
     {
@@ -194,4 +225,6 @@ class HasHasIDTest extends TestCase
         // 2️⃣.2️⃣ Act 🏋🏻‍
         ModelA::findOrFailByHashID($model->hashID);
     }
+
+    // endregion
 }
