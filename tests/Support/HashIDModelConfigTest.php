@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashIDs\Tests\Support;
 
 use Config;
-use Deligoez\LaravelModelHashIDs\Support\HashIDModelConfig;
-use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
-use Deligoez\LaravelModelHashIDs\Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use RuntimeException;
+use Illuminate\Foundation\Testing\WithFaker;
+use Deligoez\LaravelModelHashIDs\Tests\TestCase;
+use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
+use Deligoez\LaravelModelHashIDs\Support\HashIDModelConfig;
 
 class HashIDModelConfigTest extends TestCase
 {
