@@ -71,7 +71,7 @@ class ModelHashIDGeneratorTest extends TestCase
     // region prefix_case
 
     /** @test */
-    public function it_can_build_a_lowercase_prefix_from_a_model(): void
+    public function it_can_build_a_lower_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
         Config::set('hashids.prefix_length', 6);
@@ -87,7 +87,7 @@ class ModelHashIDGeneratorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_build_a_uppercase_prefix_from_a_model(): void
+    public function it_can_build_a_upper_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
         Config::set('hashids.prefix_length', 6);
@@ -103,7 +103,7 @@ class ModelHashIDGeneratorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_build_a_camelcase_prefix_from_a_model(): void
+    public function it_can_build_a_camel_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
         Config::set('hashids.prefix_length', 6);
@@ -119,7 +119,7 @@ class ModelHashIDGeneratorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_build_a_snakecase_prefix_from_a_model(): void
+    public function it_can_build_a_snake_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
         Config::set('hashids.prefix_length', 6);
@@ -132,6 +132,22 @@ class ModelHashIDGeneratorTest extends TestCase
 
         // 3️⃣ Assert ✅
         $this->assertEquals('model_a', $prefix);
+    }
+
+    /** @test */
+    public function it_can_build_a_kebab_case_prefix_from_a_model(): void
+    {
+        // 1️⃣ Arrange 🏗
+        Config::set('hashids.prefix_length', 6);
+        Config::set('hashids.prefix_case', 'kebab');
+
+        $model = new ModelA();
+
+        // 2️⃣ Act 🏋🏻‍
+        $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
+
+        // 3️⃣ Assert ✅
+        $this->assertEquals('model-a', $prefix);
     }
 
     // endregion

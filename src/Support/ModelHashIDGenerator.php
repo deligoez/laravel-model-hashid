@@ -21,6 +21,7 @@ class ModelHashIDGenerator
             'upper' => Str::upper($prefix),
             'camel' => Str::camel($prefix),
             'snake' => Str::snake($prefix),
+            'kebab' => Str::kebab($prefix),
             default => Str::lower($prefix),
         };
     }
