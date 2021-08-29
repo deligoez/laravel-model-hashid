@@ -4,10 +4,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Salt for Hash ID
+    | Salt String for Hash ID
     |--------------------------------------------------------------------------
     |
-    | Salt string.
+    | This salt string is used for generating Hash IDs and should be set
+    | to a random string, otherwise these generated HashIDs will not be
+    | safe. Please do this definitely before deploying an application!
     |
     */
 
@@ -15,10 +17,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | HashID Lenght
+    | HashID Length
     |--------------------------------------------------------------------------
     |
-    | HashID Lenght
+    | HashID Length
     |
     */
 

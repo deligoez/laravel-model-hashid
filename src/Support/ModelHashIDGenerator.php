@@ -13,8 +13,8 @@ class ModelHashIDGenerator
     public static function buildPrefixForModel(Model $model): string
     {
         $shortClassName = (new ReflectionClass($model))->getShortName();
-        $prefixLenght = Config::get('hashids.prefix_lenght', 3); // for model or generic
-        $prefix = mb_strtolower(rtrim(mb_strimwidth($shortClassName, 0, $prefixLenght, '', 'UTF-8'))); // for model or generic
+        $prefixLength = Config::get('hashids.prefix_length', 3); // for model or generic
+        $prefix = mb_strtolower(rtrim(mb_strimwidth($shortClassName, 0, $prefixLength, '', 'UTF-8'))); // for model or generic
 
         return $prefix;
     }
