@@ -6,7 +6,7 @@ namespace Deligoez\LaravelModelHashIDs\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Deligoez\LaravelModelHashIDs\Models\Concerns\HasHashIDs;
+use Deligoez\LaravelModelHashIDs\Traits\HasHashIDs;
 
 class ModelA extends Model
 {

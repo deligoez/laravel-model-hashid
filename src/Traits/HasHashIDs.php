@@ -2,17 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Models\Concerns;
+namespace Deligoez\LaravelModelHashIDs\Traits;
 
 use Config;
-use Hashids\Hashids;
-use Hashids\HashidsInterface;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Contracts\Support\Arrayable;
+use Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException;
 use Deligoez\LaravelModelHashIDs\Mixins\FindByHashIDMixin;
 use Deligoez\LaravelModelHashIDs\Mixins\FindManyByHashIDMixin;
 use Deligoez\LaravelModelHashIDs\Mixins\FindOrFailByHashIDMixin;
-use Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException;
+use Hashids\Hashids;
+use Hashids\HashidsInterface;
+use Illuminate\Database\Eloquent\Builder;
 
 trait HasHashIDs
 {
@@ -45,7 +44,7 @@ trait HasHashIDs
         Builder::mixin(new FindManyByHashIDMixin());
         Builder::mixin(new FindOrFailByHashIDMixin());
     }
-    
+
     /**
      * @throws \Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException
      */

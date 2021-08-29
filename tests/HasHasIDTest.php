@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashIDs\Tests;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Str;
 use Config;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException;
 
 class HasHasIDTest extends TestCase
