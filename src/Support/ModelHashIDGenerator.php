@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashIDs\Support;
 
-use Config;
-use Illuminate\Database\Eloquent\Model;
-use ReflectionClass;
 use Str;
+use Config;
+use ReflectionClass;
+use Illuminate\Database\Eloquent\Model;
 
 class ModelHashIDGenerator
 {
@@ -25,7 +25,7 @@ class ModelHashIDGenerator
             'title'         => Str::title($prefix),
             'studly'        => Str::studly($prefix),
             'plural_studly' => Str::pluralStudly($prefix),
-            default => Str::lower($prefix),
+            default         => Str::lower($prefix),
         };
     }
     }

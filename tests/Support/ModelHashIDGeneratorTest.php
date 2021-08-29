@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashIDs\Tests\Support;
 
-use Deligoez\LaravelModelHashIDs\Support\ModelHashIDGenerator;
-use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
-use Deligoez\LaravelModelHashIDs\Tests\TestCase;
 use Config;
-use Illuminate\Foundation\Testing\WithFaker;
 use ReflectionClass;
+use Illuminate\Foundation\Testing\WithFaker;
+use Deligoez\LaravelModelHashIDs\Tests\TestCase;
+use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
+use Deligoez\LaravelModelHashIDs\Support\ModelHashIDGenerator;
 
 class ModelHashIDGeneratorTest extends TestCase
 {
