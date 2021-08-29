@@ -134,4 +134,13 @@ class HasHasIDTest extends TestCase
         $this->assertEquals($key, $decodedID);
         $this->assertEquals($hashID, $model->encodeHashID());
     }
+    /** @test */
+    public function it_throws_CouldNotDecodeHashIDException_for_an_invalid_hashID(): void
+    {
+        // 3️⃣ Assert ✅
+        $this->expectException(CouldNotDecodeHashIDException::class);
+
+        // 2️⃣ Act 🏋🏻‍
+        ModelA::findByHashID('not-found');
+    }
 }

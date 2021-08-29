@@ -26,9 +26,19 @@ trait HasHashIDs
         $this->hashIDGenerator = new Hashids($salt, $length, $alphabet);
     }
 
+
+    /**
+     * @throws \Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException
+     */
     public function decodeHashID(string $hashid = null)
     {
-        return $this->hashIDGenerator->decode($hashid ?? $this->hashID)[0];
+        $decoded = $this->hashIDGenerator->decode($hashid ?? $this->hashID);
+
+        if (empty($decoded)) {
+            throw CouldNotDecodeHashIDException::make($decoded);
+        }
+
+        return $decoded[0];
     }
 
     public function encodeHashID(int $key = null): string
