@@ -8,9 +8,29 @@ use Deligoez\LaravelModelHashIDs\Support\ModelHashIDGenerator;
 use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
 use Deligoez\LaravelModelHashIDs\Tests\TestCase;
 use Config;
+use Illuminate\Foundation\Testing\WithFaker;
+use ReflectionClass;
 
 class ModelHashIDGeneratorTest extends TestCase
 {
+    use WithFaker;
+
+    /** @test */
+    public function it_can_set_prefix_lenght_for_a_model(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $model = new ModelA();
+        $shortClassName = (new ReflectionClass($model))->getShortName();
+        $prefixLenght = $this->faker->numberBetween(1, mb_strlen($shortClassName));
+        Config::set('hashids.prefix_lenght', $prefixLenght);
+
+        // 2️⃣ Act 🏋🏻‍
+        $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
+
+        // 3️⃣ Assert ✅
+        $this->assertEquals($prefixLenght, mb_strlen($prefix));
+    }
+
     /** @test */
     public function it_can_build_a_lowercase_prefix_from_a_model(): void
     {
