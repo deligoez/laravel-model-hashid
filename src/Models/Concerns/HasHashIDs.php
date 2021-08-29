@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashIDs\Models\Concerns;
 
+use Config;
 use Hashids\Hashids;
 use Hashids\HashidsInterface;
-use Config;
 
 trait HasHashIDs
 {
