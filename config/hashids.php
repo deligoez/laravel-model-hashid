@@ -11,7 +11,7 @@ return [
     |
     */
 
-    'salt'                   => 'your-secret-salt-string',
+    'salt' => env('HASHID_SALT', 'your-secret-salt-string'),
 
     /*
     |--------------------------------------------------------------------------
