@@ -12,7 +12,7 @@ class FindManyByHashIDMixin
 {
     public function findManyByHashID(): Closure
     {
-        return function (Arrayable|array $ids, $columns = ['*']) {
+        return function (Arrayable | array $ids, $columns = ['*']) {
             $ids = $ids instanceof Arrayable ? $ids->toArray() : $ids;
             $ids = array_map(fn (string $hashID) => $this->getModel()->decodeHashID($hashID), $ids);
 
