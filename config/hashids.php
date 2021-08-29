@@ -22,7 +22,7 @@ return [
     |
     */
 
-    'length'                 => 13,
+    'length' => 13,
 
     /*
     |--------------------------------------------------------------------------
@@ -33,5 +33,5 @@ return [
     |
     */
 
-    'alphabet'               => 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890',
+    'alphabet' => 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890',
 ];
