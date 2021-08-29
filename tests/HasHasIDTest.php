@@ -72,4 +72,17 @@ class HasHasIDTest extends TestCase
         // 3️⃣ Assert ✅
         $this->assertEquals($hashID, $model->hashID);
     }
+
+    /** @test */
+    public function model_can_encode_any_value(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $randomValue = Str::random();
+
+        // 2️⃣ Act 🏋🏻‍
+        $hashValue = (new ModelA())->encodeHashID(Str::random());
+
+        // 3️⃣ Assert ✅
+        $this->assertNotEquals($randomValue, $hashValue);
+    }
 }
