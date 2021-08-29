@@ -21,3 +21,6 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Fix styling
+          commit_user_name: Yunus Emre Deligöz
+          commit_user_email: ye@deligoz.me
+          commit_author: Yunus Emre Deligöz <ye@deligoz.me>
