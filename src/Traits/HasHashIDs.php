@@ -10,6 +10,7 @@ use Hashids\HashidsInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Deligoez\LaravelModelHashIDs\Mixins\FindByHashIDMixin;
 use Deligoez\LaravelModelHashIDs\Mixins\FindManyByHashIDMixin;
+use Deligoez\LaravelModelHashIDs\Mixins\FindOrNewByHashIDMixin;
 use Deligoez\LaravelModelHashIDs\Mixins\FindOrFailByHashIDMixin;
 use Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException;
 
@@ -43,6 +44,7 @@ trait HasHashIDs
         Builder::mixin(new FindByHashIDMixin());
         Builder::mixin(new FindManyByHashIDMixin());
         Builder::mixin(new FindOrFailByHashIDMixin());
+        Builder::mixin(new FindOrNewByHashIDMixin());
     }
 
     /**
