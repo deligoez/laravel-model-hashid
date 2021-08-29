@@ -11,6 +11,6 @@ class WhereHashIDMixin
 {
     public function whereHashID(): Closure
     {
-        return fn(mixed $id) => $this->whereKey($this->getModel()->decodeHashID($id));
+        return fn (mixed $id) => $this->whereKey($this->getModel()->decodeHashID($id));
     }
 }

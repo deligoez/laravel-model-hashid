@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashIDs\Traits;
 
 use Config;
-use Deligoez\LaravelModelHashIDs\Mixins\WhereHashIDMixin;
 use Hashids\Hashids;
 use Hashids\HashidsInterface;
 use Illuminate\Database\Eloquent\Builder;
+use Deligoez\LaravelModelHashIDs\Mixins\WhereHashIDMixin;
 use Deligoez\LaravelModelHashIDs\Mixins\FindByHashIDMixin;
 use Deligoez\LaravelModelHashIDs\Mixins\FindManyByHashIDMixin;
 use Deligoez\LaravelModelHashIDs\Mixins\FindOrNewByHashIDMixin;
