@@ -47,7 +47,22 @@ class ModelHashIDGeneratorTest extends TestCase
         $this->assertEquals($prefixLenght, mb_strlen($prefix));
     }
 
-    // TODO: Buyukse, kucukse
+    /** @test */
+    public function prefix_lenght_will_be_the_short_class_name_lenght_if_prefix_lenght_is_more_than_that(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $model = new ModelA();
+        $prefixLenght = 10;
+        Config::set('hashids.prefix_lenght', $prefixLenght);
+        $shortClassName = (new ReflectionClass($model))->getShortName();
+        $shortClassNameLenght = mb_strlen($shortClassName);
+
+        // 2️⃣ Act 🏋🏻‍
+        $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
+
+        // 3️⃣ Assert ✅
+        $this->assertEquals($shortClassNameLenght, mb_strlen($prefix));
+    }
 
     /** @test */
     public function it_can_build_a_lowercase_prefix_from_a_model(): void
