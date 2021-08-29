@@ -9,6 +9,7 @@ use Config;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
+use Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException;
 
 class HasHasIDTest extends TestCase
 {
@@ -134,6 +135,20 @@ class HasHasIDTest extends TestCase
         $this->assertEquals($key, $decodedID);
         $this->assertEquals($hashID, $model->encodeHashID());
     }
+
+    /** @test */
+    public function model_can_be_found_by_its_hashID(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $model = ModelA::factory()->create();
+
+        // 2️⃣ Act 🏋🏻‍
+        $foundModel = ModelA::findByHashID($model->hashID);
+
+        // 3️⃣ Assert ✅
+        $this->assertTrue($model->is($foundModel));
+    }
+
     /** @test */
     public function it_throws_CouldNotDecodeHashIDException_for_an_invalid_hashID(): void
     {

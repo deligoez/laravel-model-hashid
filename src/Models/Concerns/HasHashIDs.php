@@ -7,6 +7,8 @@ namespace Deligoez\LaravelModelHashIDs\Models\Concerns;
 use Config;
 use Hashids\Hashids;
 use Hashids\HashidsInterface;
+use Illuminate\Database\Eloquent\Builder;
+use Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException;
 
 trait HasHashIDs
 {
@@ -26,7 +28,18 @@ trait HasHashIDs
         $this->hashIDGenerator = new Hashids($salt, $length, $alphabet);
     }
 
+    /**
+     * Boot the HasHasIDs trait for a model.
+     *
+     * @return void
+     */
+    public static function bootHasHashIDs(): void
+    {
+        Builder::macro('findByHashID', function ($id, $columns = ['*']) {
+            return $this->find($this->getModel()->decodeHashID($id), $columns);
+        });
 
+    }
     /**
      * @throws \Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException
      */
