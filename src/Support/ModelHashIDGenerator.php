@@ -7,6 +7,7 @@ namespace Deligoez\LaravelModelHashIDs\Support;
 use Config;
 use Illuminate\Database\Eloquent\Model;
 use ReflectionClass;
+use Str;
 
 class ModelHashIDGenerator
 {
@@ -18,6 +19,7 @@ class ModelHashIDGenerator
 
         return match (Config::get('hashids.prefix_case', 'lower')) {
             'upper' => Str::upper($prefix),
+            'camel' => Str::camel($prefix),
             default => Str::lower($prefix),
         };
     }

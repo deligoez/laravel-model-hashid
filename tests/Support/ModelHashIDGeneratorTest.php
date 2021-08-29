@@ -102,5 +102,21 @@ class ModelHashIDGeneratorTest extends TestCase
         $this->assertEquals('MODELA', $prefix);
     }
 
+    /** @test */
+    public function it_can_build_a_camelcase_prefix_from_a_model(): void
+    {
+        // 1️⃣ Arrange 🏗
+        Config::set('hashids.prefix_length', 6);
+        Config::set('hashids.prefix_case', 'camel');
+
+        $model = new ModelA();
+
+        // 2️⃣ Act 🏋🏻‍
+        $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
+
+        // 3️⃣ Assert ✅
+        $this->assertEquals('modelA', $prefix);
+    }
+
     // endregion
 }
