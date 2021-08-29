@@ -24,4 +24,20 @@ class HasHasIDTest extends TestCase
         $newHash = ModelA::findOrFail($model->getKey())->hashID;
         $this->assertNotEquals($hash, $newHash);
     }
+
+    /** @test */
+    public function model_hashID_length_can_be_defined(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $randomLength = $this->faker->numberBetween(5, 20);
+        Config::set('hashids.length', $randomLength);
+
+        $model = ModelA::factory()->create();
+
+        // 2️⃣ Act 🏋🏻‍
+        $hashID = $model->hashID;
+
+        // 3️⃣ Assert ✅
+        $this->assertEquals($randomLength ,mb_strlen($hashID));
+    }
 }

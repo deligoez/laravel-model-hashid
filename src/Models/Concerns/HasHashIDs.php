@@ -20,7 +20,9 @@ trait HasHashIDs
     public function initializeHasHashIDs(): void
     {
         $salt = Config::get('hashids.salt', '');
+        $length = Config::get('hashids.length', 13);
 
-        $this->hashIDGenerator = new Hashids($salt);
+        $this->hashIDGenerator = new Hashids($salt, $length);
+    }
     }
 }
