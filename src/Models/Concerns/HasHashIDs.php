@@ -25,6 +25,12 @@ trait HasHashIDs
 
         $this->hashIDGenerator = new Hashids($salt, $length, $alphabet);
     }
+
+    public function decodeHashID(string $hashid = null)
+    {
+        return $this->hashIDGenerator->decode($hashid ?? $this->hashID)[0];
+    }
+
     public function encodeHashID(string|int $key = null): string
     {
         return $this->hashIDGenerator->encode($key ?? $this->getKey());

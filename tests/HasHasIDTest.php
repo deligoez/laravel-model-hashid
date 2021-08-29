@@ -85,4 +85,17 @@ class HasHasIDTest extends TestCase
         // 3️⃣ Assert ✅
         $this->assertNotEquals($randomValue, $hashValue);
     }
+
+    /** @test */
+    public function model_can_decode_its_hashID(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $model = ModelA::factory()->create();
+
+        // 2️⃣ Act 🏋🏻‍
+        $key = $model->decodeHashID();
+
+        // 3️⃣ Assert ✅
+        $this->assertEquals($key, $model->getKey());
+    }
 }
