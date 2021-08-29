@@ -11,8 +11,6 @@ class FindByHashIDMixin
 {
     public function findByHashID(): Closure
     {
-        return function (mixed $id, $columns = ['*']) {
-            return $this->find($this->getModel()->decodeHashID($id), $columns);
-        };
+        return fn(mixed $id, $columns = ['*']) => $this->find($this->getModel()->decodeHashID($id), $columns);
     }
 }

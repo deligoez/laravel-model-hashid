@@ -11,8 +11,6 @@ class FindOrFailByHashIDMixin
 {
     public function findOrFailByHashID(): Closure
     {
-        return function ($id, $columns = ['*']) {
-            return $this->findOrFail($this->getModel()->decodeHashID($id), $columns);
-        };
+        return fn($id, $columns = ['*']) => $this->findOrFail($this->getModel()->decodeHashID($id), $columns);
     }
 }
