@@ -118,5 +118,21 @@ class ModelHashIDGeneratorTest extends TestCase
         $this->assertEquals('modelA', $prefix);
     }
 
+    /** @test */
+    public function it_can_build_a_snakecase_prefix_from_a_model(): void
+    {
+        // 1️⃣ Arrange 🏗
+        Config::set('hashids.prefix_length', 6);
+        Config::set('hashids.prefix_case', 'snake');
+
+        $model = new ModelA();
+
+        // 2️⃣ Act 🏋🏻‍
+        $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
+
+        // 3️⃣ Assert ✅
+        $this->assertEquals('model_a', $prefix);
+    }
+
     // endregion
 }

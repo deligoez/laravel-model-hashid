@@ -20,6 +20,7 @@ class ModelHashIDGenerator
         return match (Config::get('hashids.prefix_case', 'lower')) {
             'upper' => Str::upper($prefix),
             'camel' => Str::camel($prefix),
+            'snake' => Str::snake($prefix),
             default => Str::lower($prefix),
         };
     }
