@@ -7,8 +7,11 @@ namespace Deligoez\LaravelModelHashIDs\Models\Concerns;
 use Config;
 use Hashids\Hashids;
 use Hashids\HashidsInterface;
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Support\Arrayable;
+use Deligoez\LaravelModelHashIDs\Mixins\FindByHashIDMixin;
+use Deligoez\LaravelModelHashIDs\Mixins\FindManyByHashIDMixin;
+use Deligoez\LaravelModelHashIDs\Mixins\FindOrFailByHashIDMixin;
 use Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException;
 
 trait HasHashIDs
@@ -33,24 +36,16 @@ trait HasHashIDs
      * Boot the HasHasIDs trait for a model.
      *
      * @return void
+     *
+     * @throws \ReflectionException
      */
     public static function bootHasHashIDs(): void
     {
-        Builder::macro('findByHashID', function (mixed $id, $columns = ['*']) {
-            return $this->find($this->getModel()->decodeHashID($id), $columns);
-        });
-
-        Builder::macro('findManyByHashID', function (Arrayable|array $ids, $columns = ['*']) {
-            $ids = $ids instanceof Arrayable ? $ids->toArray() : $ids;
-            $ids = array_map(fn(string $hashID) => $this->getModel()->decodeHashID($hashID), $ids);
-
-            return $this->findMany($ids, $columns);
-        });
-
-        Builder::macro('findOrFailByHashID', function ($id, $columns = ['*']) {
-            return $this->findOrFail($this->getModel()->decodeHashID($id), $columns);
-        });
+        Builder::mixin(new FindByHashIDMixin());
+        Builder::mixin(new FindManyByHashIDMixin());
+        Builder::mixin(new FindOrFailByHashIDMixin());
     }
+    
     /**
      * @throws \Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException
      */
