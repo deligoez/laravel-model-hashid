@@ -40,4 +40,23 @@ class HasHasIDTest extends TestCase
         // 3️⃣ Assert ✅
         $this->assertEquals($randomLength ,mb_strlen($hashID));
     }
+
+    /** @test */
+    public function model_hashID_alphabet_can_be_defined(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $customAlphabet = 'abcdef1234567890';
+        Config::set('hashids.alphabet', $customAlphabet);
+
+        $model = ModelA::factory()->create();
+
+        // 2️⃣ Act 🏋🏻‍
+        $hashID = $model->hashID;
+
+        // 3️⃣ Assert ✅
+        $alphabetAsArray = mb_str_split($customAlphabet);
+        foreach (mb_str_split($hashID) as $char) {
+            $this->assertContains($char, $alphabetAsArray);
+        }
+    }
 }

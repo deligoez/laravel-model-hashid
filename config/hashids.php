@@ -23,4 +23,15 @@ return [
     */
 
     'length'                 => 13,
+
+    /*
+    |--------------------------------------------------------------------------
+    | HashID Alphabet
+    |--------------------------------------------------------------------------
+    |
+    | HashID Alphabet
+    |
+    */
+
+    'alphabet'               => 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890',
 ];

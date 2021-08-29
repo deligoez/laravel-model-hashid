@@ -21,8 +21,9 @@ trait HasHashIDs
     {
         $salt = Config::get('hashids.salt', '');
         $length = Config::get('hashids.length', 13);
+        $alphabet = Config::get('hashids.alphabet', 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890');
 
-        $this->hashIDGenerator = new Hashids($salt, $length);
+        $this->hashIDGenerator = new Hashids($salt, $length, $alphabet);
     }
     }
 }
