@@ -18,12 +18,13 @@ class ModelHashIDGenerator
         $prefix = rtrim(mb_strimwidth($shortClassName, 0, $prefixLength, '', 'UTF-8'));
 
         return match (Config::get('hashids.prefix_case', 'lower')) {
-            'upper' => Str::upper($prefix),
-            'camel' => Str::camel($prefix),
-            'snake' => Str::snake($prefix),
-            'kebab' => Str::kebab($prefix),
-            'title' => Str::title($prefix),
-            'studly' => Str::studly($prefix),
+            'upper'         => Str::upper($prefix),
+            'camel'         => Str::camel($prefix),
+            'snake'         => Str::snake($prefix),
+            'kebab'         => Str::kebab($prefix),
+            'title'         => Str::title($prefix),
+            'studly'        => Str::studly($prefix),
+            'plural_studly' => Str::pluralStudly($prefix),
             default => Str::lower($prefix),
         };
     }
