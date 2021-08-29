@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashIDs\Tests;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Str;
 use Config;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -137,7 +138,7 @@ class HasHasIDTest extends TestCase
     }
 
     /** @test */
-    public function model_can_be_found_by_its_hashID(): void
+    public function it_can_find_a_model_by_its_hashID(): void
     {
         // 1️⃣ Arrange 🏗
         $model = ModelA::factory()->create();
@@ -170,5 +171,27 @@ class HasHasIDTest extends TestCase
 
         // 3️⃣ Assert ✅
         $this->assertNull($foundModel);
+    }
+    
+    /** @test */
+    public function it_can_find_or_fail_a_model_by_its_hashID(): void
+    {
+        // 1️⃣.1️⃣ Arrange 🏗
+        $model = ModelA::factory()->create();
+
+        // 1️⃣.2️⃣ Act 🏋🏻‍
+        $foundModel = ModelA::findOrFailByHashID($model->hashID);
+
+        // 1️⃣.3️⃣ Assert ✅
+        $this->assertTrue($model->is($foundModel));
+
+        // 2️⃣.1️⃣ Arrange 🏗
+        $model->delete();
+
+        // 2️⃣.3️⃣ Assert ✅
+        $this->expectException(ModelNotFoundException::class);
+
+        // 2️⃣.2️⃣ Act 🏋🏻‍
+        ModelA::findOrFailByHashID($model->hashID);
     }
 }

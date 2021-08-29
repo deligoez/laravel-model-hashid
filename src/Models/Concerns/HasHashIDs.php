@@ -39,6 +39,9 @@ trait HasHashIDs
             return $this->find($this->getModel()->decodeHashID($id), $columns);
         });
 
+        Builder::macro('findOrFailByHashID', function ($id, $columns = ['*']) {
+            return $this->findOrFail($this->getModel()->decodeHashID($id), $columns);
+        });
     }
     /**
      * @throws \Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException
