@@ -59,4 +59,17 @@ class HasHasIDTest extends TestCase
             $this->assertContains($char, $alphabetAsArray);
         }
     }
+
+    /** @test */
+    public function model_can_encode_its_key(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $model = ModelA::factory()->create();
+
+        // 2️⃣ Act 🏋🏻‍
+        $hashID = $model->encodeHashID();
+
+        // 3️⃣ Assert ✅
+        $this->assertEquals($hashID, $model->hashID);
+    }
 }
