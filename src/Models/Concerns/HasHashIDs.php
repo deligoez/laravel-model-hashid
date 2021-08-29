@@ -31,7 +31,7 @@ trait HasHashIDs
         return $this->hashIDGenerator->decode($hashid ?? $this->hashID)[0];
     }
 
-    public function encodeHashID(string|int $key = null): string
+    public function encodeHashID(int $key = null): string
     {
         return $this->hashIDGenerator->encode($key ?? $this->getKey());
     }

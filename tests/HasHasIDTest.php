@@ -74,16 +74,16 @@ class HasHasIDTest extends TestCase
     }
 
     /** @test */
-    public function model_can_encode_any_value(): void
+    public function model_can_encode_any_number(): void
     {
         // 1️⃣ Arrange 🏗
-        $randomValue = Str::random();
+        $randomNumber = $this->faker->randomNumber();
 
         // 2️⃣ Act 🏋🏻‍
-        $hashValue = (new ModelA())->encodeHashID(Str::random());
+        $hashValue = (new ModelA())->encodeHashID($randomNumber);
 
         // 3️⃣ Assert ✅
-        $this->assertNotEquals($randomValue, $hashValue);
+        $this->assertNotEquals($randomNumber, $hashValue);
     }
 
     /** @test */
@@ -97,5 +97,20 @@ class HasHasIDTest extends TestCase
 
         // 3️⃣ Assert ✅
         $this->assertEquals($key, $model->getKey());
+    }
+
+    /** @test */
+    public function model_can_decode_any_hashID(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $randomNumber = $this->faker->randomNumber();
+        $model = new ModelA();
+        $hashID = $model->encodeHashID($randomNumber);
+
+        // 2️⃣ Act 🏋🏻‍
+        $decodedValue = $model->decodeHashID($hashID);
+
+        // 3️⃣ Assert ✅
+        $this->assertEquals($decodedValue, $randomNumber);
     }
 }
