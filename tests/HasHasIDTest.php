@@ -158,4 +158,17 @@ class HasHasIDTest extends TestCase
         // 2️⃣ Act 🏋🏻‍
         ModelA::findByHashID('not-found');
     }
+
+    /** @test */
+    public function it_returns_null_if_can_not_find_a_model_with_given_hashID(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $hashID = (new ModelA())->encodeHashID(1);
+
+        // 2️⃣ Act 🏋🏻‍
+        $foundModel = ModelA::findByHashID($hashID);
+
+        // 3️⃣ Assert ✅
+        $this->assertNull($foundModel);
+    }
 }
