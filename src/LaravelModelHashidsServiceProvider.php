@@ -6,7 +6,6 @@ namespace Deligoez\LaravelModelHashIDs;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Deligoez\LaravelModelHashids\Commands\LaravelModelHashidsCommand;
 
 class LaravelModelHashIDsServiceProvider extends PackageServiceProvider
 {
