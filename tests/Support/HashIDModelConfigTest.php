@@ -9,6 +9,7 @@ use Deligoez\LaravelModelHashIDs\Support\HashIDModelConfig;
 use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
 use Deligoez\LaravelModelHashIDs\Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
+use RuntimeException;
 
 class HashIDModelConfigTest extends TestCase
 {
@@ -46,4 +47,13 @@ class HashIDModelConfigTest extends TestCase
         $this->assertEquals($modelSpecificSeparator, $modelSeparator);
     }
 
+    /** @test */
+    public function it_throws_a_runtime_exception_for_unknown_config_parameters(): void
+    {
+        // 3️⃣ Assert ✅
+        $this->expectException(RuntimeException::class);
+
+        // 2️⃣ Act 🏋🏻‍
+        HashIDModelConfig::forModel(new ModelA(), 'unknown-config');
+    }
 }
