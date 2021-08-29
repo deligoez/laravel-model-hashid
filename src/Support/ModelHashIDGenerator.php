@@ -22,6 +22,7 @@ class ModelHashIDGenerator
             'camel' => Str::camel($prefix),
             'snake' => Str::snake($prefix),
             'kebab' => Str::kebab($prefix),
+            'title' => Str::title($prefix),
             default => Str::lower($prefix),
         };
     }
