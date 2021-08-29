@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashIDs\Traits;
 
 use Config;
+use Deligoez\LaravelModelHashIDs\Mixins\WhereHashIDMixin;
 use Hashids\Hashids;
 use Hashids\HashidsInterface;
 use Illuminate\Database\Eloquent\Builder;
@@ -45,6 +46,7 @@ trait HasHashIDs
         Builder::mixin(new FindManyByHashIDMixin());
         Builder::mixin(new FindOrFailByHashIDMixin());
         Builder::mixin(new FindOrNewByHashIDMixin());
+        Builder::mixin(new WhereHashIDMixin());
     }
 
     /**
