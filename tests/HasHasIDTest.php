@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashIDs\Tests;
 
-use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Str;
 use Config;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
+
 class HasHasIDTest extends TestCase
 {
     use RefreshDatabase;
+    use WithFaker;
+
     /** @test */
     public function model_hashID_salt_can_be_defined(): void
     {
@@ -38,7 +43,7 @@ class HasHasIDTest extends TestCase
         $hashID = $model->hashID;
 
         // 3️⃣ Assert ✅
-        $this->assertEquals($randomLength ,mb_strlen($hashID));
+        $this->assertEquals($randomLength, mb_strlen($hashID));
     }
 
     /** @test */
@@ -112,5 +117,21 @@ class HasHasIDTest extends TestCase
 
         // 3️⃣ Assert ✅
         $this->assertEquals($decodedValue, $randomNumber);
+    }
+
+    /** @test */
+    public function model_has_a_hashID_attribute(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $model = ModelA::factory()->create();
+
+        // 2️⃣ Act 🏋🏻‍
+        $hashID = $model->hashID;
+        $decodedID = $model->decodeHashID();
+        $key = $model->getKey();
+
+        // 3️⃣ Assert ✅
+        $this->assertEquals($key, $decodedID);
+        $this->assertEquals($hashID, $model->encodeHashID());
     }
 }

@@ -35,5 +35,9 @@ trait HasHashIDs
     {
         return $this->hashIDGenerator->encode($key ?? $this->getKey());
     }
+
+    public function getHashIDAttribute(): string
+    {
+        return $this->hashIDGenerator->encode($this->getKey());
     }
 }
