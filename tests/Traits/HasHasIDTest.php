@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Tests;
+namespace Deligoez\LaravelModelHashIDs\Tests\Traits;
 
 use Str;
 use Config;
 use Illuminate\Foundation\Testing\WithFaker;
+use Deligoez\LaravelModelHashIDs\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException;
 
 class HasHasIDTest extends TestCase
@@ -127,6 +127,16 @@ class HasHasIDTest extends TestCase
         $this->assertEquals($decodedValue, $randomNumber);
     }
 
+    /** @test */
+    public function it_throws_CouldNotDecodeHashIDException_for_an_invalid_hashID(): void
+    {
+        // 3️⃣ Assert ✅
+        $this->expectException(CouldNotDecodeHashIDException::class);
+
+        // 2️⃣ Act 🏋🏻‍
+        ModelA::findByHashID('not-found');
+    }
+
     // endregion
 
     // region Accessors
@@ -145,85 +155,6 @@ class HasHasIDTest extends TestCase
         // 3️⃣ Assert ✅
         $this->assertEquals($key, $decodedID);
         $this->assertEquals($hashID, $model->encodeHashID());
-    }
-
-    // endregion
-
-    // region Macros
-
-    /** @test */
-    public function it_throws_CouldNotDecodeHashIDException_for_an_invalid_hashID(): void
-    {
-        // 3️⃣ Assert ✅
-        $this->expectException(CouldNotDecodeHashIDException::class);
-
-        // 2️⃣ Act 🏋🏻‍
-        ModelA::findByHashID('not-found');
-    }
-
-    /** @test */
-    public function it_can_find_a_model_by_its_hashID(): void
-    {
-        // 1️⃣ Arrange 🏗
-        $model = ModelA::factory()->create();
-
-        // 2️⃣ Act 🏋🏻‍
-        $foundModel = ModelA::findByHashID($model->hashID);
-
-        // 3️⃣ Assert ✅
-        $this->assertTrue($model->is($foundModel));
-    }
-
-    /** @test */
-    public function it_returns_null_if_can_not_find_a_model_with_given_hashID(): void
-    {
-        // 1️⃣ Arrange 🏗
-        $hashID = (new ModelA())->encodeHashID(1);
-
-        // 2️⃣ Act 🏋🏻‍
-        $foundModel = ModelA::findByHashID($hashID);
-
-        // 3️⃣ Assert ✅
-        $this->assertNull($foundModel);
-    }
-
-    /** @test */
-    public function it_can_find_many_models_by_its_hashIDs(): void
-    {
-        // 1️⃣ Arrange 🏗
-        $models = ModelA::factory()
-                        ->count($this->faker->numberBetween(2, 5))
-                        ->create();
-
-        $modelHashIDs = $models->pluck('hashID')->toArray();
-
-        // 2️⃣ Act 🏋🏻‍
-        $foundModels = ModelA::findManyByHashID($modelHashIDs);
-
-        // 3️⃣ Assert ✅
-        $this->assertSame($models->pluck('id')->toArray(), $foundModels->pluck('id')->toArray());
-    }
-
-    /** @test */
-    public function it_can_find_or_fail_a_model_by_its_hashID(): void
-    {
-        // 1️⃣.1️⃣ Arrange 🏗
-        $model = ModelA::factory()->create();
-
-        // 1️⃣.2️⃣ Act 🏋🏻‍
-        $foundModel = ModelA::findOrFailByHashID($model->hashID);
-
-        // 1️⃣.3️⃣ Assert ✅
-        $this->assertTrue($model->is($foundModel));
-
-        // 2️⃣.1️⃣ Arrange 🏗
-        $model->delete();
-
-        // 2️⃣.3️⃣ Assert ✅
-        $this->expectException(ModelNotFoundException::class);
-
-        // 2️⃣.2️⃣ Act 🏋🏻‍
-        ModelA::findOrFailByHashID($model->hashID);
     }
 
     // endregion
