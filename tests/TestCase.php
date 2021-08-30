@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashIDs\Tests;
 
+use ReflectionClass;
+use ReflectionMethod;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Deligoez\LaravelModelHashIDs\LaravelModelHashIDsServiceProvider;
-use ReflectionClass;
-use ReflectionMethod;
 
 class TestCase extends Orchestra
 {
