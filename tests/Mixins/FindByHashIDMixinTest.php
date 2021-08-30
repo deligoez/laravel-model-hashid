@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashIDs\Tests\Mixins;
 
-use Deligoez\LaravelModelHashIDs\Support\HashIDModelConfig;
 use Deligoez\LaravelModelHashIDs\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;

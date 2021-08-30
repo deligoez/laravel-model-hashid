@@ -31,7 +31,7 @@ class HashIDModelConfig
         self::GENERATORS,
     ];
 
-    public static function get(string $parameter, Model|string|null $model = null): string|int|array
+    public static function get(string $parameter, Model | string | null $model = null): string | int | array
     {
         self::isParameterDefined($parameter);
 
@@ -52,7 +52,7 @@ class HashIDModelConfig
         return Config::get(self::CONFIG_FILE_NAME.'.'.$parameter);
     }
 
-    public static function set(string $parameter, string|int $value, Model|string|null $model = null): void
+    public static function set(string $parameter, string | int $value, Model | string | null $model = null): void
     {
         self::isParameterDefined($parameter);
 
@@ -80,7 +80,7 @@ class HashIDModelConfig
         }
     }
 
-    public static function isModelClassExist(Model|string $model): void
+    public static function isModelClassExist(Model | string $model): void
     {
         if (is_string($model) && ! class_exists($model)) {
             throw new RuntimeException("Model not exists: '{$model}'.");

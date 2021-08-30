@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashIDs\Traits;
 
-use Config;
-use Deligoez\LaravelModelHashIDs\Support\HashIDModelConfig;
-use Hashids\Hashids;
 use Hashids\HashidsInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Deligoez\LaravelModelHashIDs\Mixins\WhereHashIDMixin;
@@ -52,7 +49,7 @@ trait HasHashIDs
     {
         $hashIDInstance = ModelHashIDGenerator::parseHashIDForModel($hashID);
 
-        if ($hashIDInstance === null){
+        if ($hashIDInstance === null) {
             return null;
         }
 

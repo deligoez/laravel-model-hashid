@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashIDs\Support;
 
-use Hashids\Hashids;
-use Hashids\HashidsInterface;
 use Str;
+use Hashids\Hashids;
 use ReflectionClass;
+use Hashids\HashidsInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class ModelHashIDGenerator
 {
-    public static function buildPrefixForModel(Model|string $model): string
+    public static function buildPrefixForModel(Model | string $model): string
     {
         HashIDModelConfig::isModelClassExist($model);
 
@@ -49,7 +49,7 @@ class ModelHashIDGenerator
     {
         $generators = HashIDModelConfig::get(HashIDModelConfig::GENERATORS);
 
-        foreach($generators as $modelClassName => $generator) {
+        foreach ($generators as $modelClassName => $generator) {
             $prefix = self::buildPrefixForModel($modelClassName);
             $separator = HashIDModelConfig::get(HashIDModelConfig::SEPARATOR, $modelClassName);
             $length = (int) HashIDModelConfig::get(HashIDModelConfig::LENGTH, $modelClassName);
@@ -70,9 +70,9 @@ class ModelHashIDGenerator
         $genericSeparator = HashIDModelConfig::get(HashIDModelConfig::SEPARATOR);
         $genericPrefixLength = HashIDModelConfig::get(HashIDModelConfig::PREFIX_LENGTH);
 
-        if ($genericLength + $genericPrefixLength + mb_strlen($genericSeparator)  === mb_strlen($hashID)) {
+        if ($genericLength + $genericPrefixLength + mb_strlen($genericSeparator) === mb_strlen($hashID)) {
             return new ModelHashID(
-                prefix: mb_substr($hashID,0, $genericPrefixLength),
+                prefix: mb_substr($hashID, 0, $genericPrefixLength),
                 separator: $genericSeparator,
                 hashIDForKey: mb_substr($hashID, $genericLength * -1),
                 modelClassName: null
@@ -82,7 +82,7 @@ class ModelHashIDGenerator
         return null;
     }
 
-    public static function build(Model|string $model): HashidsInterface
+    public static function build(Model | string $model): HashidsInterface
     {
         HashIDModelConfig::isModelClassExist($model);
 
