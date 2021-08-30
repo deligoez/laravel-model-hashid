@@ -217,12 +217,12 @@ class ModelHashIDGeneratorTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, '_', ModelA::class);
-        HashIDModelConfig::set(HashIDModelConfig::LENGTH, '5', ModelA::class);
+        HashIDModelConfig::set(HashIDModelConfig::LENGTH, 5, ModelA::class);
         HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'upper', ModelA::class);
         HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 3, ModelA::class);
 
         HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, '#', ModelB::class);
-        HashIDModelConfig::set(HashIDModelConfig::LENGTH, '10', ModelB::class);
+        HashIDModelConfig::set(HashIDModelConfig::LENGTH, 10, ModelB::class);
         HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'lower', ModelB::class);
         HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 4, ModelB::class);
 
@@ -234,8 +234,18 @@ class ModelHashIDGeneratorTest extends TestCase
         $hashIDB = ModelHashIDGenerator::forModel($modelB);
 
         // 3️⃣ Assert ✅
-        $this->assertEquals(9, mb_strlen($hashIDA));
-        $this->assertEquals(15, mb_strlen($hashIDB));
+        $modelHashA = ModelHashIDGenerator::parseHashIDForModel($hashIDA);
+        $modelHashB = ModelHashIDGenerator::parseHashIDForModel($hashIDB);
+
+        $this->assertEquals('MOD', $modelHashA->prefix);
+        $this->assertEquals('_', $modelHashA->separator);
+        $this->assertEquals($hashIDA, $modelA->hashID);
+        $this->assertEquals($modelA::class, $modelHashA->modelClassName);
+
+        $this->assertEquals('mode', $modelHashB->prefix);
+        $this->assertEquals('#', $modelHashB->separator);
+        $this->assertEquals($hashIDB, $modelB->hashID);
+        $this->assertEquals($modelB::class, $modelHashB->modelClassName);
     }
 
     /** @test */
