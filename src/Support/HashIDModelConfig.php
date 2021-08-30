@@ -21,6 +21,7 @@ class HashIDModelConfig
         if ($model instanceof Model) {
             $className = get_class($model);
         } else {
+            // Check if given FQCN exists
             if (!class_exists($model)) {
                 throw new RuntimeException("Model not exists: '{$config}'.");
             }

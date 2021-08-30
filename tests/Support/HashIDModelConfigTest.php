@@ -90,4 +90,14 @@ class HashIDModelConfigTest extends TestCase
         $this->assertEquals($modelSpecificSeparator, $modelSeparatorViaClassName);
         $this->assertEquals($modelSeparatorViaClassName, $modelSeparatorViaInstance);
     }
+
+    /** @test */
+    public function it_throws_a_runtime_exception_if_FQCN_does_not_exist(): void
+    {
+        // 3️⃣ Assert ✅
+        $this->expectException(RuntimeException::class);
+
+        // 2️⃣ Act 🏋🏻‍
+        HashIDModelConfig::forModel('class-that-not-exists', 'separator');
+    }
 }
