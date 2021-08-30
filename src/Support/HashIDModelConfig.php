@@ -31,7 +31,7 @@ class HashIDModelConfig
         self::GENERATORS,
     ];
 
-    public static function get(string $parameter, Model|string|null $model = null): string|int
+    public static function get(string $parameter, Model|string|null $model = null): string|int|array
     {
         self::isParameterDefined($parameter);
 

@@ -46,12 +46,17 @@ class ModelHashIDGenerator
         foreach($generators as $modelClassName => $generator) {
             $prefix = self::buildPrefixForModel($modelClassName);
             $separator = HashIDModelConfig::get(HashIDModelConfig::SEPARATOR, $modelClassName);
-            $length = (int) HashIDModelConfig::get(HashIDModelConfig::LENGTH, $modelClassName);
+            $length = HashIDModelConfig::get(HashIDModelConfig::LENGTH, $modelClassName);
 
             $hashIDForKeyArray = explode($prefix.$separator, $hashID);
 
             if (isset($hashIDForKeyArray[1]) && mb_strlen($hashIDForKeyArray[1]) === $length) {
-                return new ModelHashID(prefix: $prefix, separator: $separator, hashIDForKey: $hashIDForKeyArray[1], modelClassName: $modelClassName);
+                return new ModelHashID(
+                    prefix: $prefix,
+                    separator: $separator,
+                    hashIDForKey: $hashIDForKeyArray[1],
+                    modelClassName: $modelClassName
+                );
             }
         }
 
