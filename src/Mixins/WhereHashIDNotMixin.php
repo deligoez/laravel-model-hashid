@@ -11,6 +11,6 @@ class WhereHashIDNotMixin
 {
     public function whereHashIDNot(): Closure
     {
-        return fn (mixed $id) => $this->whereKeyNot($this->getModel()->decodeHashID($id));
+        return fn (mixed $id) => $this->whereKeyNot($this->getModel()->keyFromHashID($id));
     }
 }

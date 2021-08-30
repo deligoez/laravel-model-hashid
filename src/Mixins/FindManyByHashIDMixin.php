@@ -14,7 +14,7 @@ class FindManyByHashIDMixin
     {
         return function (Arrayable | array $ids, $columns = ['*']) {
             $ids = $ids instanceof Arrayable ? $ids->toArray() : $ids;
-            $ids = array_map(fn (string $hashID) => $this->getModel()->decodeHashID($hashID), $ids);
+            $ids = array_map(fn (string $hashID) => $this->getModel()->keyFromHashID($hashID), $ids);
 
             return $this->findMany($ids, $columns);
         };
