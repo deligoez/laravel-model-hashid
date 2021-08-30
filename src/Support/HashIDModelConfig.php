@@ -13,7 +13,7 @@ class HashIDModelConfig
 {
     public static function get(string $parameter, Model|string|null $model = null): string|int
     {
-        self::isConfigParameterDefined($parameter);
+        self::isParameterDefined($parameter);
 
         if ($model === null) {
             return Config::get("hashids.{$parameter}");
@@ -34,7 +34,7 @@ class HashIDModelConfig
 
     public static function set(string $parameter, string|int $value, Model|string|null $model = null): void
     {
-        self::isConfigParameterDefined($parameter);
+        self::isParameterDefined($parameter);
 
         if ($model === null) {
             Config::set("hashids.{$parameter}", $value);
@@ -52,10 +52,10 @@ class HashIDModelConfig
         Config::set('hashids.generators', $generatorsConfig);
     }
 
-    private static function isConfigParameterDefined(string $config): void
+    private static function isParameterDefined(string $parameter): void
     {
-        if (!in_array($config, array_keys(Config::get('hashids')), true)) {
-            throw new RuntimeException("Unknown config parameter: '{$config}'.");
+        if (!in_array($parameter, array_keys(Config::get('hashids')), true)) {
+            throw new RuntimeException("Unknown parameter: '{$parameter}'.");
         }
     }
 
