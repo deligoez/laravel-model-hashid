@@ -11,20 +11,25 @@ use RuntimeException;
 
 class HashIDModelConfig
 {
-    public static function get(Model|string $model, string $config): string|int
+    public static function get(string $parameter, Model|string|null $model = null): string|int
     {
-        self::isConfigParameterDefined($config);
+        self::isConfigParameterDefined($parameter);
+
+        if ($model === null) {
+            return Config::get("hashids.{$parameter}");
+        }
+
         self::isModelClassExist($model);
 
         $className = $model instanceof Model ? get_class($model) : $model;
 
         // Return specific config for model if defined
-        if (Arr::has(Config::get('hashids.generators'), $className.'.'.$config)) {
-            return Config::get('hashids.generators')[$className][$config];
+        if (Arr::has(Config::get('hashids.generators'), $className.'.'.$parameter)) {
+            return Config::get('hashids.generators')[$className][$parameter];
         }
 
         // Return generic config
-        return Config::get("hashids.{$config}");
+        return Config::get("hashids.{$parameter}");
     }
 
     public static function set(Model|string $model, string $parameter, string|int $value): void

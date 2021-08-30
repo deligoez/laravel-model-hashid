@@ -17,6 +17,20 @@ class HashIDModelConfigTest extends TestCase
     use WithFaker;
 
     /** @test */
+    public function it_can_get_generic_config_without_model_instance_or_class_name(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $genericSeparator = '#';
+        Config::set('hashids.separator', $genericSeparator);
+
+        // 2️⃣ Act 🏋🏻‍
+        $separator = HashIDModelConfig::get('separator');
+
+        // 3️⃣ Assert ✅
+        $this->assertEquals($separator, $genericSeparator);
+    }
+
+    /** @test */
     public function it_can_get_generic_config_for_different_models(): void
     {
         // 1️⃣ Arrange 🏗
@@ -24,8 +38,8 @@ class HashIDModelConfigTest extends TestCase
         Config::set('hashids.separator', $genericSeparator);
 
         // 2️⃣ Act 🏋🏻‍
-        $modelASeparator = HashIDModelConfig::get(model: ModelA::class, config: 'separator');
-        $modelBSeparator = HashIDModelConfig::get(model: ModelB::class, config: 'separator');
+        $modelASeparator = HashIDModelConfig::get(model: ModelA::class, parameter: 'separator');
+        $modelBSeparator = HashIDModelConfig::get(model: ModelB::class, parameter: 'separator');
 
         // 3️⃣ Assert ✅
         $this->assertEquals($genericSeparator, $modelASeparator);
@@ -47,8 +61,8 @@ class HashIDModelConfigTest extends TestCase
         HashIDModelConfig::set(ModelB::class, 'separator', $modelBSpecificSeparator);
 
         // 2️⃣ Act 🏋🏻‍
-        $modelASeparator = HashIDModelConfig::get(model: new ModelA(), config: 'separator');
-        $modelBSeparator = HashIDModelConfig::get(model: new ModelB(), config: 'separator');
+        $modelASeparator = HashIDModelConfig::get(model: new ModelA(), parameter: 'separator');
+        $modelBSeparator = HashIDModelConfig::get(model: new ModelB(), parameter: 'separator');
 
         // 3️⃣ Assert ✅
         $this->assertEquals($modelASpecificSeparator, $modelASeparator);
@@ -62,17 +76,7 @@ class HashIDModelConfigTest extends TestCase
         $this->expectException(RuntimeException::class);
 
         // 2️⃣ Act 🏋🏻‍
-        HashIDModelConfig::get(model: ModelA::class, config: 'unknown-config');
-    }
-
-    /** @test */
-    public function it_throws_a_runtime_exception_for_unknown_config_parameters_while_setting(): void
-    {
-        // 3️⃣ Assert ✅
-        $this->expectException(RuntimeException::class);
-
-        // 2️⃣ Act 🏋🏻‍
-        HashIDModelConfig::set(model: ModelB::class, parameter: 'unknown-config', value: 'any-value');
+        HashIDModelConfig::get(model: ModelA::class, parameter: 'unknown-config');
     }
 
     /** @test */
@@ -88,8 +92,8 @@ class HashIDModelConfigTest extends TestCase
         Config::set('hashids.generators', $modelSpecificConfig);
 
         // 2️⃣ Act 🏋🏻‍
-        $modelSeparatorViaInstance = HashIDModelConfig::get(model: new ModelA(), config: 'separator');
-        $modelSeparatorViaClassName = HashIDModelConfig::get(model: ModelA::class, config: 'separator');
+        $modelSeparatorViaInstance = HashIDModelConfig::get(model: new ModelA(), parameter: 'separator');
+        $modelSeparatorViaClassName = HashIDModelConfig::get(model: ModelA::class, parameter: 'separator');
 
         // 3️⃣ Assert ✅
         $this->assertEquals($modelSpecificSeparator, $modelSeparatorViaInstance);
@@ -134,6 +138,16 @@ class HashIDModelConfigTest extends TestCase
         $this->expectException(RuntimeException::class);
 
         // 2️⃣ Act 🏋🏻‍
-        HashIDModelConfig::get(model: 'class-that-not-exists', config: 'separator');
+        HashIDModelConfig::get(model: 'class-that-not-exists', parameter: 'separator');
+    }
+
+    /** @test */
+    public function it_throws_a_runtime_exception_for_unknown_config_parameters_while_setting(): void
+    {
+        // 3️⃣ Assert ✅
+        $this->expectException(RuntimeException::class);
+
+        // 2️⃣ Act 🏋🏻‍
+        HashIDModelConfig::set(model: ModelB::class, parameter: 'unknown-config', value: 'any-value');
     }
 }
