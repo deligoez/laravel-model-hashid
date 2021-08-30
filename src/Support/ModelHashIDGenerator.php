@@ -84,6 +84,8 @@ class ModelHashIDGenerator
 
     public static function build(Model|string $model): HashidsInterface
     {
+        HashIDModelConfig::isModelClassExist($model);
+
         $salt = HashIDModelConfig::get(HashIDModelConfig::SALT, $model);
         $length = HashIDModelConfig::get(HashIDModelConfig::LENGTH, $model);
         $alphabet = HashIDModelConfig::get(HashIDModelConfig::ALPHABET, $model);

@@ -7,7 +7,6 @@ namespace Deligoez\LaravelModelHashIDs\Tests\Support;
 use Config;
 use Deligoez\LaravelModelHashIDs\Tests\Models\ModelB;
 use Hashids\Hashids;
-use Hashids\HashidsInterface;
 use RuntimeException;
 use ReflectionClass;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -331,5 +330,15 @@ class ModelHashIDGeneratorTest extends TestCase
         // 3️⃣ Assert ✅
         $this->assertInstanceOf(Hashids::class, $generatorFromInstance);
         $this->assertInstanceOf(Hashids::class, $generatorFromClassName);
+    }
+
+    /** @test */
+    public function it_throws_a_runtime_exception_for_class_names_that_does_not_exist_while_building_a_generator(): void
+    {
+        // 3️⃣ Assert ✅
+        $this->expectException(RuntimeException::class);
+
+        // 2️⃣ Act 🏋🏻‍
+        ModelHashIDGenerator::build('class-name-that-does-not-exist');
     }
 }
