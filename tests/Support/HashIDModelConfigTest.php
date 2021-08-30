@@ -17,6 +17,21 @@ class HashIDModelConfigTest extends TestCase
     use WithFaker;
 
     /** @test */
+    public function it_can_set_generic_config_without_model_instance_or_class_name(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $genericSeparator = '@';
+        Config::set('hashids.separator', $genericSeparator);
+        $newSeparator = '*';
+
+        // 2️⃣ Act 🏋🏻‍
+        HashIDModelConfig::set('separator', $newSeparator);
+
+        // 3️⃣ Assert ✅
+        $this->assertEquals($newSeparator, HashIDModelConfig::get('separator'));
+    }
+
+    /** @test */
     public function it_can_get_generic_config_without_model_instance_or_class_name(): void
     {
         // 1️⃣ Arrange 🏗

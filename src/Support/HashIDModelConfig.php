@@ -32,9 +32,15 @@ class HashIDModelConfig
         return Config::get("hashids.{$parameter}");
     }
 
-    public static function set(Model|string $model, string $parameter, string|int $value): void
+    public static function set(string $parameter, string|int $value, Model|string|null $model = null): void
     {
         self::isConfigParameterDefined($parameter);
+
+        if ($model === null) {
+            Config::set("hashids.{$parameter}", $value);
+            return;
+        }
+
         self::isModelClassExist($model);
 
         $className = $model instanceof Model ? get_class($model) : $model;
