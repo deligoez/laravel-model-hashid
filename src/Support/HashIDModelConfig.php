@@ -73,14 +73,14 @@ class HashIDModelConfig
         Config::set(self::CONFIG_FILE_NAME. '.generators', $generatorsConfig);
     }
 
-    private static function isParameterDefined(string $parameter): void
+    public static function isParameterDefined(string $parameter): void
     {
         if (! in_array($parameter, self::$parameters, true)) {
             throw new RuntimeException("Unknown parameter: '{$parameter}'.");
         }
     }
 
-    private static function isModelClassExist(Model|string $model): void
+    public static function isModelClassExist(Model|string $model): void
     {
         if (is_string($model) && ! class_exists($model)) {
             throw new RuntimeException("Model not exists: '{$model}'.");

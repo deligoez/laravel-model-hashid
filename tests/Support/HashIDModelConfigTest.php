@@ -137,26 +137,20 @@ class HashIDModelConfigTest extends TestCase
     /** @test */
     public function it_throws_a_runtime_exception_for_unknown_parameters(): void
     {
-        // 1️⃣ Arrange 🏗
-        $method = $this->makeMethodPublic('isParameterDefined', HashIDModelConfig::class);
-
         // 3️⃣ Assert ✅
         $this->expectException(RuntimeException::class);
 
         // 2️⃣ Act 🏋🏻‍
-        $method->invokeArgs(null, ['unknown-config']);
+        HashIDModelConfig::isParameterDefined('unknown-config');
     }
 
     /** @test */
     public function it_throws_a_runtime_exception_for_class_names_that_does_not_exist(): void
     {
-        // 1️⃣ Arrange 🏗
-        $method = $this->makeMethodPublic('isModelClassExist', HashIDModelConfig::class);
-
         // 3️⃣ Assert ✅
         $this->expectException(RuntimeException::class);
 
         // 2️⃣ Act 🏋🏻‍
-        $method->invokeArgs(null, ['class-that-does-not-exist']);
+        HashIDModelConfig::isModelClassExist('class-that-does-not-exist');
     }
 }
