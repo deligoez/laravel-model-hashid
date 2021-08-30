@@ -10,8 +10,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class ModelHashIDGenerator
 {
-    public static function buildPrefixForModel(Model $model): string
+    public static function buildPrefixForModel(Model|string $model): string
     {
+        HashIDModelConfig::isModelClassExist($model);
+
         $shortClassName = (new ReflectionClass($model))->getShortName();
         $prefixLength = HashIDModelConfig::get(HashIDModelConfig::PREFIX_LENGTH, $model);
         $prefix = rtrim(mb_strimwidth($shortClassName, 0, $prefixLength, '', 'UTF-8'));

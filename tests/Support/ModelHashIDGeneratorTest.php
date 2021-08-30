@@ -6,6 +6,7 @@ namespace Deligoez\LaravelModelHashIDs\Tests\Support;
 
 use Config;
 use Deligoez\LaravelModelHashIDs\Tests\Models\ModelB;
+use RuntimeException;
 use ReflectionClass;
 use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashIDs\Tests\TestCase;
@@ -26,7 +27,7 @@ class ModelHashIDGeneratorTest extends TestCase
         $model = new ModelA();
         $shortClassName = (new ReflectionClass($model))->getShortName();
         $prefixLength = $this->faker->numberBetween(1, mb_strlen($shortClassName));
-        Config::set('hashids.prefix_length', $prefixLength);
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, $prefixLength, $model);
 
         // 2️⃣ Act 🏋🏻‍
         $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
@@ -39,12 +40,11 @@ class ModelHashIDGeneratorTest extends TestCase
     public function it_can_set_prefix_length_to_zero_and_prefix_to_empty(): void
     {
         // 1️⃣ Arrange 🏗
-        $model = new ModelA();
         $prefixLength = 0;
-        Config::set('hashids.prefix_length', $prefixLength);
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, $prefixLength);
 
         // 2️⃣ Act 🏋🏻‍
-        $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
+        $prefix = ModelHashIDGenerator::buildPrefixForModel(ModelA::class);
 
         // 3️⃣ Assert ✅
         $this->assertEquals('', $prefix);
@@ -57,7 +57,7 @@ class ModelHashIDGeneratorTest extends TestCase
         // 1️⃣ Arrange 🏗
         $model = new ModelA();
         $prefixLength = 10;
-        Config::set('hashids.prefix_length', $prefixLength);
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, $prefixLength);
         $shortClassName = (new ReflectionClass($model))->getShortName();
         $shortClassNameLength = mb_strlen($shortClassName);
 
@@ -66,6 +66,16 @@ class ModelHashIDGeneratorTest extends TestCase
 
         // 3️⃣ Assert ✅
         $this->assertEquals($shortClassNameLength, mb_strlen($prefix));
+    }
+
+    /** @test */
+    public function it_throws_a_runtime_exception_for_class_names_that_does_not_exist(): void
+    {
+        // 3️⃣ Assert ✅
+        $this->expectException(RuntimeException::class);
+
+        // 2️⃣ Act 🏋🏻‍
+        ModelHashIDGenerator::buildPrefixForModel('model-that-not-exist');
     }
 
     // endregion
