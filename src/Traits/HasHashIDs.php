@@ -48,6 +48,14 @@ trait HasHashIDs
         Builder::mixin(new WhereHashIDNotMixin());
     }
 
+    public static function keyFromHashID(string $hashID): int
+    {
+        $hashIDRaw = ModelHashIDGenerator::parseHashIDForModel($hashID)->hashIDForKey;
+
+        $generator = ModelHashIDGenerator::build(__CLASS__);
+
+        return $generator->decode($hashIDRaw)[0];
+    }
     public function getHashIDRawAttribute(): string
     {
         return $this->hashIDGenerator->encode($this->getKey());

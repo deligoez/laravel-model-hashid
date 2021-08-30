@@ -79,6 +79,24 @@ class HasHasIDTest extends TestCase
 
     // endregion
 
+    // region Trait Static Functions
+
+    /** @test */
+    public function it_can_get_a_model_key_from_hashID(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $model = ModelA::factory()->create();
+        $hashID = $model->hashID;
+
+        // 2️⃣ Act 🏋🏻‍
+        $key = ModelA::keyFromHashID($hashID);
+
+        // 3️⃣ Assert ✅
+        $this->assertEquals($model->getKey(), $key);
+    }
+
+    // endregion
+
     // region Accessors
 
     /** @test */
