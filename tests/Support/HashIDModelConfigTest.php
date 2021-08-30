@@ -22,12 +22,10 @@ class HashIDModelConfigTest extends TestCase
         // 1️⃣ Arrange 🏗
         $genericSeparator = '#';
         Config::set('hashids.separator', $genericSeparator);
-        $modelA = new ModelA();
-        $modelB = new ModelB();
 
         // 2️⃣ Act 🏋🏻‍
-        $modelASeparator = HashIDModelConfig::get(model: $modelA, config: 'separator');
-        $modelBSeparator = HashIDModelConfig::get(model: $modelB, config: 'separator');
+        $modelASeparator = HashIDModelConfig::get(model: ModelA::class, config: 'separator');
+        $modelBSeparator = HashIDModelConfig::get(model: ModelB::class, config: 'separator');
 
         // 3️⃣ Assert ✅
         $this->assertEquals($genericSeparator, $modelASeparator);
@@ -43,12 +41,10 @@ class HashIDModelConfigTest extends TestCase
         Config::set('hashids.separator', $genericSeparator);
 
         $modelASpecificSeparator = '!';
-        $modelASpecificConfig = [ModelA::class => ['separator' => $modelASpecificSeparator]];
+        HashIDModelConfig::set(ModelA::class, 'separator', $modelASpecificSeparator);
 
         $modelBSpecificSeparator = '@';
-        $modelBSpecificConfig = [ModelB::class => ['separator' => $modelBSpecificSeparator]];
-
-        Config::set('hashids.generators', array_merge($modelASpecificConfig, $modelBSpecificConfig));
+        HashIDModelConfig::set(ModelB::class, 'separator', $modelBSpecificSeparator);
 
         // 2️⃣ Act 🏋🏻‍
         $modelASeparator = HashIDModelConfig::get(model: new ModelA(), config: 'separator');
@@ -60,13 +56,23 @@ class HashIDModelConfigTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_a_runtime_exception_for_unknown_config_parameters(): void
+    public function it_throws_a_runtime_exception_for_unknown_config_parameters_while_retrieving(): void
     {
         // 3️⃣ Assert ✅
         $this->expectException(RuntimeException::class);
 
         // 2️⃣ Act 🏋🏻‍
-        HashIDModelConfig::get(model: new ModelA(), config: 'unknown-config');
+        HashIDModelConfig::get(model: ModelA::class, config: 'unknown-config');
+    }
+
+    /** @test */
+    public function it_throws_a_runtime_exception_for_unknown_config_parameters_while_setting(): void
+    {
+        // 3️⃣ Assert ✅
+        $this->expectException(RuntimeException::class);
+
+        // 2️⃣ Act 🏋🏻‍
+        HashIDModelConfig::set(model: ModelB::class, config: 'unknown-config', value: 'any-value');
     }
 
     /** @test */
