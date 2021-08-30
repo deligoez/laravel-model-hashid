@@ -68,4 +68,26 @@ class HashIDModelConfigTest extends TestCase
         // 2️⃣ Act 🏋🏻‍
         HashIDModelConfig::forModel(new ModelA(), 'unknown-config');
     }
+
+    /** @test */
+    public function it_can_get_specific_config_via_model_instance_or_class_name(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $genericSeparator = '#';
+        Config::set('hashids.separator', $genericSeparator);
+
+        $modelSpecificSeparator = '!';
+        $modelSpecificConfig = [ModelA::class => ['separator' => $modelSpecificSeparator]];
+
+        Config::set('hashids.generators', $modelSpecificConfig);
+
+        // 2️⃣ Act 🏋🏻‍
+        $modelSeparatorViaInstance = HashIDModelConfig::forModel(new ModelA(), 'separator');
+        $modelSeparatorViaClassName = HashIDModelConfig::forModel(ModelA::class, 'separator');
+
+        // 3️⃣ Assert ✅
+        $this->assertEquals($modelSpecificSeparator, $modelSeparatorViaInstance);
+        $this->assertEquals($modelSpecificSeparator, $modelSeparatorViaClassName);
+        $this->assertEquals($modelSeparatorViaClassName, $modelSeparatorViaInstance);
+    }
 }
