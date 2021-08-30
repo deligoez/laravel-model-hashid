@@ -10,7 +10,7 @@ class ModelHashID
         public string $prefix,
         public string $separator,
         public string $hashIDForKey,
-        public string $modelClassName
+        public ?string $modelClassName
     ) {
     }
 }
