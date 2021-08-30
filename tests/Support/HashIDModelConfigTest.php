@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashIDs\Tests\Support;
 
 use Config;
+use Deligoez\LaravelModelHashIDs\Tests\Models\ModelB;
 use RuntimeException;
 use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashIDs\Tests\TestCase;
@@ -31,20 +32,27 @@ class HashIDModelConfigTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_specific_config_for_a_model(): void
+    public function it_can_get_specific_config_for_different_models(): void
     {
         // 1️⃣ Arrange 🏗
         $genericSeparator = '#';
         Config::set('hashids.separator', $genericSeparator);
-        $modelSpecificSeparator = '!';
-        $modelSpecificConfig = [ModelA::class => ['separator' => $modelSpecificSeparator]];
-        Config::set('hashids.generators', $modelSpecificConfig);
+
+        $modelASpecificSeparator = '!';
+        $modelASpecificConfig = [ModelA::class => ['separator' => $modelASpecificSeparator]];
+
+        $modelBSpecificSeparator = '@';
+        $modelBSpecificConfig = [ModelB::class => ['separator' => $modelBSpecificSeparator]];
+
+        Config::set('hashids.generators', array_merge($modelASpecificConfig, $modelBSpecificConfig));
 
         // 2️⃣ Act 🏋🏻‍
-        $modelSeparator = HashIDModelConfig::forModel(new ModelA(), 'separator');
+        $modelASeparator = HashIDModelConfig::forModel(new ModelA(), 'separator');
+        $modelBSeparator = HashIDModelConfig::forModel(new ModelB(), 'separator');
 
         // 3️⃣ Assert ✅
-        $this->assertEquals($modelSpecificSeparator, $modelSeparator);
+        $this->assertEquals($modelASpecificSeparator, $modelASeparator);
+        $this->assertEquals($modelBSpecificSeparator, $modelBSeparator);
     }
 
     /** @test */
