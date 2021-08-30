@@ -95,6 +95,16 @@ class HasHasIDTest extends TestCase
         $this->assertEquals($model->getKey(), $key);
     }
 
+    /** @test */
+    public function it_returns_null_if_hashID_can_not_parsable(): void
+    {
+        // 2️⃣ Act 🏋🏻‍
+        $key = ModelA::keyFromHashID('non-existing-hash-id');
+
+        // 3️⃣ Assert ✅
+        $this->assertNull($key);
+    }
+
     // endregion
 
     // region Accessors
