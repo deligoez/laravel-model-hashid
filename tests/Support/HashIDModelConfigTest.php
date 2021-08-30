@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashIDs\Tests\Support;
 
 use Config;
-use Deligoez\LaravelModelHashIDs\Tests\Models\ModelB;
 use RuntimeException;
 use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashIDs\Tests\TestCase;
 use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
+use Deligoez\LaravelModelHashIDs\Tests\Models\ModelB;
 use Deligoez\LaravelModelHashIDs\Support\HashIDModelConfig;
 
 class HashIDModelConfigTest extends TestCase
@@ -21,14 +21,14 @@ class HashIDModelConfigTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $genericSeparator = '@';
-        Config::set('hashids.separator', $genericSeparator);
+        Config::set(HashIDModelConfig::CONFIG_FILE_NAME.'.' . HashIDModelConfig::SEPARATOR, $genericSeparator);
         $newSeparator = '*';
 
         // 2️⃣ Act 🏋🏻‍
-        HashIDModelConfig::set('separator', $newSeparator);
+        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, $newSeparator);
 
         // 3️⃣ Assert ✅
-        $this->assertEquals($newSeparator, HashIDModelConfig::get('separator'));
+        $this->assertEquals($newSeparator, HashIDModelConfig::get(HashIDModelConfig::SEPARATOR));
     }
 
     /** @test */
@@ -36,10 +36,10 @@ class HashIDModelConfigTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $genericSeparator = '#';
-        HashIDModelConfig::set('separator', $genericSeparator);
+        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, $genericSeparator);
 
         // 2️⃣ Act 🏋🏻‍
-        $separator = HashIDModelConfig::get('separator');
+        $separator = HashIDModelConfig::get(HashIDModelConfig::SEPARATOR);
 
         // 3️⃣ Assert ✅
         $this->assertEquals($separator, $genericSeparator);
@@ -50,11 +50,11 @@ class HashIDModelConfigTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $genericSeparator = '#';
-        HashIDModelConfig::set('separator', $genericSeparator);
+        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, $genericSeparator);
 
         // 2️⃣ Act 🏋🏻‍
-        $modelASeparator = HashIDModelConfig::get('separator', ModelA::class);
-        $modelBSeparator = HashIDModelConfig::get('separator', ModelB::class);
+        $modelASeparator = HashIDModelConfig::get(HashIDModelConfig::SEPARATOR, ModelA::class);
+        $modelBSeparator = HashIDModelConfig::get(HashIDModelConfig::SEPARATOR, ModelB::class);
 
         // 3️⃣ Assert ✅
         $this->assertEquals($genericSeparator, $modelASeparator);
@@ -67,17 +67,17 @@ class HashIDModelConfigTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $genericSeparator = '#';
-        HashIDModelConfig::set('separator', $genericSeparator);
+        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, $genericSeparator);
 
         $modelASpecificSeparator = '!';
-        HashIDModelConfig::set('separator', $modelASpecificSeparator, ModelA::class);
+        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, $modelASpecificSeparator, ModelA::class);
 
         $modelBSpecificSeparator = '@';
-        HashIDModelConfig::set('separator', $modelBSpecificSeparator, ModelB::class);
+        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, $modelBSpecificSeparator, ModelB::class);
 
         // 2️⃣ Act 🏋🏻‍
-        $modelASeparator = HashIDModelConfig::get('separator', ModelA::class);
-        $modelBSeparator = HashIDModelConfig::get('separator', ModelB::class);
+        $modelASeparator = HashIDModelConfig::get(HashIDModelConfig::SEPARATOR, ModelA::class);
+        $modelBSeparator = HashIDModelConfig::get(HashIDModelConfig::SEPARATOR, ModelB::class);
 
         // 3️⃣ Assert ✅
         $this->assertEquals($modelASpecificSeparator, $modelASeparator);
@@ -89,14 +89,14 @@ class HashIDModelConfigTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $genericSeparator = '#';
-        HashIDModelConfig::set('separator', $genericSeparator);
+        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, $genericSeparator);
 
         $modelSpecificSeparator = '!';
-        HashIDModelConfig::set('separator', $modelSpecificSeparator, ModelA::class);
+        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, $modelSpecificSeparator, ModelA::class);
 
         // 2️⃣ Act 🏋🏻‍
-        $modelSeparatorViaInstance = HashIDModelConfig::get('separator', new ModelA());
-        $modelSeparatorViaClassName = HashIDModelConfig::get('separator', ModelA::class);
+        $modelSeparatorViaInstance = HashIDModelConfig::get(HashIDModelConfig::SEPARATOR, new ModelA());
+        $modelSeparatorViaClassName = HashIDModelConfig::get(HashIDModelConfig::SEPARATOR, ModelA::class);
 
         // 3️⃣ Assert ✅
         $this->assertEquals($modelSpecificSeparator, $modelSeparatorViaInstance);
@@ -110,8 +110,8 @@ class HashIDModelConfigTest extends TestCase
         // 1️⃣ Arrange 🏗
         $genericSeparator = '#';
         $genericLength = 5;
-        HashIDModelConfig::set('separator', $genericSeparator);
-        HashIDModelConfig::set('length', $genericLength);
+        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, $genericSeparator);
+        HashIDModelConfig::set(HashIDModelConfig::LENGTH, $genericLength);
 
         $modelASpecificSeparator = '!';
         $modelASpecificLength = 6;
@@ -120,18 +120,18 @@ class HashIDModelConfigTest extends TestCase
         $modelBSpecificLength = 10;
 
         // 2️⃣ Act 🏋🏻‍
-        HashIDModelConfig::set('separator', $modelASpecificSeparator, ModelA::class);
-        HashIDModelConfig::set('length', $modelASpecificLength, ModelA::class);
+        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, $modelASpecificSeparator, ModelA::class);
+        HashIDModelConfig::set(HashIDModelConfig::LENGTH, $modelASpecificLength, ModelA::class);
 
-        HashIDModelConfig::set('separator', $modelBSpecificSeparator, ModelB::class);
-        HashIDModelConfig::set('length', $modelBSpecificLength, ModelB::class);
+        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, $modelBSpecificSeparator, ModelB::class);
+        HashIDModelConfig::set(HashIDModelConfig::LENGTH, $modelBSpecificLength, ModelB::class);
 
         // 3️⃣ Assert ✅
-        $this->assertEquals($modelASpecificSeparator, HashIDModelConfig::get('separator', ModelA::class));
-        $this->assertEquals($modelASpecificLength, HashIDModelConfig::get('length', ModelA::class));
+        $this->assertEquals($modelASpecificSeparator, HashIDModelConfig::get(HashIDModelConfig::SEPARATOR, ModelA::class));
+        $this->assertEquals($modelASpecificLength, HashIDModelConfig::get(HashIDModelConfig::LENGTH, ModelA::class));
 
-        $this->assertEquals($modelBSpecificSeparator, HashIDModelConfig::get('separator', ModelB::class));
-        $this->assertEquals($modelBSpecificLength, HashIDModelConfig::get('length', ModelB::class));
+        $this->assertEquals($modelBSpecificSeparator, HashIDModelConfig::get(HashIDModelConfig::SEPARATOR, ModelB::class));
+        $this->assertEquals($modelBSpecificLength, HashIDModelConfig::get(HashIDModelConfig::LENGTH, ModelB::class));
     }
 
     /** @test */
