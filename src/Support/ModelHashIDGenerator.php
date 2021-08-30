@@ -38,5 +38,23 @@ class ModelHashIDGenerator
 
         return "{$prefix}{$separator}{$hashID}";
     }
+
+    public static function parseHashIDForModel(string $hashID): ?ModelHashID
+    {
+        $generators = HashIDModelConfig::get(HashIDModelConfig::GENERATORS);
+
+        foreach($generators as $modelClassName => $generator) {
+            $prefix = self::buildPrefixForModel($modelClassName);
+            $separator = HashIDModelConfig::get(HashIDModelConfig::SEPARATOR, $modelClassName);
+            $length = (int) HashIDModelConfig::get(HashIDModelConfig::LENGTH, $modelClassName);
+
+            $hashIDForKey = explode($prefix.$separator, $hashID)[1];
+
+            if (mb_strlen($hashIDForKey) === $length) {
+                return new ModelHashID(prefix: $prefix, separator: $separator, hashIDForKey: $hashIDForKey, modelClassName: $modelClassName);
+            }
+        }
+
+        return null;
     }
 }

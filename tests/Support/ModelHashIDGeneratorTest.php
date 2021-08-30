@@ -237,4 +237,36 @@ class ModelHashIDGeneratorTest extends TestCase
         $this->assertEquals(9, mb_strlen($hashIDA));
         $this->assertEquals(15, mb_strlen($hashIDB));
     }
+
+    /** @test */
+    public function it_can_parse_a_model_hashIDs_into_parts(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $modelSeparator = '_';
+        $modelLength = 5;
+        $modelPrefixLength = 3;
+
+        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, $modelSeparator, ModelA::class);
+        HashIDModelConfig::set(HashIDModelConfig::LENGTH, $modelLength, ModelA::class);
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, $modelPrefixLength, ModelA::class);
+
+        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, '#', ModelB::class);
+        HashIDModelConfig::set(HashIDModelConfig::LENGTH, '4', ModelB::class);
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'lower', ModelB::class);
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 4, ModelB::class);
+
+        $model = ModelA::factory()->create();
+        $hashID = ModelHashIDGenerator::forModel($model);
+
+        // 2️⃣ Act 🏋🏻‍
+        $modelHashID = ModelHashIDGenerator::parseHashIDForModel($hashID);
+
+        // 3️⃣ Assert ✅
+        $this->assertEquals($modelLength, mb_strlen($modelHashID->hashIDForKey));
+        $this->assertEquals($modelSeparator, $modelHashID->separator);
+        $this->assertEquals($modelPrefixLength, mb_strlen($modelHashID->prefix));
+
+        $this->assertEquals($model->hashIDRaw, $modelHashID->hashIDForKey);
+        $this->assertEquals($model->hashID, $hashID);
+    }
 }
