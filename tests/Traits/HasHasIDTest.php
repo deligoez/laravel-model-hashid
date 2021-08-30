@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashIDs\Tests\Traits;
 
-use Config;
-use Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException;
 use Deligoez\LaravelModelHashIDs\Support\HashIDModelConfig;
 use Deligoez\LaravelModelHashIDs\Support\ModelHashIDGenerator;
 use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
@@ -117,12 +115,10 @@ class HasHasIDTest extends TestCase
 
         // 2️⃣ Act 🏋🏻‍
         $hashID = $model->hashID;
-        $decodedID = $model->decodeHashID();
         $key = $model->getKey();
 
         // 3️⃣ Assert ✅
-        $this->assertEquals($key, $decodedID);
-        $this->assertEquals($hashID, $model->encodeHashID());
+        $this->assertEquals($key, ModelA::keyFromHashID($hashID));
     }
 
     // endregion
