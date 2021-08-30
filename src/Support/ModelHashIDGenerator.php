@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashIDs\Support;
 
+use Hashids\Hashids;
+use Hashids\HashidsInterface;
 use Str;
 use ReflectionClass;
 use Illuminate\Database\Eloquent\Model;
@@ -78,5 +80,14 @@ class ModelHashIDGenerator
         }
 
         return null;
+    }
+
+    public static function build(Model|string $model): HashidsInterface
+    {
+        $salt = HashIDModelConfig::get(HashIDModelConfig::SALT, $model);
+        $length = HashIDModelConfig::get(HashIDModelConfig::LENGTH, $model);
+        $alphabet = HashIDModelConfig::get(HashIDModelConfig::ALPHABET, $model);
+
+        return new Hashids($salt, $length, $alphabet);
     }
 }

@@ -6,6 +6,8 @@ namespace Deligoez\LaravelModelHashIDs\Tests\Support;
 
 use Config;
 use Deligoez\LaravelModelHashIDs\Tests\Models\ModelB;
+use Hashids\Hashids;
+use Hashids\HashidsInterface;
 use RuntimeException;
 use ReflectionClass;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -314,5 +316,20 @@ class ModelHashIDGeneratorTest extends TestCase
 
         // 3️⃣ Assert ✅
         $this->assertNull($hashIDForModel);
+    }
+
+    /** @test */
+    public function it_can_build_a_hashID_generator_from_a_model_instance_or_class_name(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $model = new ModelA();
+
+        // 2️⃣ Act 🏋🏻‍
+        $generatorFromInstance = ModelHashIDGenerator::build($model);
+        $generatorFromClassName = ModelHashIDGenerator::build(ModelA::class);
+
+        // 3️⃣ Assert ✅
+        $this->assertInstanceOf(Hashids::class, $generatorFromInstance);
+        $this->assertInstanceOf(Hashids::class, $generatorFromClassName);
     }
 }
