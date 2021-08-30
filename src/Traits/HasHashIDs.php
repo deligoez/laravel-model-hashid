@@ -5,14 +5,7 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashIDs\Traits;
 
 use Hashids\HashidsInterface;
-use Illuminate\Database\Eloquent\Builder;
-use Deligoez\LaravelModelHashIDs\Mixins\WhereHashIDMixin;
-use Deligoez\LaravelModelHashIDs\Mixins\FindByHashIDMixin;
-use Deligoez\LaravelModelHashIDs\Mixins\WhereHashIDNotMixin;
-use Deligoez\LaravelModelHashIDs\Mixins\FindManyByHashIDMixin;
 use Deligoez\LaravelModelHashIDs\Support\ModelHashIDGenerator;
-use Deligoez\LaravelModelHashIDs\Mixins\FindOrNewByHashIDMixin;
-use Deligoez\LaravelModelHashIDs\Mixins\FindOrFailByHashIDMixin;
 
 trait HasHashIDs
 {
@@ -26,23 +19,6 @@ trait HasHashIDs
     public function initializeHasHashIDs(): void
     {
         $this->hashIDGenerator = ModelHashIDGenerator::build($this);
-    }
-
-    /**
-     * Boot the HasHasIDs trait for a model.
-     *
-     * @return void
-     *
-     * @throws \ReflectionException
-     */
-    public static function bootHasHashIDs(): void
-    {
-        Builder::mixin(new FindByHashIDMixin());
-        Builder::mixin(new FindManyByHashIDMixin());
-        Builder::mixin(new FindOrFailByHashIDMixin());
-        Builder::mixin(new FindOrNewByHashIDMixin());
-        Builder::mixin(new WhereHashIDMixin());
-        Builder::mixin(new WhereHashIDNotMixin());
     }
 
     public static function keyFromHashID(string $hashID): ?int
