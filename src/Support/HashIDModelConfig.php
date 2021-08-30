@@ -11,7 +11,7 @@ use RuntimeException;
 
 class HashIDModelConfig
 {
-    public static function forModel(Model|string $model, string $config): string|int
+    public static function get(Model|string $model, string $config): string|int
     {
         // Check if given $config is defined on config file
         if (!in_array($config, array_keys(Config::get('hashids')), true)) {

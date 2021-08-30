@@ -26,8 +26,8 @@ class HashIDModelConfigTest extends TestCase
         $modelB = new ModelB();
 
         // 2️⃣ Act 🏋🏻‍
-        $modelASeparator = HashIDModelConfig::forModel($modelA, 'separator');
-        $modelBSeparator = HashIDModelConfig::forModel($modelB, 'separator');
+        $modelASeparator = HashIDModelConfig::get($modelA, 'separator');
+        $modelBSeparator = HashIDModelConfig::get($modelB, 'separator');
 
         // 3️⃣ Assert ✅
         $this->assertEquals($genericSeparator, $modelASeparator);
@@ -51,8 +51,8 @@ class HashIDModelConfigTest extends TestCase
         Config::set('hashids.generators', array_merge($modelASpecificConfig, $modelBSpecificConfig));
 
         // 2️⃣ Act 🏋🏻‍
-        $modelASeparator = HashIDModelConfig::forModel(new ModelA(), 'separator');
-        $modelBSeparator = HashIDModelConfig::forModel(new ModelB(), 'separator');
+        $modelASeparator = HashIDModelConfig::get(new ModelA(), 'separator');
+        $modelBSeparator = HashIDModelConfig::get(new ModelB(), 'separator');
 
         // 3️⃣ Assert ✅
         $this->assertEquals($modelASpecificSeparator, $modelASeparator);
@@ -66,7 +66,7 @@ class HashIDModelConfigTest extends TestCase
         $this->expectException(RuntimeException::class);
 
         // 2️⃣ Act 🏋🏻‍
-        HashIDModelConfig::forModel(new ModelA(), 'unknown-config');
+        HashIDModelConfig::get(new ModelA(), 'unknown-config');
     }
 
     /** @test */
@@ -82,8 +82,8 @@ class HashIDModelConfigTest extends TestCase
         Config::set('hashids.generators', $modelSpecificConfig);
 
         // 2️⃣ Act 🏋🏻‍
-        $modelSeparatorViaInstance = HashIDModelConfig::forModel(new ModelA(), 'separator');
-        $modelSeparatorViaClassName = HashIDModelConfig::forModel(ModelA::class, 'separator');
+        $modelSeparatorViaInstance = HashIDModelConfig::get(new ModelA(), 'separator');
+        $modelSeparatorViaClassName = HashIDModelConfig::get(ModelA::class, 'separator');
 
         // 3️⃣ Assert ✅
         $this->assertEquals($modelSpecificSeparator, $modelSeparatorViaInstance);
@@ -98,6 +98,6 @@ class HashIDModelConfigTest extends TestCase
         $this->expectException(RuntimeException::class);
 
         // 2️⃣ Act 🏋🏻‍
-        HashIDModelConfig::forModel('class-that-not-exists', 'separator');
+        HashIDModelConfig::get('class-that-not-exists', 'separator');
     }
 }
