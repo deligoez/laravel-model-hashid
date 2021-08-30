@@ -14,7 +14,7 @@ class HashIDModelConfig
     public static function get(Model|string $model, string $config): string|int
     {
         self::isConfigParameterDefined($config);
-        self::modelClassExists($model);
+        self::isModelClassExist($model);
 
         $className = $model instanceof Model ? get_class($model) : $model;
 
@@ -27,6 +27,20 @@ class HashIDModelConfig
         return Config::get("hashids.{$config}");
     }
 
+    public static function set(Model|string $model, string $parameter, string|int $value): void
+    {
+        self::isConfigParameterDefined($parameter);
+        self::isModelClassExist($model);
+
+        $className = $model instanceof Model ? get_class($model) : $model;
+
+        $generatorsConfig = Config::get('hashids.generators');
+
+        $generatorsConfig[$className][$parameter] = $value;
+
+        Config::set('hashids.generators', $generatorsConfig);
+    }
+
     private static function isConfigParameterDefined(string $config): void
     {
         if (!in_array($config, array_keys(Config::get('hashids')), true)) {
@@ -34,7 +48,7 @@ class HashIDModelConfig
         }
     }
 
-    private static function modelClassExists(Model|string $model): void
+    private static function isModelClassExist(Model|string $model): void
     {
         if (is_string($model) && !class_exists($model)) {
             throw new RuntimeException("Model not exists: '{$model}'.");
