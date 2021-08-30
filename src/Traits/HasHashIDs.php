@@ -16,7 +16,6 @@ use Deligoez\LaravelModelHashIDs\Mixins\FindManyByHashIDMixin;
 use Deligoez\LaravelModelHashIDs\Support\ModelHashIDGenerator;
 use Deligoez\LaravelModelHashIDs\Mixins\FindOrNewByHashIDMixin;
 use Deligoez\LaravelModelHashIDs\Mixins\FindOrFailByHashIDMixin;
-use Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException;
 
 trait HasHashIDs
 {
@@ -29,11 +28,7 @@ trait HasHashIDs
      */
     public function initializeHasHashIDs(): void
     {
-        $salt = HashIDModelConfig::get(HashIDModelConfig::SALT, $this);
-        $length = HashIDModelConfig::get(HashIDModelConfig::LENGTH, $this);
-        $alphabet = HashIDModelConfig::get(HashIDModelConfig::ALPHABET, $this);
-
-        $this->hashIDGenerator = new Hashids($salt, $length, $alphabet);
+        $this->hashIDGenerator = ModelHashIDGenerator::build($this);
     }
 
     /**
@@ -53,27 +48,13 @@ trait HasHashIDs
         Builder::mixin(new WhereHashIDNotMixin());
     }
 
-    /**
-     * @throws \Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException
-     */
-    public function decodeHashID(string $hashid = null)
+    public function getHashIDRawAttribute(): string
     {
-        $decoded = $this->hashIDGenerator->decode($hashid ?? $this->hashID);
-
-        if (empty($decoded)) {
-            throw CouldNotDecodeHashIDException::make($decoded);
-        }
-
-        return $decoded[0];
-    }
-
-    public function encodeHashID(int $key = null): string
-    {
-        return $this->hashIDGenerator->encode($key ?? $this->getKey());
+        return $this->hashIDGenerator->encode($this->getKey());
     }
 
     public function getHashIDAttribute(): string
     {
-        return $this->hashIDGenerator->encode($this->getKey());
+        return ModelHashIDGenerator::forModel($this);
     }
 }

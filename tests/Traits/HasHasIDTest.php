@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashIDs\Tests\Traits;
 
-use Str;
 use Config;
-use Illuminate\Foundation\Testing\WithFaker;
+use Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException;
+use Deligoez\LaravelModelHashIDs\Support\HashIDModelConfig;
+use Deligoez\LaravelModelHashIDs\Support\ModelHashIDGenerator;
+use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
 use Deligoez\LaravelModelHashIDs\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
-use Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException;
+use Illuminate\Foundation\Testing\WithFaker;
+use Str;
 
 class HasHasIDTest extends TestCase
 {
@@ -27,7 +29,7 @@ class HasHasIDTest extends TestCase
         $hash = $model->hashID;
 
         // 2️⃣ Act 🏋🏻‍
-        Config::set('hashids.salt', Str::random());
+        HashIDModelConfig::set(HashIDModelConfig::SALT, Str::random());
 
         // 3️⃣ Assert ✅
         $newHash = ModelA::findOrFail($model->getKey())->hashID;
@@ -39,7 +41,7 @@ class HasHasIDTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $randomLength = $this->faker->numberBetween(5, 20);
-        Config::set('hashids.length', $randomLength);
+        HashIDModelConfig::set(HashIDModelConfig::LENGTH, $randomLength);
 
         $model = ModelA::factory()->create();
 
@@ -47,7 +49,11 @@ class HasHasIDTest extends TestCase
         $hashID = $model->hashID;
 
         // 3️⃣ Assert ✅
-        $this->assertEquals($randomLength, mb_strlen($hashID));
+        $length = mb_strlen(HashIDModelConfig::get(HashIDModelConfig::SEPARATOR)) +
+            HashIDModelConfig::get(HashIDModelConfig::PREFIX_LENGTH) +
+            $randomLength;
+
+        $this->assertEquals($length, mb_strlen($hashID));
     }
 
     /** @test */
@@ -55,7 +61,7 @@ class HasHasIDTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $customAlphabet = 'abcdef1234567890';
-        Config::set('hashids.alphabet', $customAlphabet);
+        HashIDModelConfig::set(HashIDModelConfig::ALPHABET, $customAlphabet);
 
         $model = ModelA::factory()->create();
 
@@ -63,78 +69,12 @@ class HasHasIDTest extends TestCase
         $hashID = $model->hashID;
 
         // 3️⃣ Assert ✅
+        $modelHashID = ModelHashIDGenerator::parseHashIDForModel($hashID);
+
         $alphabetAsArray = mb_str_split($customAlphabet);
-        foreach (mb_str_split($hashID) as $char) {
+        foreach (mb_str_split($modelHashID->hashIDForKey) as $char) {
             $this->assertContains($char, $alphabetAsArray);
         }
-    }
-
-    // endregion
-
-    // region Trait Functions
-
-    /** @test */
-    public function model_can_encode_its_key(): void
-    {
-        // 1️⃣ Arrange 🏗
-        $model = ModelA::factory()->create();
-
-        // 2️⃣ Act 🏋🏻‍
-        $hashID = $model->encodeHashID();
-
-        // 3️⃣ Assert ✅
-        $this->assertEquals($hashID, $model->hashID);
-    }
-
-    /** @test */
-    public function model_can_encode_any_number(): void
-    {
-        // 1️⃣ Arrange 🏗
-        $randomNumber = $this->faker->randomNumber();
-
-        // 2️⃣ Act 🏋🏻‍
-        $hashValue = (new ModelA())->encodeHashID($randomNumber);
-
-        // 3️⃣ Assert ✅
-        $this->assertNotEquals($randomNumber, $hashValue);
-    }
-
-    /** @test */
-    public function model_can_decode_its_hashID(): void
-    {
-        // 1️⃣ Arrange 🏗
-        $model = ModelA::factory()->create();
-
-        // 2️⃣ Act 🏋🏻‍
-        $key = $model->decodeHashID();
-
-        // 3️⃣ Assert ✅
-        $this->assertEquals($key, $model->getKey());
-    }
-
-    /** @test */
-    public function model_can_decode_any_hashID(): void
-    {
-        // 1️⃣ Arrange 🏗
-        $randomNumber = $this->faker->randomNumber();
-        $model = new ModelA();
-        $hashID = $model->encodeHashID($randomNumber);
-
-        // 2️⃣ Act 🏋🏻‍
-        $decodedValue = $model->decodeHashID($hashID);
-
-        // 3️⃣ Assert ✅
-        $this->assertEquals($decodedValue, $randomNumber);
-    }
-
-    /** @test */
-    public function it_throws_CouldNotDecodeHashIDException_for_an_invalid_hashID(): void
-    {
-        // 3️⃣ Assert ✅
-        $this->expectException(CouldNotDecodeHashIDException::class);
-
-        // 2️⃣ Act 🏋🏻‍
-        ModelA::findByHashID('not-found');
     }
 
     // endregion
