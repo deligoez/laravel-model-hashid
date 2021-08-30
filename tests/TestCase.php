@@ -16,7 +16,7 @@ class TestCase extends Orchestra
     {
         parent::setUp();
 
-        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        $this->loadMigrationsFrom(__DIR__.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'migrations');
 
         Factory::guessFactoryNamesUsing(
             fn (string $modelName) => 'Deligoez\\LaravelModelHashIDs\\Tests\\Database\\Factories\\'.class_basename($modelName).'Factory'

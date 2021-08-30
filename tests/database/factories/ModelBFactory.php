@@ -9,7 +9,7 @@ use Deligoez\LaravelModelHashIDs\Tests\Models\ModelB;
 
 class ModelBFactory extends Factory
 {
-    protected string $model = ModelB::class;
+    protected $model = ModelB::class;
 
     public function definition(): array
     {
