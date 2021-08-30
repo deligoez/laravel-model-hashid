@@ -46,7 +46,7 @@ class ModelHashIDGenerator
         foreach($generators as $modelClassName => $generator) {
             $prefix = self::buildPrefixForModel($modelClassName);
             $separator = HashIDModelConfig::get(HashIDModelConfig::SEPARATOR, $modelClassName);
-            $length = HashIDModelConfig::get(HashIDModelConfig::LENGTH, $modelClassName);
+            $length = (int) HashIDModelConfig::get(HashIDModelConfig::LENGTH, $modelClassName);
 
             $hashIDForKeyArray = explode($prefix.$separator, $hashID);
 
