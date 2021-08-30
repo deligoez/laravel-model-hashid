@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashIDs\Tests\Support;
 
 use Config;
+use Deligoez\LaravelModelHashIDs\Tests\Models\ModelB;
 use ReflectionClass;
 use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashIDs\Tests\TestCase;
 use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
+use Deligoez\LaravelModelHashIDs\Support\HashIDModelConfig;
 use Deligoez\LaravelModelHashIDs\Support\ModelHashIDGenerator;
 
 class ModelHashIDGeneratorTest extends TestCase
@@ -199,4 +201,30 @@ class ModelHashIDGeneratorTest extends TestCase
     }
 
     // endregion
+
+    /** @test */
+    public function it_can_generate_model_hashIDs_with_different_configurations(): void
+    {
+        // 1️⃣ Arrange 🏗
+        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, '_', ModelA::class);
+        HashIDModelConfig::set(HashIDModelConfig::LENGTH, '5', ModelA::class);
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'upper', ModelA::class);
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 3, ModelA::class);
+
+        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, '#', ModelB::class);
+        HashIDModelConfig::set(HashIDModelConfig::LENGTH, '10', ModelB::class);
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'lower', ModelB::class);
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 4, ModelB::class);
+
+        $modelA = ModelA::factory()->create();
+        $modelB = ModelB::factory()->create();
+
+        // 2️⃣ Act 🏋🏻‍
+        $hashIDA = ModelHashIDGenerator::forModel($modelA);
+        $hashIDB = ModelHashIDGenerator::forModel($modelB);
+
+        // 3️⃣ Assert ✅
+        $this->assertEquals(9, mb_strlen($hashIDA));
+        $this->assertEquals(15, mb_strlen($hashIDB));
+    }
 }

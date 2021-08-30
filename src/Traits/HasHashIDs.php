@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashIDs\Traits;
 
 use Config;
+use Deligoez\LaravelModelHashIDs\Support\HashIDModelConfig;
 use Hashids\Hashids;
 use Hashids\HashidsInterface;
 use Illuminate\Database\Eloquent\Builder;
@@ -12,6 +13,7 @@ use Deligoez\LaravelModelHashIDs\Mixins\WhereHashIDMixin;
 use Deligoez\LaravelModelHashIDs\Mixins\FindByHashIDMixin;
 use Deligoez\LaravelModelHashIDs\Mixins\WhereHashIDNotMixin;
 use Deligoez\LaravelModelHashIDs\Mixins\FindManyByHashIDMixin;
+use Deligoez\LaravelModelHashIDs\Support\ModelHashIDGenerator;
 use Deligoez\LaravelModelHashIDs\Mixins\FindOrNewByHashIDMixin;
 use Deligoez\LaravelModelHashIDs\Mixins\FindOrFailByHashIDMixin;
 use Deligoez\LaravelModelHashIDs\Exceptions\CouldNotDecodeHashIDException;
@@ -27,9 +29,9 @@ trait HasHashIDs
      */
     public function initializeHasHashIDs(): void
     {
-        $salt = Config::get('hashids.salt', '');
-        $length = Config::get('hashids.length', 13);
-        $alphabet = Config::get('hashids.alphabet', 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890');
+        $salt = HashIDModelConfig::get(HashIDModelConfig::SALT, $this);
+        $length = HashIDModelConfig::get(HashIDModelConfig::LENGTH, $this);
+        $alphabet = HashIDModelConfig::get(HashIDModelConfig::ALPHABET, $this);
 
         $this->hashIDGenerator = new Hashids($salt, $length, $alphabet);
     }
