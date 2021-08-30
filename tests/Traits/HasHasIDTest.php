@@ -121,5 +121,19 @@ class HasHasIDTest extends TestCase
         $this->assertEquals($key, ModelA::keyFromHashID($hashID));
     }
 
+    /** @test */
+    public function model_has_a_hashIDRaw_attribute(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $model = ModelA::factory()->create();
+
+        // 2️⃣ Act 🏋🏻‍
+        $hashIDRawAttribute = $model->hashIDRaw;
+
+        // 3️⃣ Assert ✅
+        $hashIDRaw = ModelHashIDGenerator::parseHashIDForModel($model->hashID)->hashIDForKey;
+        $this->assertEquals($hashIDRaw, $hashIDRawAttribute);
+    }
+
     // endregion
 }

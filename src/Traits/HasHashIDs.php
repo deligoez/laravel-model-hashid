@@ -60,13 +60,14 @@ trait HasHashIDs
 
         return $generator->decode($hashIDInstance->hashIDForKey)[0];
     }
-    public function getHashIDRawAttribute(): string
-    {
-        return $this->hashIDGenerator->encode($this->getKey());
-    }
 
     public function getHashIDAttribute(): string
     {
         return ModelHashIDGenerator::forModel($this);
+    }
+
+    public function getHashIDRawAttribute(): string
+    {
+        return $this->hashIDGenerator->encode($this->getKey());
     }
 }
