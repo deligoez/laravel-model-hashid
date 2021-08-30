@@ -30,8 +30,12 @@ class ModelHashIDGenerator
         };
     }
 
-    public static function forModel(Model $model): string
+    public static function forModel(Model $model): ?string
     {
+        if ($model->getKey() === null) {
+            return null;
+        }
+
         $prefix = self::buildPrefixForModel($model);
         $hashID = $model->hashIDRaw;
         $separator = HashIDModelConfig::get(HashIDModelConfig::SEPARATOR, $model);

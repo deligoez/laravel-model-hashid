@@ -279,4 +279,17 @@ class ModelHashIDGeneratorTest extends TestCase
         $this->assertEquals($model->hashIDRaw, $modelHashID->hashIDForKey);
         $this->assertEquals($model->hashID, $hashID);
     }
+
+    /** @test */
+    public function it_returns_null_if_model_does_not_have_a_key(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $model = new ModelA();
+
+        // 2️⃣ Act 🏋🏻‍
+        $hashIDForModel = ModelHashIDGenerator::forModel($model);
+
+        // 3️⃣ Assert ✅
+        $this->assertNull($hashIDForModel);
+    }
 }
