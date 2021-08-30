@@ -213,6 +213,29 @@ class ModelHashIDGeneratorTest extends TestCase
     // endregion
 
     /** @test */
+    public function it_can_generate_model_hashIDs_using_generic_configuration(): void
+    {
+        // 1️⃣ Arrange 🏗
+        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, '@');
+        HashIDModelConfig::set(HashIDModelConfig::LENGTH, 5);
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'lower');
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 4);
+
+        $model = ModelA::factory()->create();
+
+        // 2️⃣ Act 🏋🏻‍
+        $hashID = ModelHashIDGenerator::forModel($model);
+
+        // 3️⃣ Assert ✅
+        $modelHash = ModelHashIDGenerator::parseHashIDForModel($hashID);
+
+        $this->assertEquals('mode', $modelHash->prefix);
+        $this->assertEquals('@', $modelHash->separator);
+        $this->assertEquals($hashID, $model->hashID);
+        $this->assertEquals(null, $modelHash->modelClassName);
+    }
+
+    /** @test */
     public function it_can_generate_model_hashIDs_with_different_configurations(): void
     {
         // 1️⃣ Arrange 🏗

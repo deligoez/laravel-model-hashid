@@ -64,6 +64,19 @@ class ModelHashIDGenerator
             }
         }
 
+        $genericLength = (int) HashIDModelConfig::get(HashIDModelConfig::LENGTH);
+        $genericSeparator = HashIDModelConfig::get(HashIDModelConfig::SEPARATOR);
+        $genericPrefixLength = HashIDModelConfig::get(HashIDModelConfig::PREFIX_LENGTH);
+
+        if ($genericLength + $genericPrefixLength + mb_strlen($genericSeparator)  === mb_strlen($hashID)) {
+            return new ModelHashID(
+                prefix: mb_substr($hashID,0, $genericPrefixLength),
+                separator: $genericSeparator,
+                hashIDForKey: mb_substr($hashID, $genericLength * -1),
+                modelClassName: null
+            );
+        }
+
         return null;
     }
 }
