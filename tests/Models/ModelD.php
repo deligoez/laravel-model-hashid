@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashIDs\Tests\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Deligoez\LaravelModelHashIDs\Traits\HasHashIDs;
 use Deligoez\LaravelModelHashIDs\Traits\SavesHashIDs;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 class ModelD extends Model
 {
@@ -17,6 +17,6 @@ class ModelD extends Model
 
     protected $fillable = [
         'slug',
-        'hash'
+        'hash',
     ];
 }

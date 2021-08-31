@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashIDs\Traits;
 
-use Deligoez\LaravelModelHashIDs\Support\HashIDModelConfig;
 use Illuminate\Database\Eloquent\Model;
+use Deligoez\LaravelModelHashIDs\Support\HashIDModelConfig;
 
 trait SavesHashIDs
 {
@@ -14,6 +14,7 @@ trait SavesHashIDs
         static::created(
             function (Model $model) {
                 $column = HashIDModelConfig::get(HashIDModelConfig::DATABASE_COLUMN, $model);
+
                 return $model
                     ->fill([$column => $model->hashID])
                     ->saveQuietly();

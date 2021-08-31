@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashIDs\Tests\Traits;
 
-use Deligoez\LaravelModelHashIDs\Support\HashIDModelConfig;
-use Deligoez\LaravelModelHashIDs\Tests\Models\ModelC;
-use Deligoez\LaravelModelHashIDs\Tests\Models\ModelD;
+use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashIDs\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Deligoez\LaravelModelHashIDs\Tests\Models\ModelC;
+use Deligoez\LaravelModelHashIDs\Tests\Models\ModelD;
+use Deligoez\LaravelModelHashIDs\Support\HashIDModelConfig;
 
 class SavesHashIDsTest extends TestCase
 {

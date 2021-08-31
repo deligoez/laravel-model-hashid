@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashIDs\Tests\Database\Factories;
 
-use Deligoez\LaravelModelHashIDs\Tests\Models\ModelD;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Deligoez\LaravelModelHashIDs\Tests\Models\ModelD;
 
 class ModelDFactory extends Factory
 {
