@@ -27,6 +27,21 @@ class FindByHashIDMixinTest extends TestCase
     }
 
     /** @test */
+    public function it_can_find_a_model_by_its_hashID_from_specific_columns(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $model = ModelA::factory()->create();
+        $hashID = $model->hashID;
+        $selectedColumns = ['id'];
+
+        // 2️⃣ Act 🏋🏻‍
+        $foundModel = ModelA::findByHashID($hashID, $selectedColumns);
+
+        // 3️⃣ Assert ✅
+        $this->assertTrue($model->is($foundModel));
+    }
+
+    /** @test */
     public function it_returns_null_if_can_not_find_a_model_with_given_hashID(): void
     {
         // 2️⃣ Act 🏋🏻‍
