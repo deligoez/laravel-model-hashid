@@ -1,4 +1,4 @@
-[![](https://banners.beyondco.de/Laravel%20Model%20HashIDs.png?theme=light&packageManager=composer+require&packageName=deligoez%2Flaravel-model-hashids&pattern=roundedPlusConnected&style=style_1&description=Generate%2C+save%2C+and+route+Stripe-like+HashIDs+for+Laravel+Eloquent+Models&md=1&showWatermark=1&fontSize=100px&images=hashtag)]()
+[![](https://banners.beyondco.de/Laravel%20Model%20HashIDs.png?theme=light&packageManager=composer+require&packageName=deligoez%2Flaravel-model-hashids&pattern=roundedPlusConnected&style=style_1&description=Generate%2C+Save%2C+and+Route+Stripe-like+HashIDs+for+Laravel+Eloquent+Models&md=1&showWatermark=1&fontSize=100px&images=hashtag)]()
 
 <div align="center">
 
