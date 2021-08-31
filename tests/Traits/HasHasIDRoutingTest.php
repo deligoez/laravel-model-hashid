@@ -66,4 +66,25 @@ class HasHasIDRoutingTest extends TestCase
                 'name' => 'model-that-should-bind',
             ]);
     }
+
+    /** @test */
+    public function it_throws_a_model_not_found_exception_while_routing_with_model_key(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $this->withoutExceptionHandling();
+
+        $model = ModelA::factory()->create(['name' => 'model-that-should-bind']);
+
+        Route::model('model_a', ModelA::class);
+
+        Route::get('/model-a/{model_a}', function (ModelA $modelBinding) {
+            return $modelBinding->toJson();
+        })->middleware('bindings');
+
+        // 3️⃣ Assert ✅
+        $this->expectException(ModelNotFoundException::class);
+
+        // 2️⃣ Act 🏋🏻‍
+        $this->getJson("/model-a/{$model->getKey()}");
+    }
 }
