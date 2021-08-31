@@ -11,6 +11,8 @@ class FindOrNewByHashIDMixin
 {
     public function findOrNewByHashID(): Closure
     {
-        return fn ($id, $columns = ['*']) => $this->findOrNew($this->getModel()->keyFromHashID($id), $columns);
+        return function ($id, $columns = ['*']) {
+            return $this->findOrNew($this->getModel()->keyFromHashID($id), $columns);
+        };
     }
 }

@@ -13,7 +13,22 @@ class FindOrNewByHashIDMixinTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_can_find_or_new_a_model_by_its_hashID(): void
+    public function it_can_find_a_model_by_its_hashID(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $model = ModelA::factory()->create();
+        $hashID = $model->hashID;
+
+        // 2️⃣ Act 🏋🏻‍
+        /** @var ModelA $newModel */
+        $foundModel = ModelA::findOrNewByHashID($hashID);
+
+        // 3️⃣ Assert ✅
+        $this->assertTrue($model->is($foundModel));
+    }
+
+    /** @test */
+    public function it_can_new_a_model_if_hashID_not_found(): void
     {
         // 2️⃣ Act 🏋🏻‍
         /** @var ModelA $newModel */
