@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashIDs\Tests\Support;
 
-use Config;
 use Hashids\Hashids;
 use ReflectionClass;
 use RuntimeException;
@@ -87,8 +86,8 @@ class ModelHashIDGeneratorTest extends TestCase
     public function it_can_build_a_lower_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        Config::set('hashids.prefix_length', 6);
-        Config::set('hashids.prefix_case', 'lower');
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 6);
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'lower');
 
         $model = new ModelA();
 
@@ -103,8 +102,8 @@ class ModelHashIDGeneratorTest extends TestCase
     public function it_can_build_a_upper_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        Config::set('hashids.prefix_length', 6);
-        Config::set('hashids.prefix_case', 'upper');
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 6);
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'upper');
 
         $model = new ModelA();
 
@@ -119,8 +118,8 @@ class ModelHashIDGeneratorTest extends TestCase
     public function it_can_build_a_camel_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        Config::set('hashids.prefix_length', 6);
-        Config::set('hashids.prefix_case', 'camel');
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 6);
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'camel');
 
         $model = new ModelA();
 
@@ -135,8 +134,8 @@ class ModelHashIDGeneratorTest extends TestCase
     public function it_can_build_a_snake_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        Config::set('hashids.prefix_length', 6);
-        Config::set('hashids.prefix_case', 'snake');
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 6);
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'snake');
 
         $model = new ModelA();
 
@@ -151,8 +150,8 @@ class ModelHashIDGeneratorTest extends TestCase
     public function it_can_build_a_kebab_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        Config::set('hashids.prefix_length', 6);
-        Config::set('hashids.prefix_case', 'kebab');
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 6);
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'kebab');
 
         $model = new ModelA();
 
@@ -167,8 +166,8 @@ class ModelHashIDGeneratorTest extends TestCase
     public function it_can_build_a_title_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        Config::set('hashids.prefix_length', 6);
-        Config::set('hashids.prefix_case', 'title');
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 6);
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'title');
 
         $model = new ModelA();
 
@@ -183,8 +182,8 @@ class ModelHashIDGeneratorTest extends TestCase
     public function it_can_build_a_studly_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        Config::set('hashids.prefix_length', 6);
-        Config::set('hashids.prefix_case', 'studly');
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 6);
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'studly');
 
         $model = new ModelA();
 
@@ -199,8 +198,8 @@ class ModelHashIDGeneratorTest extends TestCase
     public function it_can_build_a_plural_studly_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        Config::set('hashids.prefix_length', 6);
-        Config::set('hashids.prefix_case', 'plural_studly');
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 6);
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'plural_studly');
 
         $model = new ModelA();
 
