@@ -20,6 +20,7 @@ class HashIDModelConfig
     public const PREFIX_LENGTH = 'prefix_length';
     public const PREFIX_CASE = 'prefix_case';
     public const SEPARATOR = 'separator';
+    public const DATABASE_COLUMN = 'database_column';
     public const GENERATORS = 'generators';
 
     public static array $parameters = [
@@ -29,6 +30,7 @@ class HashIDModelConfig
         self::PREFIX_LENGTH,
         self::PREFIX_CASE,
         self::SEPARATOR,
+        self::DATABASE_COLUMN,
         self::GENERATORS,
     ];
 
