@@ -32,13 +32,4 @@ class TestCase extends Orchestra
     {
         config()->set('database.default', 'testing');
     }
-
-    protected function makeMethodPublic(string $name, string | object $classOrObject): ReflectionMethod
-    {
-        $class = new ReflectionClass($classOrObject);
-        $method = $class->getMethod($name);
-        $method->setAccessible(true);
-
-        return $method;
-    }
 }
