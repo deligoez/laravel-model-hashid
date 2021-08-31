@@ -1,9 +1,26 @@
-# Laravel Model HashIDs
+[![](https://banners.beyondco.de/Laravel%20Model%20HashIDs.png?theme=light&packageManager=composer+require&packageName=deligoez%2Flaravel-model-hashids&pattern=roundedPlusConnected&style=style_1&description=Generate%2C+save%2C+and+route+Stripe-like+HashIDs+for+Laravel+Eloquent+Models&md=1&showWatermark=1&fontSize=100px&images=hashtag)]()
+
+<div align="center">
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/deligoez/laravel-model-hashids.svg?style=flat-square)](https://packagist.org/packages/deligoez/laravel-model-hashids)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/deligoez/laravel-model-hashids/run-tests?label=tests)](https://github.com/deligoez/laravel-model-hashids/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/deligoez/laravel-model-hashids/Check%20&%20fix%20styling?label=code%20style)](https://github.com/deligoez/laravel-model-hashids/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/deligoez/laravel-model-hashids.svg?style=flat-square)](https://packagist.org/packages/deligoez/laravel-model-hashids)
+![Packagist](https://img.shields.io/packagist/l/deligoez/laravel-model-hashids)   
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=ncloc)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=sqale_index)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)   
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=bugs)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=code_smells)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)   
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=security_rating)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)   
+[![Open Source Love](https://badges.frapsoft.com/os/v3/open-source.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
+
+</div>
+
+# Laravel Model HashIDs
 
 ---
 This repo can be used to scaffold a Laravel package. Follow these steps to get started:
