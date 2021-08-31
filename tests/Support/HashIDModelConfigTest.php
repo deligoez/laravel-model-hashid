@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashIDs\Tests\Support;
 
 use Config;
-use RuntimeException;
 use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashIDs\Tests\TestCase;
 use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
 use Deligoez\LaravelModelHashIDs\Tests\Models\ModelB;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Deligoez\LaravelModelHashIDs\Support\HashIDModelConfig;
+use Deligoez\LaravelModelHashIDs\Exceptions\UnknownHashIDConfigParameterException;
 
 class HashIDModelConfigTest extends TestCase
 {
@@ -138,7 +139,7 @@ class HashIDModelConfigTest extends TestCase
     public function it_throws_a_runtime_exception_for_unknown_parameters(): void
     {
         // 3️⃣ Assert ✅
-        $this->expectException(RuntimeException::class);
+        $this->expectException(UnknownHashIDConfigParameterException::class);
 
         // 2️⃣ Act 🏋🏻‍
         HashIDModelConfig::isParameterDefined('unknown-config');
@@ -148,7 +149,7 @@ class HashIDModelConfigTest extends TestCase
     public function it_throws_a_runtime_exception_for_class_names_that_does_not_exist(): void
     {
         // 3️⃣ Assert ✅
-        $this->expectException(RuntimeException::class);
+        $this->expectException(ModelNotFoundException::class);
 
         // 2️⃣ Act 🏋🏻‍
         HashIDModelConfig::isModelClassExist('class-that-does-not-exist');

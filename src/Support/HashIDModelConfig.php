@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashIDs\Support;
 
 use Config;
-use RuntimeException;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Deligoez\LaravelModelHashIDs\Exceptions\UnknownHashIDConfigParameterException;
 
 class HashIDModelConfig
 {
@@ -44,8 +45,8 @@ class HashIDModelConfig
         $className = $model instanceof Model ? get_class($model) : $model;
 
         // Return specific config for model if defined
-        if (Arr::has(Config::get(self::CONFIG_FILE_NAME. '.generators'), $className.'.'.$parameter)) {
-            return Config::get(self::CONFIG_FILE_NAME. '.generators')[$className][$parameter];
+        if (Arr::has(Config::get(self::CONFIG_FILE_NAME. '.' . self::GENERATORS), $className.'.'.$parameter)) {
+            return Config::get(self::CONFIG_FILE_NAME. '.' . self::GENERATORS)[$className][$parameter];
         }
 
         // Return generic config
@@ -66,24 +67,27 @@ class HashIDModelConfig
 
         $className = $model instanceof Model ? get_class($model) : $model;
 
-        $generatorsConfig = Config::get(self::CONFIG_FILE_NAME. '.generators');
+        $generatorsConfig = Config::get(self::CONFIG_FILE_NAME. '.'. self::GENERATORS);
 
         $generatorsConfig[$className][$parameter] = $value;
 
-        Config::set(self::CONFIG_FILE_NAME. '.generators', $generatorsConfig);
+        Config::set(self::CONFIG_FILE_NAME. '.' . self::GENERATORS, $generatorsConfig);
     }
 
+    /**
+     * @throws \Deligoez\LaravelModelHashIDs\Exceptions\UnknownHashIDConfigParameterException
+     */
     public static function isParameterDefined(string $parameter): void
     {
         if (! in_array($parameter, self::$parameters, true)) {
-            throw new RuntimeException("Unknown parameter: '{$parameter}'.");
+            throw UnknownHashIDConfigParameterException::make($parameter);
         }
     }
 
     public static function isModelClassExist(Model | string $model): void
     {
         if (is_string($model) && ! class_exists($model)) {
-            throw new RuntimeException("Model not exists: '{$model}'.");
+            throw new ModelNotFoundException();
         }
     }
 }
