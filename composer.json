@@ -1,13 +1,20 @@
 {
     "name": "deligoez/laravel-model-hashids",
-    "description": "This is my package LaravelModelHashids",
+    "description": "Generate, save, and route Stripe-like HashIDs for Laravel Eloquent Models",
     "keywords": [
         "deligoez",
         "laravel",
-        "laravel-model-hashids"
+        "laravel-package",
+        "laravel-model-hashids",
+        "hashids"
     ],
     "homepage": "https://github.com/deligoez/laravel-model-hashids",
     "license": "MIT",
+    "type": "library",
+    "support": {
+        "issues": "https://github.com/deligoez/laravel-model-hashids/issues",
+        "source": "https://github.com/deligoez/laravel-model-hashids"
+    },
     "authors": [
         {
             "name": "Yunus Emre Deligöz",
