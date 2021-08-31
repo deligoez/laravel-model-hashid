@@ -94,6 +94,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | HashID Database Column
+    |--------------------------------------------------------------------------
+    |
+    | By using `SavesHashIDs` trait, you can save model HashIDs to database.
+    | Here you can set the database column name for HashIDs to save.
+    |
+    | Default: 'hash_id'
+    |
+    */
+
+    'database_column' => 'hash_id',
+
+    /*
+    |--------------------------------------------------------------------------
     | Model Specific Generators
     |--------------------------------------------------------------------------
     |
@@ -105,12 +119,13 @@ return [
 
     'generators' => [
 //        App\Models\User::class => [
-//            'salt'          => 'your-model-specific-salt-string',
-//            'length'        => 13,
-//            'alphabet'      => 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890',
-//            'prefix_length' => 3,
-//            'prefix_case'   => 'lower',
-//            'separator'     => '_',
+//            'salt'            => 'your-model-specific-salt-string',
+//            'length'          => 13,
+//            'alphabet'        => 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890',
+//            'prefix_length'   => 3,
+//            'prefix_case'     => 'lower',
+//            'separator'       => '_',
+//            'database_column' => 'hash_id',
 //        ],
     ],
 ];
