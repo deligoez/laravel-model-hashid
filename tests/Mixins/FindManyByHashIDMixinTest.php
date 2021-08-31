@@ -30,4 +30,23 @@ class FindManyByHashIDMixinTest extends TestCase
         // 3️⃣ Assert ✅
         $this->assertSame($models->pluck('id')->toArray(), $foundModels->pluck('id')->toArray());
     }
+
+    /** @test */
+    public function it_can_find_many_models_by_its_hashIDs_from_specific_columns(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $models = ModelA::factory()
+                        ->count($this->faker->numberBetween(2, 5))
+                        ->create();
+
+        $modelHashIDs = $models->pluck('hashID')->toArray();
+
+        $selectedColumns = ['id'];
+
+        // 2️⃣ Act 🏋🏻‍
+        $foundModels = ModelA::findManyByHashID($modelHashIDs, $selectedColumns);
+
+        // 3️⃣ Assert ✅
+        $this->assertSame($models->pluck('id')->toArray(), $foundModels->pluck('id')->toArray());
+    }
 }
