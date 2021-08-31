@@ -24,6 +24,7 @@
     ],
     "require": {
         "php": "^8.0",
+        "ext-mbstring": "*",
         "hashids/hashids": "^4.1",
         "illuminate/contracts": "^8.57",
         "spatie/laravel-package-tools": "^1.9"
