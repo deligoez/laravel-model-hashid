@@ -75,6 +75,29 @@ class HasHasIDTest extends TestCase
         }
     }
 
+    /** @test */
+    public function model_hashID_alphabet_can_also_be_defined_from_emojis(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $customAlphabet = '😀😃😄😁😆😅😂🤣🥲☺️😊😇🙂🙃😉😌';
+        HashIDModelConfig::set(HashIDModelConfig::ALPHABET, $customAlphabet);
+
+        $model = ModelA::factory()->create();
+
+        // 2️⃣ Act 🏋🏻‍
+        $hashID = $model->hashID;
+
+        // 3️⃣ Assert ✅
+        $modelHashID = ModelHashIDGenerator::parseHashIDForModel($hashID);
+
+        ray($modelHashID);
+
+        $alphabetAsArray = mb_str_split($customAlphabet);
+        foreach (mb_str_split($modelHashID->hashIDForKey) as $char) {
+            $this->assertContains($char, $alphabetAsArray);
+        }
+    }
+
     // endregion
 
     // region Trait Static Functions
