@@ -37,6 +37,22 @@ class ModelHashIDGeneratorTest extends TestCase
     }
 
     /** @test */
+    public function prefix_length_will_be_the_length_of_class_name_if_prefix_length_is_under_zero(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $model = new ModelA();
+        $prefixLength = -1;
+        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, $prefixLength, $model);
+
+        // 2️⃣ Act 🏋🏻‍
+        $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
+
+        // 3️⃣ Assert ✅
+        $shortClassName = (new ReflectionClass($model))->getShortName();
+        $this->assertEquals(mb_strlen($shortClassName), mb_strlen($prefix));
+    }
+
+    /** @test */
     public function it_can_set_prefix_length_to_zero_and_prefix_to_empty(): void
     {
         // 1️⃣ Arrange 🏗

@@ -12,13 +12,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class ModelHashIDGenerator
 {
+    /**
+     * @throws \ReflectionException
+     */
     public static function buildPrefixForModel(Model | string $model): string
     {
         HashIDModelConfig::isModelClassExist($model);
 
         $shortClassName = (new ReflectionClass($model))->getShortName();
-        $prefixLength = HashIDModelConfig::get(HashIDModelConfig::PREFIX_LENGTH, $model);
-        $prefix = rtrim(mb_strimwidth($shortClassName, 0, $prefixLength, '', 'UTF-8'));
+        $prefixLength = (int) HashIDModelConfig::get(HashIDModelConfig::PREFIX_LENGTH, $model);
+        $prefix = $prefixLength < 0
+            ? $shortClassName
+            : rtrim(mb_strimwidth($shortClassName, 0, $prefixLength, '', 'UTF-8'));
 
         return match (HashIDModelConfig::get(HashIDModelConfig::PREFIX_CASE, $model)) {
             'upper'         => Str::upper($prefix),
