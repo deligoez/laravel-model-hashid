@@ -40,4 +40,30 @@ class HasHasIDRoutingTest extends TestCase
                 'name' => 'model-that-should-bind',
             ]);
     }
+
+    /** @test */
+    public function it_can_resolve_a_hashID_via_route_model_binding_using_custom_route_key_name(): void
+    {
+        // 1️⃣ Arrange 🏗
+        ModelA::factory()->count($this->faker->numberBetween(2, 5))->create();
+        $model = ModelA::factory()->create(['name' => 'model-that-should-bind']);
+        $hashID = $model->hashID;
+
+        Route::model('hash_id', ModelA::class);
+
+        Route::get('/model-a/{hash_id}', function ($modelBinding) {
+            return $modelBinding->toJson();
+        })->middleware('bindings');
+
+        // 2️⃣ Act 🏋🏻‍
+        $response = $this->getJson("/model-a/{$hashID}");
+
+        // 3️⃣ Assert ✅
+        $response
+            ->assertOk()
+            ->assertJsonFragment([
+                'id'   => $model->getKey(),
+                'name' => 'model-that-should-bind',
+            ]);
+    }
 }
