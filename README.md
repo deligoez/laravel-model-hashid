@@ -37,7 +37,7 @@ composer require deligoez/laravel-model-hashid
 
 You can publish the config file with:
 ```bash
-php artisan vendor:publish --provider="Deligoez\LaravelModelHashId\LaravelModelHashIdServiceProvider" --tag="laravel-model-hashids-config"
+php artisan vendor:publish --provider="Deligoez\LaravelModelHashId\LaravelModelHashIdServiceProvider" --tag="laravel-model-hashid-config"
 ```
 
 This is the contents of the published config file:
