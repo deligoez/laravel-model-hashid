@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Tests\Models;
+namespace Deligoez\LaravelModelHashId\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Deligoez\LaravelModelHashIDs\Traits\HasHashIDs;
+use Deligoez\LaravelModelHashId\Traits\HasHashId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Deligoez\LaravelModelHashIDs\Traits\HasHashIDRouting;
+use Deligoez\LaravelModelHashId\Traits\HasHashIdRouting;
 
 class ModelB extends Model
 {
     use HasFactory;
-    use HasHashIDs;
-    use HasHashIDRouting;
+    use HasHashId;
+    use HasHashIdRouting;
 
     protected $fillable = ['title'];
 }

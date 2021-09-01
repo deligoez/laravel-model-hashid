@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Traits;
+namespace Deligoez\LaravelModelHashId\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 
-trait HasHashIDRouting
+trait HasHashIdRouting
 {
     /**
      * Retrieve the model for a bound value.
@@ -21,6 +21,6 @@ trait HasHashIDRouting
             return parent::resolveRouteBinding($value, $field);
         }
 
-        return $this->findByHashID($value);
+        return $this->findByHashId($value);
     }
 }

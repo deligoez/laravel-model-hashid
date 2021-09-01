@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Support;
+namespace Deligoez\LaravelModelHashId\Support;
 
 use Config;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Deligoez\LaravelModelHashIDs\Exceptions\UnknownHashIDConfigParameterException;
+use Deligoez\LaravelModelHashId\Exceptions\UnknownHashIDConfigParameterException;
 
-class HashIDModelConfig
+class HashIdModelConfig
 {
     public const CONFIG_FILE_NAME = 'hashids';
 
@@ -77,7 +77,7 @@ class HashIDModelConfig
     }
 
     /**
-     * @throws \Deligoez\LaravelModelHashIDs\Exceptions\UnknownHashIDConfigParameterException
+     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIDConfigParameterException
      */
     public static function isParameterDefined(string $parameter): void
     {

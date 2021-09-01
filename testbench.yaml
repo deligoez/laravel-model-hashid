@@ -1,2 +1,2 @@
 providers:
-  - Deligoez\LaravelModelHashIDs\LaravelModelHashIDsServiceProvider
+  - Deligoez\LaravelModelHashId\LaravelModelHashIdServiceProvider

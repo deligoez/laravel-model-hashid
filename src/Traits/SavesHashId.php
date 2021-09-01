@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Traits;
+namespace Deligoez\LaravelModelHashId\Traits;
 
 use Illuminate\Database\Eloquent\Model;
-use Deligoez\LaravelModelHashIDs\Support\HashIDModelConfig;
+use Deligoez\LaravelModelHashId\Support\HashIdModelConfig;
 
-trait SavesHashIDs
+trait SavesHashId
 {
-    public static function bootSavesHashIDs(): void
+    public static function bootSavesHashId(): void
     {
         static::created(
             function (Model $model) {
-                $column = HashIDModelConfig::get(HashIDModelConfig::DATABASE_COLUMN, $model);
+                $column = HashIdModelConfig::get(HashIdModelConfig::DATABASE_COLUMN, $model);
 
                 $model
                     ->fill([$column => $model->hashID])

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Tests\Traits;
+namespace Deligoez\LaravelModelHashId\Tests\Traits;
 
 use Route;
 use Illuminate\Foundation\Testing\WithFaker;
-use Deligoez\LaravelModelHashIDs\Tests\TestCase;
+use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
+use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class HasHasIDRoutingTest extends TestCase
+class HasHasIdRoutingTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;

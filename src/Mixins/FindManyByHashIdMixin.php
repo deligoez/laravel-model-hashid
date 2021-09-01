@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Mixins;
+namespace Deligoez\LaravelModelHashId\Mixins;
 
 use Closure;
 use Illuminate\Contracts\Support\Arrayable;
 
 /** @mixin \Illuminate\Database\Eloquent\Builder */
-class FindManyByHashIDMixin
+class FindManyByHashIdMixin
 {
-    public function findManyByHashID(): Closure
+    public function findManyByHashId(): Closure
     {
         return function (Arrayable | array $ids, $columns = ['*']) {
             $ids = $ids instanceof Arrayable ? $ids->toArray() : $ids;

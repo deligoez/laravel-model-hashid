@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Tests\Models;
+namespace Deligoez\LaravelModelHashId\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Deligoez\LaravelModelHashIDs\Traits\HasHashIDs;
-use Deligoez\LaravelModelHashIDs\Traits\SavesHashIDs;
+use Deligoez\LaravelModelHashId\Traits\HasHashId;
+use Deligoez\LaravelModelHashId\Traits\SavesHashId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ModelD extends Model
 {
     use HasFactory;
-    use HasHashIDs;
-    use SavesHashIDs;
+    use HasHashId;
+    use SavesHashId;
 
     protected $fillable = [
         'slug',

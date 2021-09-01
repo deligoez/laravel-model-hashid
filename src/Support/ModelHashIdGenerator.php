@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Support;
+namespace Deligoez\LaravelModelHashId\Support;
 
 use Str;
 use Hashids\Hashids;
@@ -10,22 +10,22 @@ use ReflectionClass;
 use Hashids\HashidsInterface;
 use Illuminate\Database\Eloquent\Model;
 
-class ModelHashIDGenerator
+class ModelHashIdGenerator
 {
     /**
      * @throws \ReflectionException
      */
     public static function buildPrefixForModel(Model | string $model): string
     {
-        HashIDModelConfig::isModelClassExist($model);
+        HashIdModelConfig::isModelClassExist($model);
 
         $shortClassName = (new ReflectionClass($model))->getShortName();
-        $prefixLength = (int) HashIDModelConfig::get(HashIDModelConfig::PREFIX_LENGTH, $model);
+        $prefixLength = (int) HashIdModelConfig::get(HashIdModelConfig::PREFIX_LENGTH, $model);
         $prefix = $prefixLength < 0
             ? $shortClassName
             : rtrim(mb_strimwidth($shortClassName, 0, $prefixLength, '', 'UTF-8'));
 
-        return match (HashIDModelConfig::get(HashIDModelConfig::PREFIX_CASE, $model)) {
+        return match (HashIdModelConfig::get(HashIdModelConfig::PREFIX_CASE, $model)) {
             'upper'         => Str::upper($prefix),
             'camel'         => Str::camel($prefix),
             'snake'         => Str::snake($prefix),
@@ -45,24 +45,24 @@ class ModelHashIDGenerator
 
         $prefix = self::buildPrefixForModel($model);
         $hashID = $model->hashIDRaw;
-        $separator = HashIDModelConfig::get(HashIDModelConfig::SEPARATOR, $model);
+        $separator = HashIdModelConfig::get(HashIdModelConfig::SEPARATOR, $model);
 
         return "{$prefix}{$separator}{$hashID}";
     }
 
-    public static function parseHashIDForModel(string $hashID): ?ModelHashID
+    public static function parseHashIDForModel(string $hashID): ?ModelHashId
     {
-        $generators = HashIDModelConfig::get(HashIDModelConfig::GENERATORS);
+        $generators = HashIdModelConfig::get(HashIdModelConfig::GENERATORS);
 
         foreach ($generators as $modelClassName => $generator) {
             $prefix = self::buildPrefixForModel($modelClassName);
-            $separator = HashIDModelConfig::get(HashIDModelConfig::SEPARATOR, $modelClassName);
-            $length = (int) HashIDModelConfig::get(HashIDModelConfig::LENGTH, $modelClassName);
+            $separator = HashIdModelConfig::get(HashIdModelConfig::SEPARATOR, $modelClassName);
+            $length = (int) HashIdModelConfig::get(HashIdModelConfig::LENGTH, $modelClassName);
 
             $hashIDForKeyArray = explode($prefix.$separator, $hashID);
 
             if (isset($hashIDForKeyArray[1]) && mb_strlen($hashIDForKeyArray[1]) === $length) {
-                return new ModelHashID(
+                return new ModelHashId(
                     prefix: $prefix,
                     separator: $separator,
                     hashIDForKey: $hashIDForKeyArray[1],
@@ -71,12 +71,12 @@ class ModelHashIDGenerator
             }
         }
 
-        $genericLength = (int) HashIDModelConfig::get(HashIDModelConfig::LENGTH);
-        $genericSeparator = HashIDModelConfig::get(HashIDModelConfig::SEPARATOR);
-        $genericPrefixLength = HashIDModelConfig::get(HashIDModelConfig::PREFIX_LENGTH);
+        $genericLength = (int) HashIdModelConfig::get(HashIdModelConfig::LENGTH);
+        $genericSeparator = HashIdModelConfig::get(HashIdModelConfig::SEPARATOR);
+        $genericPrefixLength = HashIdModelConfig::get(HashIdModelConfig::PREFIX_LENGTH);
 
         if ($genericLength + $genericPrefixLength + mb_strlen($genericSeparator) === mb_strlen($hashID)) {
-            return new ModelHashID(
+            return new ModelHashId(
                 prefix: mb_substr($hashID, 0, $genericPrefixLength),
                 separator: $genericSeparator,
                 hashIDForKey: mb_substr($hashID, $genericLength * -1),
@@ -89,11 +89,11 @@ class ModelHashIDGenerator
 
     public static function build(Model | string $model): HashidsInterface
     {
-        HashIDModelConfig::isModelClassExist($model);
+        HashIdModelConfig::isModelClassExist($model);
 
-        $salt = HashIDModelConfig::get(HashIDModelConfig::SALT, $model);
-        $length = HashIDModelConfig::get(HashIDModelConfig::LENGTH, $model);
-        $alphabet = HashIDModelConfig::get(HashIDModelConfig::ALPHABET, $model);
+        $salt = HashIdModelConfig::get(HashIdModelConfig::SALT, $model);
+        $length = HashIdModelConfig::get(HashIdModelConfig::LENGTH, $model);
+        $alphabet = HashIdModelConfig::get(HashIdModelConfig::ALPHABET, $model);
 
         return new Hashids($salt, $length, $alphabet);
     }

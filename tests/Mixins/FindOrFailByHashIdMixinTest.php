@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Tests\Mixins;
+namespace Deligoez\LaravelModelHashId\Tests\Mixins;
 
-use Deligoez\LaravelModelHashIDs\Tests\TestCase;
+use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
+use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class FindOrFailByHashIDMixinTest extends TestCase
+class FindOrFailByHashIdMixinTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -20,7 +20,7 @@ class FindOrFailByHashIDMixinTest extends TestCase
         $model = ModelA::factory()->create();
 
         // 1️⃣.2️⃣ Act 🏋🏻‍
-        $foundModel = ModelA::findOrFailByHashID($model->hashID);
+        $foundModel = ModelA::findOrFailByHashId($model->hashID);
 
         // 1️⃣.3️⃣ Assert ✅
         $this->assertTrue($model->is($foundModel));
@@ -32,7 +32,7 @@ class FindOrFailByHashIDMixinTest extends TestCase
         $this->expectException(ModelNotFoundException::class);
 
         // 2️⃣.2️⃣ Act 🏋🏻‍
-        ModelA::findOrFailByHashID($model->hashID);
+        ModelA::findOrFailByHashId($model->hashID);
     }
 
     /** @test */
@@ -43,7 +43,7 @@ class FindOrFailByHashIDMixinTest extends TestCase
         $selectedColumns = ['id'];
 
         // 1️⃣.2️⃣ Act 🏋🏻‍
-        $foundModel = ModelA::findOrFailByHashID($model->hashID, $selectedColumns);
+        $foundModel = ModelA::findOrFailByHashId($model->hashID, $selectedColumns);
 
         // 1️⃣.3️⃣ Assert ✅
         $this->assertTrue($model->is($foundModel));
@@ -55,6 +55,6 @@ class FindOrFailByHashIDMixinTest extends TestCase
         $this->expectException(ModelNotFoundException::class);
 
         // 2️⃣.2️⃣ Act 🏋🏻‍
-        ModelA::findOrFailByHashID($model->hashID, $selectedColumns);
+        ModelA::findOrFailByHashId($model->hashID, $selectedColumns);
     }
 }

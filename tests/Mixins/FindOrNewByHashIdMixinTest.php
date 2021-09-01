@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Tests\Mixins;
+namespace Deligoez\LaravelModelHashId\Tests\Mixins;
 
-use Deligoez\LaravelModelHashIDs\Tests\TestCase;
+use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
+use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 
-class FindOrNewByHashIDMixinTest extends TestCase
+class FindOrNewByHashIdMixinTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -21,7 +21,7 @@ class FindOrNewByHashIDMixinTest extends TestCase
 
         // 2️⃣ Act 🏋🏻‍
         /** @var ModelA $newModel */
-        $foundModel = ModelA::findOrNewByHashID($hashID);
+        $foundModel = ModelA::findOrNewByHashId($hashID);
 
         // 3️⃣ Assert ✅
         $this->assertTrue($model->is($foundModel));
@@ -37,7 +37,7 @@ class FindOrNewByHashIDMixinTest extends TestCase
 
         // 2️⃣ Act 🏋🏻‍
         /** @var ModelA $newModel */
-        $foundModel = ModelA::findOrNewByHashID($hashID, $selectedColumns);
+        $foundModel = ModelA::findOrNewByHashId($hashID, $selectedColumns);
 
         // 3️⃣ Assert ✅
         $this->assertTrue($model->is($foundModel));
@@ -48,7 +48,7 @@ class FindOrNewByHashIDMixinTest extends TestCase
     {
         // 2️⃣ Act 🏋🏻‍
         /** @var ModelA $newModel */
-        $newModel = ModelA::findOrNewByHashID('non-existing-hash-id');
+        $newModel = ModelA::findOrNewByHashId('non-existing-hash-id');
 
         // 3️⃣ Assert ✅
         $this->assertFalse($newModel->exists);

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Mixins;
+namespace Deligoez\LaravelModelHashId\Mixins;
 
 use Closure;
 
 /** @mixin \Illuminate\Database\Eloquent\Builder */
-class FindOrFailByHashIDMixin
+class FindOrFailByHashIdMixin
 {
-    public function findOrFailByHashID(): Closure
+    public function findOrFailByHashId(): Closure
     {
         return function ($id, $columns = ['*']) {
             return $this->findOrFail($this->getModel()->keyFromHashID($id), $columns);

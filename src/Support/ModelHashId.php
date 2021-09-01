@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Support;
+namespace Deligoez\LaravelModelHashId\Support;
 
-class ModelHashID
+class ModelHashId
 {
     public function __construct(
         public string $prefix,

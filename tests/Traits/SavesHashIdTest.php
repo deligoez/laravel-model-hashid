@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Tests\Traits;
+namespace Deligoez\LaravelModelHashId\Tests\Traits;
 
 use Illuminate\Foundation\Testing\WithFaker;
-use Deligoez\LaravelModelHashIDs\Tests\TestCase;
+use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Deligoez\LaravelModelHashIDs\Tests\Models\ModelC;
-use Deligoez\LaravelModelHashIDs\Tests\Models\ModelD;
-use Deligoez\LaravelModelHashIDs\Support\HashIDModelConfig;
+use Deligoez\LaravelModelHashId\Tests\Models\ModelC;
+use Deligoez\LaravelModelHashId\Tests\Models\ModelD;
+use Deligoez\LaravelModelHashId\Support\HashIdModelConfig;
 
-class SavesHashIDsTest extends TestCase
+class SavesHashIdTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
@@ -30,7 +30,7 @@ class SavesHashIDsTest extends TestCase
     public function it_saves_hash_id_to_a_custom_column_after_a_model_is_created(): void
     {
         // 1️⃣ Arrange 🏗
-        HashIDModelConfig::set(HashIDModelConfig::DATABASE_COLUMN, 'hash', ModelD::class);
+        HashIdModelConfig::set(HashIdModelConfig::DATABASE_COLUMN, 'hash', ModelD::class);
 
         // 2️⃣ Act 🏋🏻‍
         $model = ModelD::factory()->create();

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Tests\Mixins;
+namespace Deligoez\LaravelModelHashId\Tests\Mixins;
 
-use Deligoez\LaravelModelHashIDs\Tests\TestCase;
+use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
+use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 
-class WhereHashIDMixinTest extends TestCase
+class WhereHashIdMixinTest extends TestCase
 {
     use RefreshDatabase;
 

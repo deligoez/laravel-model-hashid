@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Tests\Database\Factories;
+namespace Deligoez\LaravelModelHashId\Tests\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Deligoez\LaravelModelHashIDs\Tests\Models\ModelB;
+use Deligoez\LaravelModelHashId\Tests\Models\ModelB;
 
 class ModelBFactory extends Factory
 {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Mixins;
+namespace Deligoez\LaravelModelHashId\Mixins;
 
 use Closure;
 
 /** @mixin \Illuminate\Database\Eloquent\Builder */
-class WhereHashIDNotMixin
+class WhereHashIdNotMixin
 {
     public function whereHashIDNot(): Closure
     {

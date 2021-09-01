@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Tests\Traits;
+namespace Deligoez\LaravelModelHashId\Tests\Traits;
 
 use Str;
 use Illuminate\Foundation\Testing\WithFaker;
-use Deligoez\LaravelModelHashIDs\Tests\TestCase;
+use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
-use Deligoez\LaravelModelHashIDs\Support\HashIDModelConfig;
-use Deligoez\LaravelModelHashIDs\Support\ModelHashIDGenerator;
+use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
+use Deligoez\LaravelModelHashId\Support\HashIdModelConfig;
+use Deligoez\LaravelModelHashId\Support\ModelHashIdGenerator;
 
-class HasHasIDTest extends TestCase
+class HasHasIdTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
@@ -20,57 +20,57 @@ class HasHasIDTest extends TestCase
     // region Trait Initialization
 
     /** @test */
-    public function model_hashID_salt_can_be_defined(): void
+    public function model_hashId_salt_can_be_defined(): void
     {
         // 1️⃣ Arrange 🏗
         $model = ModelA::factory()->create();
-        $hash = $model->hashID;
+        $hash = $model->hashId;
 
         // 2️⃣ Act 🏋🏻‍
-        HashIDModelConfig::set(HashIDModelConfig::SALT, Str::random());
+        HashIdModelConfig::set(HashIdModelConfig::SALT, Str::random());
 
         // 3️⃣ Assert ✅
-        $newHash = ModelA::findOrFail($model->getKey())->hashID;
+        $newHash = ModelA::findOrFail($model->getKey())->hashId;
         $this->assertNotEquals($hash, $newHash);
     }
 
     /** @test */
-    public function model_hashID_length_can_be_defined(): void
+    public function model_hashId_length_can_be_defined(): void
     {
         // 1️⃣ Arrange 🏗
         $randomLength = $this->faker->numberBetween(5, 20);
-        HashIDModelConfig::set(HashIDModelConfig::LENGTH, $randomLength);
+        HashIdModelConfig::set(HashIdModelConfig::LENGTH, $randomLength);
 
         $model = ModelA::factory()->create();
 
         // 2️⃣ Act 🏋🏻‍
-        $hashID = $model->hashID;
+        $hashId = $model->hashId;
 
         // 3️⃣ Assert ✅
-        $length = mb_strlen(HashIDModelConfig::get(HashIDModelConfig::SEPARATOR)) +
-            HashIDModelConfig::get(HashIDModelConfig::PREFIX_LENGTH) +
+        $length = mb_strlen(HashIdModelConfig::get(HashIdModelConfig::SEPARATOR)) +
+            HashIdModelConfig::get(HashIdModelConfig::PREFIX_LENGTH) +
             $randomLength;
 
-        $this->assertEquals($length, mb_strlen($hashID));
+        $this->assertEquals($length, mb_strlen($hashId));
     }
 
     /** @test */
-    public function model_hashID_alphabet_can_be_defined(): void
+    public function model_hashId_alphabet_can_be_defined(): void
     {
         // 1️⃣ Arrange 🏗
         $customAlphabet = 'abcdef1234567890';
-        HashIDModelConfig::set(HashIDModelConfig::ALPHABET, $customAlphabet);
+        HashIdModelConfig::set(HashIdModelConfig::ALPHABET, $customAlphabet);
 
         $model = ModelA::factory()->create();
 
         // 2️⃣ Act 🏋🏻‍
-        $hashID = $model->hashID;
+        $hashId = $model->hashId;
 
         // 3️⃣ Assert ✅
-        $modelHashID = ModelHashIDGenerator::parseHashIDForModel($hashID);
+        $modelHashId = ModelHashIdGenerator::parseHashIdForModel($hashId);
 
         $alphabetAsArray = mb_str_split($customAlphabet);
-        foreach (mb_str_split($modelHashID->hashIDForKey) as $char) {
+        foreach (mb_str_split($modelHashId->hashIDForKey) as $char) {
             $this->assertContains($char, $alphabetAsArray);
         }
     }
@@ -80,7 +80,7 @@ class HasHasIDTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $customAlphabet = '😀😃😄😁😆😅😂🤣🥲☺️😊😇🙂🙃😉😌';
-        HashIDModelConfig::set(HashIDModelConfig::ALPHABET, $customAlphabet);
+        HashIdModelConfig::set(HashIdModelConfig::ALPHABET, $customAlphabet);
 
         $model = ModelA::factory()->create();
 
@@ -88,7 +88,7 @@ class HasHasIDTest extends TestCase
         $hashID = $model->hashID;
 
         // 3️⃣ Assert ✅
-        $modelHashID = ModelHashIDGenerator::parseHashIDForModel($hashID);
+        $modelHashID = ModelHashIdGenerator::parseHashIDForModel($hashID);
 
         ray($modelHashID);
 
@@ -154,7 +154,7 @@ class HasHasIDTest extends TestCase
         $hashIDRawAttribute = $model->hashIDRaw;
 
         // 3️⃣ Assert ✅
-        $hashIDRaw = ModelHashIDGenerator::parseHashIDForModel($model->hashID)->hashIDForKey;
+        $hashIDRaw = ModelHashIdGenerator::parseHashIDForModel($model->hashID)->hashIDForKey;
         $this->assertEquals($hashIDRaw, $hashIDRawAttribute);
     }
 

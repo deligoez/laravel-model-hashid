@@ -1,23 +1,24 @@
 {
-    "name": "deligoez/laravel-model-hashids",
-    "description": "Generate, save, and route Stripe-like HashIDs for Laravel Eloquent Models",
+    "name": "deligoez/laravel-model-hashid",
+    "description": "Generate, save, and route Stripe-like HashIds for Laravel Eloquent Models",
     "keywords": [
         "deligoez",
         "laravel",
         "laravel-package",
-        "laravel-model-hashids",
+        "laravel-model-hashid",
         "hashids"
     ],
-    "homepage": "https://github.com/deligoez/laravel-model-hashids",
+    "homepage": "https://github.com/deligoez/laravel-model-hashid",
     "license": "MIT",
     "type": "library",
     "support": {
-        "issues": "https://github.com/deligoez/laravel-model-hashids/issues",
-        "source": "https://github.com/deligoez/laravel-model-hashids"
+        "issues": "https://github.com/deligoez/laravel-model-hashid/issues",
+        "source": "https://github.com/deligoez/laravel-model-hashid"
     },
     "authors": [
         {
             "name": "Yunus Emre Deligöz",
+            "homepage": "https://www.deligoz.me",
             "email": "ye@deligoz.me",
             "role": "Developer"
         }
@@ -43,12 +44,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Deligoez\\LaravelModelHashIDs\\": "src"
+            "Deligoez\\LaravelModelHashId\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Deligoez\\LaravelModelHashIDs\\Tests\\": "tests"
+            "Deligoez\\LaravelModelHashId\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -63,11 +64,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "LaravelModelHashIDsServiceProvider"
-            ],
-            "aliases": {
-                "LaravelModelHashids": "LaravelModelHashIDsFacade"
-            }
+                "Deligoez\\LaravelModelHashId\\LaravelModelHashIdServiceProvider"
+            ]
         }
     },
     "minimum-stability": "dev",

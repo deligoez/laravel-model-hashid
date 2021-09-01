@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Tests\Support;
+namespace Deligoez\LaravelModelHashId\Tests\Support;
 
 use Hashids\Hashids;
 use ReflectionClass;
 use RuntimeException;
 use Illuminate\Foundation\Testing\WithFaker;
-use Deligoez\LaravelModelHashIDs\Tests\TestCase;
-use Deligoez\LaravelModelHashIDs\Tests\Models\ModelA;
-use Deligoez\LaravelModelHashIDs\Tests\Models\ModelB;
-use Deligoez\LaravelModelHashIDs\Support\HashIDModelConfig;
-use Deligoez\LaravelModelHashIDs\Support\ModelHashIDGenerator;
+use Deligoez\LaravelModelHashId\Tests\TestCase;
+use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
+use Deligoez\LaravelModelHashId\Tests\Models\ModelB;
+use Deligoez\LaravelModelHashId\Support\HashIdModelConfig;
+use Deligoez\LaravelModelHashId\Support\ModelHashIdGenerator;
 
-class ModelHashIDGeneratorTest extends TestCase
+class ModelHashIdGeneratorTest extends TestCase
 {
     use WithFaker;
 
@@ -27,10 +27,10 @@ class ModelHashIDGeneratorTest extends TestCase
         $model = new ModelA();
         $shortClassName = (new ReflectionClass($model))->getShortName();
         $prefixLength = $this->faker->numberBetween(1, mb_strlen($shortClassName));
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, $prefixLength, $model);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, $prefixLength, $model);
 
         // 2️⃣ Act 🏋🏻‍
-        $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
+        $prefix = ModelHashIdGenerator::buildPrefixForModel($model);
 
         // 3️⃣ Assert ✅
         $this->assertEquals($prefixLength, mb_strlen($prefix));
@@ -42,10 +42,10 @@ class ModelHashIDGeneratorTest extends TestCase
         // 1️⃣ Arrange 🏗
         $model = new ModelA();
         $prefixLength = -1;
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, $prefixLength, $model);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, $prefixLength, $model);
 
         // 2️⃣ Act 🏋🏻‍
-        $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
+        $prefix = ModelHashIdGenerator::buildPrefixForModel($model);
 
         // 3️⃣ Assert ✅
         $shortClassName = (new ReflectionClass($model))->getShortName();
@@ -57,10 +57,10 @@ class ModelHashIDGeneratorTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $prefixLength = 0;
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, $prefixLength);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, $prefixLength);
 
         // 2️⃣ Act 🏋🏻‍
-        $prefix = ModelHashIDGenerator::buildPrefixForModel(ModelA::class);
+        $prefix = ModelHashIdGenerator::buildPrefixForModel(ModelA::class);
 
         // 3️⃣ Assert ✅
         $this->assertEquals('', $prefix);
@@ -73,12 +73,12 @@ class ModelHashIDGeneratorTest extends TestCase
         // 1️⃣ Arrange 🏗
         $model = new ModelA();
         $prefixLength = 10;
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, $prefixLength);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, $prefixLength);
         $shortClassName = (new ReflectionClass($model))->getShortName();
         $shortClassNameLength = mb_strlen($shortClassName);
 
         // 2️⃣ Act 🏋🏻‍
-        $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
+        $prefix = ModelHashIdGenerator::buildPrefixForModel($model);
 
         // 3️⃣ Assert ✅
         $this->assertEquals($shortClassNameLength, mb_strlen($prefix));
@@ -91,7 +91,7 @@ class ModelHashIDGeneratorTest extends TestCase
         $this->expectException(RuntimeException::class);
 
         // 2️⃣ Act 🏋🏻‍
-        ModelHashIDGenerator::buildPrefixForModel('model-that-not-exist');
+        ModelHashIdGenerator::buildPrefixForModel('model-that-not-exist');
     }
 
     // endregion
@@ -102,13 +102,13 @@ class ModelHashIDGeneratorTest extends TestCase
     public function it_can_build_a_lower_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 6);
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'lower');
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, 6);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_CASE, 'lower');
 
         $model = new ModelA();
 
         // 2️⃣ Act 🏋🏻‍
-        $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
+        $prefix = ModelHashIdGenerator::buildPrefixForModel($model);
 
         // 3️⃣ Assert ✅
         $this->assertEquals('modela', $prefix);
@@ -118,13 +118,13 @@ class ModelHashIDGeneratorTest extends TestCase
     public function it_can_build_a_upper_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 6);
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'upper');
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, 6);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_CASE, 'upper');
 
         $model = new ModelA();
 
         // 2️⃣ Act 🏋🏻‍
-        $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
+        $prefix = ModelHashIdGenerator::buildPrefixForModel($model);
 
         // 3️⃣ Assert ✅
         $this->assertEquals('MODELA', $prefix);
@@ -134,13 +134,13 @@ class ModelHashIDGeneratorTest extends TestCase
     public function it_can_build_a_camel_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 6);
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'camel');
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, 6);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_CASE, 'camel');
 
         $model = new ModelA();
 
         // 2️⃣ Act 🏋🏻‍
-        $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
+        $prefix = ModelHashIdGenerator::buildPrefixForModel($model);
 
         // 3️⃣ Assert ✅
         $this->assertEquals('modelA', $prefix);
@@ -150,13 +150,13 @@ class ModelHashIDGeneratorTest extends TestCase
     public function it_can_build_a_snake_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 6);
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'snake');
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, 6);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_CASE, 'snake');
 
         $model = new ModelA();
 
         // 2️⃣ Act 🏋🏻‍
-        $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
+        $prefix = ModelHashIdGenerator::buildPrefixForModel($model);
 
         // 3️⃣ Assert ✅
         $this->assertEquals('model_a', $prefix);
@@ -166,13 +166,13 @@ class ModelHashIDGeneratorTest extends TestCase
     public function it_can_build_a_kebab_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 6);
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'kebab');
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, 6);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_CASE, 'kebab');
 
         $model = new ModelA();
 
         // 2️⃣ Act 🏋🏻‍
-        $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
+        $prefix = ModelHashIdGenerator::buildPrefixForModel($model);
 
         // 3️⃣ Assert ✅
         $this->assertEquals('model-a', $prefix);
@@ -182,13 +182,13 @@ class ModelHashIDGeneratorTest extends TestCase
     public function it_can_build_a_title_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 6);
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'title');
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, 6);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_CASE, 'title');
 
         $model = new ModelA();
 
         // 2️⃣ Act 🏋🏻‍
-        $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
+        $prefix = ModelHashIdGenerator::buildPrefixForModel($model);
 
         // 3️⃣ Assert ✅
         $this->assertEquals('Modela', $prefix);
@@ -198,13 +198,13 @@ class ModelHashIDGeneratorTest extends TestCase
     public function it_can_build_a_studly_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 6);
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'studly');
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, 6);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_CASE, 'studly');
 
         $model = new ModelA();
 
         // 2️⃣ Act 🏋🏻‍
-        $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
+        $prefix = ModelHashIdGenerator::buildPrefixForModel($model);
 
         // 3️⃣ Assert ✅
         $this->assertEquals('ModelA', $prefix);
@@ -214,13 +214,13 @@ class ModelHashIDGeneratorTest extends TestCase
     public function it_can_build_a_plural_studly_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 6);
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'plural_studly');
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, 6);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_CASE, 'plural_studly');
 
         $model = new ModelA();
 
         // 2️⃣ Act 🏋🏻‍
-        $prefix = ModelHashIDGenerator::buildPrefixForModel($model);
+        $prefix = ModelHashIdGenerator::buildPrefixForModel($model);
 
         // 3️⃣ Assert ✅
         $this->assertEquals('ModelAS', $prefix);
@@ -232,18 +232,18 @@ class ModelHashIDGeneratorTest extends TestCase
     public function it_can_generate_model_hashIDs_using_generic_configuration(): void
     {
         // 1️⃣ Arrange 🏗
-        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, '@');
-        HashIDModelConfig::set(HashIDModelConfig::LENGTH, 5);
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'lower');
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 4);
+        HashIdModelConfig::set(HashIdModelConfig::SEPARATOR, '@');
+        HashIdModelConfig::set(HashIdModelConfig::LENGTH, 5);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_CASE, 'lower');
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, 4);
 
         $model = ModelA::factory()->create();
 
         // 2️⃣ Act 🏋🏻‍
-        $hashID = ModelHashIDGenerator::forModel($model);
+        $hashID = ModelHashIdGenerator::forModel($model);
 
         // 3️⃣ Assert ✅
-        $modelHash = ModelHashIDGenerator::parseHashIDForModel($hashID);
+        $modelHash = ModelHashIdGenerator::parseHashIDForModel($hashID);
 
         $this->assertEquals('mode', $modelHash->prefix);
         $this->assertEquals('@', $modelHash->separator);
@@ -255,26 +255,26 @@ class ModelHashIDGeneratorTest extends TestCase
     public function it_can_generate_model_hashIDs_with_different_configurations(): void
     {
         // 1️⃣ Arrange 🏗
-        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, '_', ModelA::class);
-        HashIDModelConfig::set(HashIDModelConfig::LENGTH, 5, ModelA::class);
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'upper', ModelA::class);
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 3, ModelA::class);
+        HashIdModelConfig::set(HashIdModelConfig::SEPARATOR, '_', ModelA::class);
+        HashIdModelConfig::set(HashIdModelConfig::LENGTH, 5, ModelA::class);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_CASE, 'upper', ModelA::class);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, 3, ModelA::class);
 
-        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, '#', ModelB::class);
-        HashIDModelConfig::set(HashIDModelConfig::LENGTH, 10, ModelB::class);
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'lower', ModelB::class);
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 4, ModelB::class);
+        HashIdModelConfig::set(HashIdModelConfig::SEPARATOR, '#', ModelB::class);
+        HashIdModelConfig::set(HashIdModelConfig::LENGTH, 10, ModelB::class);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_CASE, 'lower', ModelB::class);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, 4, ModelB::class);
 
         $modelA = ModelA::factory()->create();
         $modelB = ModelB::factory()->create();
 
         // 2️⃣ Act 🏋🏻‍
-        $hashIDA = ModelHashIDGenerator::forModel($modelA);
-        $hashIDB = ModelHashIDGenerator::forModel($modelB);
+        $hashIDA = ModelHashIdGenerator::forModel($modelA);
+        $hashIDB = ModelHashIdGenerator::forModel($modelB);
 
         // 3️⃣ Assert ✅
-        $modelHashA = ModelHashIDGenerator::parseHashIDForModel($hashIDA);
-        $modelHashB = ModelHashIDGenerator::parseHashIDForModel($hashIDB);
+        $modelHashA = ModelHashIdGenerator::parseHashIDForModel($hashIDA);
+        $modelHashB = ModelHashIdGenerator::parseHashIDForModel($hashIDB);
 
         $this->assertEquals('MOD', $modelHashA->prefix);
         $this->assertEquals('_', $modelHashA->separator);
@@ -295,20 +295,20 @@ class ModelHashIDGeneratorTest extends TestCase
         $modelLength = 5;
         $modelPrefixLength = 3;
 
-        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, $modelSeparator, ModelA::class);
-        HashIDModelConfig::set(HashIDModelConfig::LENGTH, $modelLength, ModelA::class);
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, $modelPrefixLength, ModelA::class);
+        HashIdModelConfig::set(HashIdModelConfig::SEPARATOR, $modelSeparator, ModelA::class);
+        HashIdModelConfig::set(HashIdModelConfig::LENGTH, $modelLength, ModelA::class);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, $modelPrefixLength, ModelA::class);
 
-        HashIDModelConfig::set(HashIDModelConfig::SEPARATOR, '#', ModelB::class);
-        HashIDModelConfig::set(HashIDModelConfig::LENGTH, '4', ModelB::class);
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_CASE, 'lower', ModelB::class);
-        HashIDModelConfig::set(HashIDModelConfig::PREFIX_LENGTH, 4, ModelB::class);
+        HashIdModelConfig::set(HashIdModelConfig::SEPARATOR, '#', ModelB::class);
+        HashIdModelConfig::set(HashIdModelConfig::LENGTH, '4', ModelB::class);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_CASE, 'lower', ModelB::class);
+        HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, 4, ModelB::class);
 
         $model = ModelA::factory()->create();
-        $hashID = ModelHashIDGenerator::forModel($model);
+        $hashID = ModelHashIdGenerator::forModel($model);
 
         // 2️⃣ Act 🏋🏻‍
-        $modelHashID = ModelHashIDGenerator::parseHashIDForModel($hashID);
+        $modelHashID = ModelHashIdGenerator::parseHashIDForModel($hashID);
 
         // 3️⃣ Assert ✅
         $this->assertEquals($modelLength, mb_strlen($modelHashID->hashIDForKey));
@@ -326,7 +326,7 @@ class ModelHashIDGeneratorTest extends TestCase
         $model = new ModelA();
 
         // 2️⃣ Act 🏋🏻‍
-        $hashIDForModel = ModelHashIDGenerator::forModel($model);
+        $hashIDForModel = ModelHashIdGenerator::forModel($model);
 
         // 3️⃣ Assert ✅
         $this->assertNull($hashIDForModel);
@@ -339,8 +339,8 @@ class ModelHashIDGeneratorTest extends TestCase
         $model = new ModelA();
 
         // 2️⃣ Act 🏋🏻‍
-        $generatorFromInstance = ModelHashIDGenerator::build($model);
-        $generatorFromClassName = ModelHashIDGenerator::build(ModelA::class);
+        $generatorFromInstance = ModelHashIdGenerator::build($model);
+        $generatorFromClassName = ModelHashIdGenerator::build(ModelA::class);
 
         // 3️⃣ Assert ✅
         $this->assertInstanceOf(Hashids::class, $generatorFromInstance);
@@ -354,6 +354,6 @@ class ModelHashIDGeneratorTest extends TestCase
         $this->expectException(RuntimeException::class);
 
         // 2️⃣ Act 🏋🏻‍
-        ModelHashIDGenerator::build('class-name-that-does-not-exist');
+        ModelHashIdGenerator::build('class-name-that-does-not-exist');
     }
 }

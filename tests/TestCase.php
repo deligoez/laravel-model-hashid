@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashIDs\Tests;
+namespace Deligoez\LaravelModelHashId\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Deligoez\LaravelModelHashIDs\LaravelModelHashIDsServiceProvider;
+use Deligoez\LaravelModelHashId\LaravelModelHashIdServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -17,13 +17,13 @@ class TestCase extends Orchestra
         $this->loadMigrationsFrom(__DIR__.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'migrations');
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Deligoez\\LaravelModelHashIDs\\Tests\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Deligoez\\LaravelModelHashId\\Tests\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 
     protected function getPackageProviders($app): array
     {
-        return [LaravelModelHashIDsServiceProvider::class];
+        return [LaravelModelHashIdServiceProvider::class];
     }
 
     public function getEnvironmentSetUp($app): void

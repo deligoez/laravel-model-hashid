@@ -1,4 +1,4 @@
-[![](https://banners.beyondco.de/Laravel%20Model%20HashIDs.png?theme=light&packageManager=composer+require&packageName=deligoez%2Flaravel-model-hashids&pattern=roundedPlusConnected&style=style_1&description=Generate%2C+Save%2C+and+Route+Stripe-like+HashIDs+for+Laravel+Eloquent+Models&md=1&showWatermark=1&fontSize=100px&images=hashtag)]()
+[![](https://banners.beyondco.de/Laravel%20Model%20HashId.png?theme=light&packageManager=composer+require&packageName=deligoez%2Flaravel-model-hashid&pattern=bubbles&style=style_2&description=Generate%2C+Save%2C+and+Route+Stripe-like+HashIds+for+Laravel+Eloquent+Models&md=1&showWatermark=0&fontSize=150px&images=hashtag&widths=400&heights=400)](https://github.com/deligoez/laravel-model-hashids)
 
 <div align="center">
 
@@ -20,31 +20,24 @@
 
 </div>
 
-# Laravel Model HashIDs
-
----
-This repo can be used to scaffold a Laravel package. Follow these steps to get started:
-
-1. Press the "Use template" button at the top of this repo to create a new repo with the contents of this laravel-model-hashids
-2. Run "./configure-laravel-model-hashids.sh" to run a script that will replace all placeholders throughout all the files
-3. Remove this block of text.
-4. Have fun creating your package.
-5. If you need help creating a package, consider picking up our <a href="https://laravelpackage.training">Laravel Package Training</a> video course.
----
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+Using this package you can generate, save and, route Stripe-like HashIds for your Eloquent Models.
 
 ## Installation
 
-You can install the package via composer:
+### Requirements
+
+- Laravel `8.0` or higher
+- PHP `8.0` or higher
+
+Via Composer
 
 ```bash
-composer require deligoez/laravel-model-hashids
+composer require deligoez/laravel-model-hashid
 ```
 
 You can publish the config file with:
 ```bash
-php artisan vendor:publish --provider="Deligoez\LaravelModelHashids\LaravelModelHashidsServiceProvider" --tag="laravel-model-hashids-config"
+php artisan vendor:publish --provider="Deligoez\LaravelModelHashId\LaravelModelHashIdServiceProvider" --tag="laravel-model-hashids-config"
 ```
 
 This is the contents of the published config file:
@@ -63,7 +56,7 @@ echo $laravel-model-hashids->echoPhrase('Hello, Spatie!');
 
 # Pitfalls
 
-`ModelA` ve `ModelB` icin ayni prefix uzunlugu ve separator kulanildiginda, eger modeller icin farkli salt verilmisse: HashID'den dogru salt'a ulasmam mumkun olmayacak, cunku hangi salt'in kullaniclacagi ayirt edilebilir degil.
+`ModelA` ve `ModelB` icin ayni prefix uzunlugu ve separator kulanildiginda, eger modeller icin farkli salt verilmisse: HashId'den dogru salt'a ulasmam mumkun olmayacak, cunku hangi salt'in kullaniclacagi ayirt edilebilir degil.
 
 ## Testing
 
