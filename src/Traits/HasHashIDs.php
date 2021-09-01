@@ -34,7 +34,7 @@ trait HasHashIDs
         return $generator->decode($hashIDInstance->hashIDForKey)[0];
     }
 
-    public function getHashIDAttribute(): string
+    public function getHashIDAttribute(): ?string
     {
         return ModelHashIDGenerator::forModel($this);
     }
