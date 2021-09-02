@@ -21,7 +21,7 @@ class WhereHashIdNotMixinTest extends TestCase
 
         // 2️⃣ Act 🏋🏻‍
         $foundModel = ModelA::query()
-                            ->whereHashIDNot($model1->hashId)
+                            ->whereHashIdNot($model1->hashId)
                             ->first();
 
         // 3️⃣ Assert ✅

@@ -20,7 +20,7 @@ class WhereHashIdMixinTest extends TestCase
 
         // 2️⃣ Act 🏋🏻‍
         $foundModel = ModelA::query()
-                            ->whereHashID($model->hashId)
+                            ->whereHashId($model->hashId)
                             ->first();
 
         // 3️⃣ Assert ✅

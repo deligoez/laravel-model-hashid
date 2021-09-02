@@ -9,7 +9,7 @@ use Closure;
 /** @mixin \Illuminate\Database\Eloquent\Builder */
 class WhereHashIdNotMixin
 {
-    public function whereHashIDNot(): Closure
+    public function whereHashIdNot(): Closure
     {
         return fn (mixed $id) => $this->whereKeyNot($this->getModel()->keyFromHashID($id));
     }

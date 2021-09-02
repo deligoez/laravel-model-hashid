@@ -9,7 +9,7 @@ use Closure;
 /** @mixin \Illuminate\Database\Eloquent\Builder */
 class WhereHashIdMixin
 {
-    public function whereHashID(): Closure
+    public function whereHashId(): Closure
     {
         return fn (mixed $id) => $this->whereKey($this->getModel()->keyFromHashID($id));
     }
