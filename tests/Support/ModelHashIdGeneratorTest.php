@@ -225,7 +225,7 @@ class ModelHashIdGeneratorTest extends TestCase
     // endregion
 
     /** @test */
-    public function it_can_generate_model_hashIDs_using_generic_configuration(): void
+    public function it_can_generate_model_hashIds_using_generic_configuration(): void
     {
         // 1️⃣ Arrange 🏗
         HashIdModelConfig::set(HashIdModelConfig::SEPARATOR, '@');
@@ -236,19 +236,19 @@ class ModelHashIdGeneratorTest extends TestCase
         $model = ModelA::factory()->create();
 
         // 2️⃣ Act 🏋🏻‍
-        $hashID = ModelHashIdGenerator::forModel($model);
+        $hashId = ModelHashIdGenerator::forModel($model);
 
         // 3️⃣ Assert ✅
-        $modelHash = ModelHashIdGenerator::parseHashIDForModel($hashID);
+        $modelHash = ModelHashIdGenerator::parseHashIDForModel($hashId);
 
         $this->assertEquals('mode', $modelHash->prefix);
         $this->assertEquals('@', $modelHash->separator);
-        $this->assertEquals($hashID, $model->hashID);
+        $this->assertEquals($hashId, $model->hashId);
         $this->assertEquals(null, $modelHash->modelClassName);
     }
 
     /** @test */
-    public function it_can_generate_model_hashIDs_with_different_configurations(): void
+    public function it_can_generate_model_hashIds_with_different_configurations(): void
     {
         // 1️⃣ Arrange 🏗
         HashIdModelConfig::set(HashIdModelConfig::SEPARATOR, '_', ModelA::class);
@@ -265,26 +265,26 @@ class ModelHashIdGeneratorTest extends TestCase
         $modelB = ModelB::factory()->create();
 
         // 2️⃣ Act 🏋🏻‍
-        $hashIDA = ModelHashIdGenerator::forModel($modelA);
-        $hashIDB = ModelHashIdGenerator::forModel($modelB);
+        $hashIdA = ModelHashIdGenerator::forModel($modelA);
+        $hashIdB = ModelHashIdGenerator::forModel($modelB);
 
         // 3️⃣ Assert ✅
-        $modelHashA = ModelHashIdGenerator::parseHashIDForModel($hashIDA);
-        $modelHashB = ModelHashIdGenerator::parseHashIDForModel($hashIDB);
+        $modelHashA = ModelHashIdGenerator::parseHashIDForModel($hashIdA);
+        $modelHashB = ModelHashIdGenerator::parseHashIDForModel($hashIdB);
 
         $this->assertEquals('MOD', $modelHashA->prefix);
         $this->assertEquals('_', $modelHashA->separator);
-        $this->assertEquals($hashIDA, $modelA->hashID);
+        $this->assertEquals($hashIdA, $modelA->hashId);
         $this->assertEquals($modelA::class, $modelHashA->modelClassName);
 
         $this->assertEquals('mode', $modelHashB->prefix);
         $this->assertEquals('#', $modelHashB->separator);
-        $this->assertEquals($hashIDB, $modelB->hashID);
+        $this->assertEquals($hashIdB, $modelB->hashId);
         $this->assertEquals($modelB::class, $modelHashB->modelClassName);
     }
 
     /** @test */
-    public function it_can_parse_a_model_hashIDs_into_parts(): void
+    public function it_can_parse_a_model_hashIds_into_parts(): void
     {
         // 1️⃣ Arrange 🏗
         $modelSeparator = '_';
@@ -301,18 +301,18 @@ class ModelHashIdGeneratorTest extends TestCase
         HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, 4, ModelB::class);
 
         $model = ModelA::factory()->create();
-        $hashID = ModelHashIdGenerator::forModel($model);
+        $hashId = ModelHashIdGenerator::forModel($model);
 
         // 2️⃣ Act 🏋🏻‍
-        $modelHashID = ModelHashIdGenerator::parseHashIDForModel($hashID);
+        $modelHashID = ModelHashIdGenerator::parseHashIDForModel($hashId);
 
         // 3️⃣ Assert ✅
-        $this->assertEquals($modelLength, mb_strlen($modelHashID->hashIDForKey));
+        $this->assertEquals($modelLength, mb_strlen($modelHashID->hashIdForKey));
         $this->assertEquals($modelSeparator, $modelHashID->separator);
         $this->assertEquals($modelPrefixLength, mb_strlen($modelHashID->prefix));
 
-        $this->assertEquals($model->hashIDRaw, $modelHashID->hashIDForKey);
-        $this->assertEquals($model->hashID, $hashID);
+        $this->assertEquals($model->hashIdRaw, $modelHashID->hashIdForKey);
+        $this->assertEquals($model->hashId, $hashId);
     }
 
     /** @test */
@@ -322,14 +322,14 @@ class ModelHashIdGeneratorTest extends TestCase
         $model = new ModelA();
 
         // 2️⃣ Act 🏋🏻‍
-        $hashIDForModel = ModelHashIdGenerator::forModel($model);
+        $hashIdForModel = ModelHashIdGenerator::forModel($model);
 
         // 3️⃣ Assert ✅
-        $this->assertNull($hashIDForModel);
+        $this->assertNull($hashIdForModel);
     }
 
     /** @test */
-    public function it_can_build_a_hashID_generator_from_a_model_instance_or_class_name(): void
+    public function it_can_build_a_hashId_generator_from_a_model_instance_or_class_name(): void
     {
         // 1️⃣ Arrange 🏗
         $model = new ModelA();

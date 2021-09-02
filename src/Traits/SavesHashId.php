@@ -16,7 +16,7 @@ trait SavesHashId
                 $column = HashIdModelConfig::get(HashIdModelConfig::DATABASE_COLUMN, $model);
 
                 $model
-                    ->fill([$column => $model->hashID])
+                    ->fill([$column => $model->hashId])
                     ->saveQuietly();
             },
         );

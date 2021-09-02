@@ -14,13 +14,13 @@ class FindOrFailByHashIdMixinTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_can_find_or_fail_a_model_by_its_hashID(): void
+    public function it_can_find_or_fail_a_model_by_its_hashId(): void
     {
         // 1️⃣.1️⃣ Arrange 🏗
         $model = ModelA::factory()->create();
 
         // 1️⃣.2️⃣ Act 🏋🏻‍
-        $foundModel = ModelA::findOrFailByHashId($model->hashID);
+        $foundModel = ModelA::findOrFailByHashId($model->hashId);
 
         // 1️⃣.3️⃣ Assert ✅
         $this->assertTrue($model->is($foundModel));
@@ -32,18 +32,18 @@ class FindOrFailByHashIdMixinTest extends TestCase
         $this->expectException(ModelNotFoundException::class);
 
         // 2️⃣.2️⃣ Act 🏋🏻‍
-        ModelA::findOrFailByHashId($model->hashID);
+        ModelA::findOrFailByHashId($model->hashId);
     }
 
     /** @test */
-    public function it_can_find_or_fail_a_model_by_its_hashID_from_specific_columns(): void
+    public function it_can_find_or_fail_a_model_by_its_hashId_from_specific_columns(): void
     {
         // 1️⃣.1️⃣ Arrange 🏗
         $model = ModelA::factory()->create();
         $selectedColumns = ['id'];
 
         // 1️⃣.2️⃣ Act 🏋🏻‍
-        $foundModel = ModelA::findOrFailByHashId($model->hashID, $selectedColumns);
+        $foundModel = ModelA::findOrFailByHashId($model->hashId, $selectedColumns);
 
         // 1️⃣.3️⃣ Assert ✅
         $this->assertTrue($model->is($foundModel));
@@ -55,6 +55,6 @@ class FindOrFailByHashIdMixinTest extends TestCase
         $this->expectException(ModelNotFoundException::class);
 
         // 2️⃣.2️⃣ Act 🏋🏻‍
-        ModelA::findOrFailByHashId($model->hashID, $selectedColumns);
+        ModelA::findOrFailByHashId($model->hashId, $selectedColumns);
     }
 }

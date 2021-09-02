@@ -9,7 +9,7 @@ class ModelHashId
     public function __construct(
         public string $prefix,
         public string $separator,
-        public string $hashIDForKey,
+        public string $hashIdForKey,
         public ?string $modelClassName
     ) {
     }

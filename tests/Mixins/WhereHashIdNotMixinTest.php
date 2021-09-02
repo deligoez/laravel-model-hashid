@@ -13,7 +13,7 @@ class WhereHashIdNotMixinTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_can_query_that_a_model_will_not_be_retrieved_by_its_hashID(): void
+    public function it_can_query_that_a_model_will_not_be_retrieved_by_its_hashId(): void
     {
         // 1️⃣ Arrange 🏗
         $model1 = ModelA::factory()->create();
@@ -21,7 +21,7 @@ class WhereHashIdNotMixinTest extends TestCase
 
         // 2️⃣ Act 🏋🏻‍
         $foundModel = ModelA::query()
-                            ->whereHashIDNot($model1->hashID)
+                            ->whereHashIDNot($model1->hashId)
                             ->first();
 
         // 3️⃣ Assert ✅

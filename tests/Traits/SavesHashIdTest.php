@@ -23,7 +23,7 @@ class SavesHashIdTest extends TestCase
         $model = ModelC::factory()->create();
 
         // 3️⃣ Assert ✅
-        $this->assertEquals($model->hash_id, ModelC::find($model->id)->hashID);
+        $this->assertEquals($model->hash_id, ModelC::find($model->id)->hashId);
     }
 
     /** @test */
@@ -36,6 +36,6 @@ class SavesHashIdTest extends TestCase
         $model = ModelD::factory()->create();
 
         // 3️⃣ Assert ✅
-        $this->assertEquals($model->hash, ModelD::find($model->id)->hashID);
+        $this->assertEquals($model->hash, ModelD::find($model->id)->hashId);
     }
 }

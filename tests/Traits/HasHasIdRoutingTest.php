@@ -17,19 +17,19 @@ class HasHasIdRoutingTest extends TestCase
     use WithFaker;
 
     /** @test */
-    public function it_can_resolve_a_hashID_via_route_model_binding(): void
+    public function it_can_resolve_a_hashId_via_route_model_binding(): void
     {
         // 1️⃣ Arrange 🏗
         ModelA::factory()->count($this->faker->numberBetween(2, 5))->create();
         $model = ModelA::factory()->create(['name' => 'model-that-should-bind']);
-        $hashID = $model->hashID;
+        $hashId = $model->hashId;
 
         Route::get('/model-a/{modelA}', function (ModelA $modelA) {
             return $modelA->toJson();
         })->middleware('bindings');
 
         // 2️⃣ Act 🏋🏻‍
-        $response = $this->getJson("/model-a/{$hashID}");
+        $response = $this->getJson("/model-a/{$hashId}");
 
         // 3️⃣ Assert ✅
         $response
@@ -41,12 +41,12 @@ class HasHasIdRoutingTest extends TestCase
     }
 
     /** @test */
-    public function it_can_resolve_a_hashID_via_route_model_binding_using_custom_route_key_name(): void
+    public function it_can_resolve_a_hashId_via_route_model_binding_using_custom_route_key_name(): void
     {
         // 1️⃣ Arrange 🏗
         ModelA::factory()->count($this->faker->numberBetween(2, 5))->create();
         $model = ModelA::factory()->create(['name' => 'model-that-should-bind']);
-        $hashID = $model->hashID;
+        $hashId = $model->hashId;
 
         Route::model('hash_id', ModelA::class);
 
@@ -55,7 +55,7 @@ class HasHasIdRoutingTest extends TestCase
         })->middleware('bindings');
 
         // 2️⃣ Act 🏋🏻‍
-        $response = $this->getJson("/model-a/{$hashID}");
+        $response = $this->getJson("/model-a/{$hashId}");
 
         // 3️⃣ Assert ✅
         $response

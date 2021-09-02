@@ -43,13 +43,13 @@ class ModelHashIdGenerator
         }
 
         $prefix = self::buildPrefixForModel($model);
-        $hashID = $model->hashIDRaw;
+        $hashId = $model->hashIdRaw;
         $separator = HashIdModelConfig::get(HashIdModelConfig::SEPARATOR, $model);
 
-        return "{$prefix}{$separator}{$hashID}";
+        return "{$prefix}{$separator}{$hashId}";
     }
 
-    public static function parseHashIDForModel(string $hashID): ?ModelHashId
+    public static function parseHashIDForModel(string $hashId): ?ModelHashId
     {
         $generators = HashIdModelConfig::get(HashIdModelConfig::GENERATORS);
 
@@ -58,13 +58,13 @@ class ModelHashIdGenerator
             $separator = HashIdModelConfig::get(HashIdModelConfig::SEPARATOR, $modelClassName);
             $length = (int) HashIdModelConfig::get(HashIdModelConfig::LENGTH, $modelClassName);
 
-            $hashIDForKeyArray = explode($prefix.$separator, $hashID);
+            $hashIdForKeyArray = explode($prefix.$separator, $hashId);
 
-            if (isset($hashIDForKeyArray[1]) && mb_strlen($hashIDForKeyArray[1]) === $length) {
+            if (isset($hashIdForKeyArray[1]) && mb_strlen($hashIdForKeyArray[1]) === $length) {
                 return new ModelHashId(
                     prefix: $prefix,
                     separator: $separator,
-                    hashIDForKey: $hashIDForKeyArray[1],
+                    hashIdForKey: $hashIdForKeyArray[1],
                     modelClassName: $modelClassName
                 );
             }
@@ -74,11 +74,11 @@ class ModelHashIdGenerator
         $genericSeparator = HashIdModelConfig::get(HashIdModelConfig::SEPARATOR);
         $genericPrefixLength = HashIdModelConfig::get(HashIdModelConfig::PREFIX_LENGTH);
 
-        if ($genericLength + $genericPrefixLength + mb_strlen($genericSeparator) === mb_strlen($hashID)) {
+        if ($genericLength + $genericPrefixLength + mb_strlen($genericSeparator) === mb_strlen($hashId)) {
             return new ModelHashId(
-                prefix: mb_substr($hashID, 0, $genericPrefixLength),
+                prefix: mb_substr($hashId, 0, $genericPrefixLength),
                 separator: $genericSeparator,
-                hashIDForKey: mb_substr($hashID, $genericLength * -1),
+                hashIdForKey: mb_substr($hashId, $genericLength * -1),
                 modelClassName: null
             );
         }

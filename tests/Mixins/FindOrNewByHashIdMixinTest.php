@@ -13,38 +13,38 @@ class FindOrNewByHashIdMixinTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_can_find_a_model_by_its_hashID(): void
+    public function it_can_find_a_model_by_its_hashId(): void
     {
         // 1️⃣ Arrange 🏗
         $model = ModelA::factory()->create();
-        $hashID = $model->hashID;
+        $hashId = $model->hashId;
 
         // 2️⃣ Act 🏋🏻‍
         /** @var ModelA $newModel */
-        $foundModel = ModelA::findOrNewByHashId($hashID);
+        $foundModel = ModelA::findOrNewByHashId($hashId);
 
         // 3️⃣ Assert ✅
         $this->assertTrue($model->is($foundModel));
     }
 
     /** @test */
-    public function it_can_find_a_model_by_its_hashID_from_specific_columns(): void
+    public function it_can_find_a_model_by_its_hashId_from_specific_columns(): void
     {
         // 1️⃣ Arrange 🏗
         $model = ModelA::factory()->create();
-        $hashID = $model->hashID;
+        $hashId = $model->hashId;
         $selectedColumns = ['id'];
 
         // 2️⃣ Act 🏋🏻‍
         /** @var ModelA $newModel */
-        $foundModel = ModelA::findOrNewByHashId($hashID, $selectedColumns);
+        $foundModel = ModelA::findOrNewByHashId($hashId, $selectedColumns);
 
         // 3️⃣ Assert ✅
         $this->assertTrue($model->is($foundModel));
     }
 
     /** @test */
-    public function it_can_new_a_model_if_hashID_not_found(): void
+    public function it_can_new_a_model_if_hashId_not_found(): void
     {
         // 2️⃣ Act 🏋🏻‍
         /** @var ModelA $newModel */

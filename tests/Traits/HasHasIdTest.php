@@ -70,13 +70,13 @@ class HasHasIdTest extends TestCase
         $modelHashId = ModelHashIdGenerator::parseHashIdForModel($hashId);
 
         $alphabetAsArray = mb_str_split($customAlphabet);
-        foreach (mb_str_split($modelHashId->hashIDForKey) as $char) {
+        foreach (mb_str_split($modelHashId->hashIdForKey) as $char) {
             $this->assertContains($char, $alphabetAsArray);
         }
     }
 
     /** @test */
-    public function model_hashID_alphabet_can_also_be_defined_from_emojis(): void
+    public function model_hashId_alphabet_can_also_be_defined_from_emojis(): void
     {
         // 1️⃣ Arrange 🏗
         $customAlphabet = '😀😃😄😁😆😅😂🤣🥲☺️😊😇🙂🙃😉😌';
@@ -85,13 +85,13 @@ class HasHasIdTest extends TestCase
         $model = ModelA::factory()->create();
 
         // 2️⃣ Act 🏋🏻‍
-        $hashID = $model->hashID;
+        $hashId = $model->hashId;
 
         // 3️⃣ Assert ✅
-        $modelHashID = ModelHashIdGenerator::parseHashIDForModel($hashID);
+        $modelHashID = ModelHashIdGenerator::parseHashIDForModel($hashId);
 
         $alphabetAsArray = mb_str_split($customAlphabet);
-        foreach (mb_str_split($modelHashID->hashIDForKey) as $char) {
+        foreach (mb_str_split($modelHashID->hashIdForKey) as $char) {
             $this->assertContains($char, $alphabetAsArray);
         }
     }
@@ -101,21 +101,21 @@ class HasHasIdTest extends TestCase
     // region Trait Static Functions
 
     /** @test */
-    public function it_can_get_a_model_key_from_hashID(): void
+    public function it_can_get_a_model_key_from_hashId(): void
     {
         // 1️⃣ Arrange 🏗
         $model = ModelA::factory()->create();
-        $hashID = $model->hashID;
+        $hashId = $model->hashId;
 
         // 2️⃣ Act 🏋🏻‍
-        $key = ModelA::keyFromHashID($hashID);
+        $key = ModelA::keyFromHashID($hashId);
 
         // 3️⃣ Assert ✅
         $this->assertEquals($model->getKey(), $key);
     }
 
     /** @test */
-    public function it_returns_null_if_hashID_can_not_parsable(): void
+    public function it_returns_null_if_hashId_can_not_parsable(): void
     {
         // 2️⃣ Act 🏋🏻‍
         $key = ModelA::keyFromHashID('non-existing-hash-id');
@@ -129,31 +129,31 @@ class HasHasIdTest extends TestCase
     // region Accessors
 
     /** @test */
-    public function model_has_a_hashID_attribute(): void
+    public function model_has_a_hashId_attribute(): void
     {
         // 1️⃣ Arrange 🏗
         $model = ModelA::factory()->create();
 
         // 2️⃣ Act 🏋🏻‍
-        $hashID = $model->hashID;
+        $hashId = $model->hashId;
         $key = $model->getKey();
 
         // 3️⃣ Assert ✅
-        $this->assertEquals($key, ModelA::keyFromHashID($hashID));
+        $this->assertEquals($key, ModelA::keyFromHashID($hashId));
     }
 
     /** @test */
-    public function model_has_a_hashIDRaw_attribute(): void
+    public function model_has_a_hashIdRaw_attribute(): void
     {
         // 1️⃣ Arrange 🏗
         $model = ModelA::factory()->create();
 
         // 2️⃣ Act 🏋🏻‍
-        $hashIDRawAttribute = $model->hashIDRaw;
+        $hashIdRawAttribute = $model->hashIdRaw;
 
         // 3️⃣ Assert ✅
-        $hashIDRaw = ModelHashIdGenerator::parseHashIDForModel($model->hashID)->hashIDForKey;
-        $this->assertEquals($hashIDRaw, $hashIDRawAttribute);
+        $hashIdRaw = ModelHashIdGenerator::parseHashIDForModel($model->hashId)->hashIdForKey;
+        $this->assertEquals($hashIdRaw, $hashIdRawAttribute);
     }
 
     // endregion

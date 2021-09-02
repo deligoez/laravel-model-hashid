@@ -21,17 +21,17 @@ trait HasHashId
         $this->hashIdGenerator = ModelHashIdGenerator::build($this);
     }
 
-    public static function keyFromHashID(string $hashID): ?int
+    public static function keyFromHashID(string $hashId): ?int
     {
-        $hashIDInstance = ModelHashIdGenerator::parseHashIDForModel($hashID);
+        $hashIdInstance = ModelHashIdGenerator::parseHashIDForModel($hashId);
 
-        if ($hashIDInstance === null) {
+        if ($hashIdInstance === null) {
             return null;
         }
 
         $generator = ModelHashIdGenerator::build(__CLASS__);
 
-        return $generator->decode($hashIDInstance->hashIDForKey)[0];
+        return $generator->decode($hashIdInstance->hashIdForKey)[0];
     }
 
     public function getHashIdAttribute(): ?string

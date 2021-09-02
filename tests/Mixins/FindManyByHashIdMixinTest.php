@@ -39,7 +39,7 @@ class FindManyByHashIdMixinTest extends TestCase
                         ->count($this->faker->numberBetween(2, 5))
                         ->create();
 
-        $modelHashIDs = $models->pluck('hashID')->toArray();
+        $modelHashIDs = $models->pluck('hashId')->toArray();
 
         $selectedColumns = ['id'];
 
