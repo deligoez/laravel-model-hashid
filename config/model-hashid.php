@@ -35,8 +35,8 @@ return [
     | HashID Alphabet
     |--------------------------------------------------------------------------
     |
-    | This alphabet will be used to generate raw HashIDs. Please keep in mind
-    | that it must contain at least 16 unique characters and can't contain spaces.
+    | This alphabet will generate raw HashIDs. Please keep in mind that it
+    | must contain at least 16 unique characters and can't contain spaces.
     |
     | Default: 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890'
     |
@@ -49,8 +49,8 @@ return [
     | Model Prefix Length
     |--------------------------------------------------------------------------
     |
-    | Here you can specify the length of the model prefix. By default it
-    | will be generated from the first letters of short class name.
+    | Here you can specify the length of the model prefix. By default, they
+    | will generate it from the first letters of short class name.
     | Set it -1 to use full short class name as prefix.
     | Set it 0 to not use any prefix at all.
     |
@@ -66,13 +66,13 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you can set the case of the prefix. Please keep in mind that for
-    | some prefix cases underscore ('_') characters will be added to the
-    | prefix if your model is multi word.
-    |
-    | Supported prefix cases: "lower", "upper", "camel", "snake", "kebab",
-    |                         "title", "studly", "plural_studly"
+    | some prefix cases, underscore (‘_’) characters will be added to the
+    | prefix if your model name is multi word.
     |
     | Default: 'lower'
+    |
+    | Supported: "lower", "upper", "camel", "snake", "kebab",
+    |            "title", "studly", "plural_studly"
     |
     */
 
@@ -113,19 +113,19 @@ return [
     |
     | Here you can set specific HashID generators for individual Models.
     | Each one of the setting above can be defined per model. You can
-    | see an example below as comment.
+    | see an example below as a comment.
     |
     */
 
     'generators' => [
-//        App\Models\User::class => [
-//            'salt'            => 'your-model-specific-salt-string',
-//            'length'          => 13,
-//            'alphabet'        => 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890',
-//            'prefix_length'   => 3,
-//            'prefix_case'     => 'lower',
-//            'separator'       => '_',
-//            'database_column' => 'hash_id',
-//        ],
+        // App\Models\User::class => [
+        //     'salt'            => 'your-model-specific-salt-string',
+        //     'length'          => 13,
+        //     'alphabet'        => 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890',
+        //     'prefix_length'   => 3,
+        //     'prefix_case'     => 'lower',
+        //     'separator'       => '_',
+        //     'database_column' => 'hash_id',
+        // ],
     ],
 ];
