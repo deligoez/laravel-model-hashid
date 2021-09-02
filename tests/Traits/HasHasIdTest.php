@@ -90,8 +90,6 @@ class HasHasIdTest extends TestCase
         // 3️⃣ Assert ✅
         $modelHashID = ModelHashIdGenerator::parseHashIDForModel($hashID);
 
-        ray($modelHashID);
-
         $alphabetAsArray = mb_str_split($customAlphabet);
         foreach (mb_str_split($modelHashID->hashIDForKey) as $char) {
             $this->assertContains($char, $alphabetAsArray);

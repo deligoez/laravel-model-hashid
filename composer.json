@@ -1,6 +1,6 @@
 {
     "name": "deligoez/laravel-model-hashid",
-    "description": "Generate, save, and route Stripe-like HashIds for Laravel Eloquent Models",
+    "description": "Generate, Save, and Route Stripe-like Hash IDs for Laravel Eloquent Models",
     "keywords": [
         "deligoez",
         "laravel",
