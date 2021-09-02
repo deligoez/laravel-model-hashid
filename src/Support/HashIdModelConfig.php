@@ -8,7 +8,7 @@ use Config;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Deligoez\LaravelModelHashId\Exceptions\UnknownHashIDConfigParameterException;
+use Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException;
 
 class HashIdModelConfig
 {
@@ -77,12 +77,12 @@ class HashIdModelConfig
     }
 
     /**
-     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIDConfigParameterException
+     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
     public static function isParameterDefined(string $parameter): void
     {
         if (! in_array($parameter, self::$parameters, true)) {
-            throw UnknownHashIDConfigParameterException::make($parameter);
+            throw UnknownHashIdConfigParameterException::make($parameter);
         }
     }
 
