@@ -12,7 +12,7 @@ use Deligoez\LaravelModelHashId\Exceptions\UnknownHashIDConfigParameterException
 
 class HashIdModelConfig
 {
-    public const CONFIG_FILE_NAME = 'hashids';
+    public const CONFIG_FILE_NAME = 'model-hashid';
 
     public const SALT = 'salt';
     public const LENGTH = 'length';
