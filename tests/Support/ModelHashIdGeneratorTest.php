@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashId\Tests\Support;
 
 use Hashids\Hashids;
-use ReflectionClass;
 use RuntimeException;
 use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashId\Tests\TestCase;
@@ -25,8 +24,7 @@ class ModelHashIdGeneratorTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $model = new ModelA();
-        $shortClassName = (new ReflectionClass($model))->getShortName();
-        $prefixLength = $this->faker->numberBetween(1, mb_strlen($shortClassName));
+        $prefixLength = $this->faker->numberBetween(1, mb_strlen(class_basename($model)));
         HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, $prefixLength, $model);
 
         // 2️⃣ Act 🏋🏻‍
@@ -48,8 +46,7 @@ class ModelHashIdGeneratorTest extends TestCase
         $prefix = ModelHashIdGenerator::buildPrefixForModel($model);
 
         // 3️⃣ Assert ✅
-        $shortClassName = (new ReflectionClass($model))->getShortName();
-        $this->assertEquals(mb_strlen($shortClassName), mb_strlen($prefix));
+        $this->assertEquals(mb_strlen(class_basename($model)), mb_strlen($prefix));
     }
 
     /** @test */
@@ -74,8 +71,7 @@ class ModelHashIdGeneratorTest extends TestCase
         $model = new ModelA();
         $prefixLength = 10;
         HashIdModelConfig::set(HashIdModelConfig::PREFIX_LENGTH, $prefixLength);
-        $shortClassName = (new ReflectionClass($model))->getShortName();
-        $shortClassNameLength = mb_strlen($shortClassName);
+        $shortClassNameLength = mb_strlen(class_basename($model));
 
         // 2️⃣ Act 🏋🏻‍
         $prefix = ModelHashIdGenerator::buildPrefixForModel($model);

@@ -6,7 +6,6 @@ namespace Deligoez\LaravelModelHashId\Support;
 
 use Str;
 use Hashids\Hashids;
-use ReflectionClass;
 use Hashids\HashidsInterface;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,7 +18,7 @@ class ModelHashIdGenerator
     {
         HashIdModelConfig::isModelClassExist($model);
 
-        $shortClassName = (new ReflectionClass($model))->getShortName();
+        $shortClassName = class_basename($model);
         $prefixLength = (int) HashIdModelConfig::get(HashIdModelConfig::PREFIX_LENGTH, $model);
         $prefix = $prefixLength < 0
             ? $shortClassName
