@@ -23,4 +23,14 @@ trait HasHashIdRouting
 
         return $this->findByHashId($value);
     }
+
+    /**
+     * Get the value of the model's route key.
+     *
+     * @return string
+     */
+    public function getRouteKey(): string
+    {
+        return $this->hashId;
+    }
 }

@@ -25,12 +25,13 @@ Using this package you can generate, save and, route Stripe-like Hash Ids for yo
 Hash Ids are short, unique, and non-sequential, and can generate unique Ids for URLs and hide database row numbers from
 the user. For more information about Hash Ids please visit [hashids.org](https://hashids.org/).
 
-With this package, you can customize hash id generation and add a model prefix and also separator.
+With this package, you can customize Hash Id generation and add a model prefix and also separator.
 
 For a `User` model with an id of `1234`, you can generate Hash Ids like `user_kqYZeLgo`.
 
 So instead of;   
 `https://your-endpoint.com/user/1234`   
+
 You can have endpoints like;   
 `https://your-endpoint.com/user/user_kqYZeLgo`
 
@@ -132,7 +133,7 @@ ModelA::whereHashId('model_a_kqYZeLgo'); // Query Builder instance
 ModelA::whereHashIdNot('model_a_kqYZeLgo'); // Query Builder instance
 ```
 
-### Routing and Route Model Binding using Hash Ids
+### Routing and Route Model Binding (Optional)
 
 Simply add the `HasHashIdRouting` trait to your model that you want to route using Hash Ids.
 
