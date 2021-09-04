@@ -12,34 +12,17 @@ use Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
 
 class Config
 {
-    public const CONFIG_FILE_NAME = 'model-hashid';
-
-    public const SALT = 'salt';
-    public const LENGTH = 'length';
-    public const ALPHABET = 'alphabet';
-    public const PREFIX_LENGTH = 'prefix_length';
-    public const PREFIX_CASE = 'prefix_case';
-    public const SEPARATOR = 'separator';
-    public const DATABASE_COLUMN = 'database_column';
-    public const GENERATORS = 'generators';
-
-    public static array $parameters = [
-        self::SALT,
-        self::LENGTH,
-        self::ALPHABET,
-        self::PREFIX_LENGTH,
-        self::PREFIX_CASE,
-        self::SEPARATOR,
-        self::DATABASE_COLUMN,
-        self::GENERATORS,
-    ];
-
+    /**
+     * Get the specified Hash Id configuration value.
+     *
+     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
+     */
     public static function get(string $parameter, Model | string | null $model = null): string | int | array
     {
         self::isParameterDefined($parameter);
 
         if ($model === null) {
-            return LaravelConfig::get(self::CONFIG_FILE_NAME.'.'.$parameter);
+            return LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.$parameter);
         }
 
         self::isModelClassExist($model);
@@ -47,20 +30,25 @@ class Config
         $className = $model instanceof Model ? get_class($model) : $model;
 
         // Return specific config for model if defined
-        if (Arr::has(LaravelConfig::get(self::CONFIG_FILE_NAME. '.' . self::GENERATORS), $className.'.'.$parameter)) {
-            return LaravelConfig::get(self::CONFIG_FILE_NAME. '.' . self::GENERATORS)[$className][$parameter];
+        if (Arr::has(LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME. '.' . ConfigParameters::GENERATORS), $className.'.'.$parameter)) {
+            return LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME. '.' . ConfigParameters::GENERATORS)[$className][$parameter];
         }
 
         // Return generic config
-        return LaravelConfig::get(self::CONFIG_FILE_NAME.'.'.$parameter);
+        return LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.$parameter);
     }
 
+    /**
+     * Set a given Hash Id configuration value.
+     *
+     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
+     */
     public static function set(string $parameter, string | int $value, Model | string | null $model = null): void
     {
         self::isParameterDefined($parameter);
 
         if ($model === null) {
-            LaravelConfig::set(self::CONFIG_FILE_NAME.'.'.$parameter, $value);
+            LaravelConfig::set(ConfigParameters::CONFIG_FILE_NAME.'.'.$parameter, $value);
 
             return;
         }
@@ -69,23 +57,30 @@ class Config
 
         $className = $model instanceof Model ? get_class($model) : $model;
 
-        $generatorsConfig = LaravelConfig::get(self::CONFIG_FILE_NAME. '.'. self::GENERATORS);
+        $generatorsConfig = LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME. '.'. ConfigParameters::GENERATORS);
 
         $generatorsConfig[$className][$parameter] = $value;
 
-        LaravelConfig::set(self::CONFIG_FILE_NAME. '.' . self::GENERATORS, $generatorsConfig);
+        LaravelConfig::set(ConfigParameters::CONFIG_FILE_NAME. '.' . ConfigParameters::GENERATORS, $generatorsConfig);
     }
 
     /**
+     * Check for recognized configuration value.
+     *
      * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
     public static function isParameterDefined(string $parameter): void
     {
-        if (! in_array($parameter, self::$parameters, true)) {
+        if (! in_array($parameter, ConfigParameters::$parameters, true)) {
             throw UnknownHashIdConfigParameterException::make($parameter);
         }
     }
 
+    /**
+     * Check if given model class is exists.
+     *
+     * @param  \Illuminate\Database\Eloquent\Model|string  $model
+     */
     public static function isModelClassExist(Model | string $model): void
     {
         if (is_string($model) && ! class_exists($model)) {

@@ -86,7 +86,7 @@ You have complete control over your Hash Id length and style. Check out the conf
     ```
 2. Publish the config file:
     ```bash
-    php artisan vendor:publish --provider="Deligoez\LaravelModelHashId\LaravelModelHashIdServiceProvider" --tag="model-hashid-config"
+    php artisan vendor:publish --provider="Deligoez\LaravelModelHashId\LaravelModelHashIdServiceProvider" --tag="config"
     ```
 
 ## Usage
@@ -124,13 +124,23 @@ ModelA::keyFromHashID('model_a_kqYZeLgo') // 1234
 You can use all finding related Laravel query builder functions with Hash Ids.  
 
 ```php
-ModelA::findByHashId('model_a_kqYZeLgo'); // ModelA instance
-ModelA::findManyByHashId(['model_a_kqYZeLgo', 'model_a_ZeLgokqY']); // ModelA instances
-ModelA::findOrFailByHashId('model_a_kqYZeLgo'); // ModelA instance or fail
-ModelA::findOrNewByHashId('model_a_kqYZeLgo'); // ModelA instance or new
+// Find a model by its Hash Id.
+ModelA::findByHashId('model_a_kqYZeLgo');
 
-ModelA::whereHashId('model_a_kqYZeLgo'); // Query Builder instance
-ModelA::whereHashIdNot('model_a_kqYZeLgo'); // Query Builder instance
+// Find multiple models by their Hash Ids.
+ModelA::findManyByHashId(['model_a_kqYZeLgo', 'model_a_ZeLgokqY']);
+
+// Find a model by its Hash Id or throw an exception.
+ModelA::findOrFailByHashId('model_a_kqYZeLgo');
+
+// Find a model by its Hash Id or return fresh model instance.
+ModelA::findOrNewByHashId('model_a_kqYZeLgo');
+
+// Add a where clause on the Hash Id to the query.
+ModelA::whereHashId('model_a_kqYZeLgo');
+
+// Add a where not clause on the Hash Id to the query.
+ModelA::whereHashIdNot('model_a_kqYZeLgo');
 ```
 
 ### Routing and Route Model Binding (Optional)

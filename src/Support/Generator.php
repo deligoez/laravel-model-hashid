@@ -19,12 +19,12 @@ class Generator
         Config::isModelClassExist($model);
 
         $shortClassName = class_basename($model);
-        $prefixLength = (int) Config::get(Config::PREFIX_LENGTH, $model);
+        $prefixLength = (int) Config::get(ConfigParameters::PREFIX_LENGTH, $model);
         $prefix = $prefixLength < 0
             ? $shortClassName
             : rtrim(mb_strimwidth($shortClassName, 0, $prefixLength, '', 'UTF-8'));
 
-        return match (Config::get(Config::PREFIX_CASE, $model)) {
+        return match (Config::get(ConfigParameters::PREFIX_CASE, $model)) {
             'upper'         => Str::upper($prefix),
             'camel'         => Str::camel($prefix),
             'snake'         => Str::snake($prefix),
@@ -44,19 +44,19 @@ class Generator
 
         $prefix = self::buildPrefixForModel($model);
         $hashId = $model->hashIdRaw;
-        $separator = Config::get(Config::SEPARATOR, $model);
+        $separator = Config::get(ConfigParameters::SEPARATOR, $model);
 
         return "{$prefix}{$separator}{$hashId}";
     }
 
     public static function parseHashIDForModel(string $hashId): ?ModelHashId
     {
-        $generators = Config::get(Config::GENERATORS);
+        $generators = Config::get(ConfigParameters::GENERATORS);
 
         foreach ($generators as $modelClassName => $generator) {
             $prefix = self::buildPrefixForModel($modelClassName);
-            $separator = Config::get(Config::SEPARATOR, $modelClassName);
-            $length = (int) Config::get(Config::LENGTH, $modelClassName);
+            $separator = Config::get(ConfigParameters::SEPARATOR, $modelClassName);
+            $length = (int) Config::get(ConfigParameters::LENGTH, $modelClassName);
 
             $hashIdForKeyArray = explode($prefix.$separator, $hashId);
 
@@ -70,9 +70,9 @@ class Generator
             }
         }
 
-        $genericLength = (int) Config::get(Config::LENGTH);
-        $genericSeparator = Config::get(Config::SEPARATOR);
-        $genericPrefixLength = Config::get(Config::PREFIX_LENGTH);
+        $genericLength = (int) Config::get(ConfigParameters::LENGTH);
+        $genericSeparator = Config::get(ConfigParameters::SEPARATOR);
+        $genericPrefixLength = Config::get(ConfigParameters::PREFIX_LENGTH);
 
         if ($genericLength + $genericPrefixLength + mb_strlen($genericSeparator) === mb_strlen($hashId)) {
             return new ModelHashId(
@@ -90,9 +90,9 @@ class Generator
     {
         Config::isModelClassExist($model);
 
-        $salt = Config::get(Config::SALT, $model);
-        $length = Config::get(Config::LENGTH, $model);
-        $alphabet = Config::get(Config::ALPHABET, $model);
+        $salt = Config::get(ConfigParameters::SALT, $model);
+        $length = Config::get(ConfigParameters::LENGTH, $model);
+        $alphabet = Config::get(ConfigParameters::ALPHABET, $model);
 
         return new Hashids($salt, $length, $alphabet);
     }

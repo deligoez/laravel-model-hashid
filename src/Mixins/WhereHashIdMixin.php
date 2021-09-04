@@ -9,8 +9,21 @@ use Closure;
 /** @mixin \Illuminate\Database\Eloquent\Builder */
 class WhereHashIdMixin
 {
+    /**
+     * Add a where clause on the Hash Id to the query.
+     *
+     * @return \Closure
+     */
     public function whereHashId(): Closure
     {
-        return fn (mixed $id) => $this->whereKey($this->getModel()->keyFromHashID($id));
+        /**
+         * Add a where clause on the Hash Id to the query.
+         *
+         * @param  mixed  $id
+         * @return $this
+         */
+        return function ($id) {
+            return $this->whereKey($this->getModel()->keyFromHashID($id));
+        };
     }
 }

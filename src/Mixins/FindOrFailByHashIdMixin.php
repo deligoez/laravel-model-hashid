@@ -9,8 +9,22 @@ use Closure;
 /** @mixin \Illuminate\Database\Eloquent\Builder */
 class FindOrFailByHashIdMixin
 {
+    /**
+     * Find a model by its Hash Id or throw an exception.
+     *
+     * @return \Closure
+     */
     public function findOrFailByHashId(): Closure
     {
+        /**
+         * Find a model by its Hash Id or throw an exception.
+         *
+         * @param  mixed  $id
+         * @param  array  $columns
+         * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static|static[]
+         *
+         * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+         */
         return function ($id, $columns = ['*']) {
             return $this->findOrFail($this->getModel()->keyFromHashID($id), $columns);
         };

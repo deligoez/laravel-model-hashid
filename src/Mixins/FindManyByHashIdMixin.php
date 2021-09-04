@@ -10,8 +10,20 @@ use Illuminate\Contracts\Support\Arrayable;
 /** @mixin \Illuminate\Database\Eloquent\Builder */
 class FindManyByHashIdMixin
 {
+    /**
+     * Find multiple models by their Hash Ids.
+     *
+     * @return \Closure
+     */
     public function findManyByHashId(): Closure
     {
+        /**
+         * Find multiple models by their Hash Ids.
+         *
+         * @param  \Illuminate\Contracts\Support\Arrayable|array  $ids
+         * @param  array  $columns
+         * @return \Illuminate\Database\Eloquent\Collection
+         */
         return function (Arrayable | array $ids, $columns = ['*']) {
             $ids = $ids instanceof Arrayable ? $ids->toArray() : $ids;
             $ids = array_map(fn (string $hashId) => $this->getModel()->keyFromHashID($hashId), $ids);

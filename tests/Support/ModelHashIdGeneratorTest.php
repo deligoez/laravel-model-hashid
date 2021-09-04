@@ -12,6 +12,7 @@ use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Deligoez\LaravelModelHashId\Support\Generator;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelB;
+use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 
 class ModelHashIdGeneratorTest extends TestCase
 {
@@ -25,7 +26,7 @@ class ModelHashIdGeneratorTest extends TestCase
         // 1️⃣ Arrange 🏗
         $model = new ModelA();
         $prefixLength = $this->faker->numberBetween(1, mb_strlen(class_basename($model)));
-        Config::set(Config::PREFIX_LENGTH, $prefixLength, $model);
+        Config::set(ConfigParameters::PREFIX_LENGTH, $prefixLength, $model);
 
         // 2️⃣ Act 🏋🏻‍
         $prefix = Generator::buildPrefixForModel($model);
@@ -40,7 +41,7 @@ class ModelHashIdGeneratorTest extends TestCase
         // 1️⃣ Arrange 🏗
         $model = new ModelA();
         $prefixLength = -1;
-        Config::set(Config::PREFIX_LENGTH, $prefixLength, $model);
+        Config::set(ConfigParameters::PREFIX_LENGTH, $prefixLength, $model);
 
         // 2️⃣ Act 🏋🏻‍
         $prefix = Generator::buildPrefixForModel($model);
@@ -54,7 +55,7 @@ class ModelHashIdGeneratorTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $prefixLength = 0;
-        Config::set(Config::PREFIX_LENGTH, $prefixLength);
+        Config::set(ConfigParameters::PREFIX_LENGTH, $prefixLength);
 
         // 2️⃣ Act 🏋🏻‍
         $prefix = Generator::buildPrefixForModel(ModelA::class);
@@ -70,7 +71,7 @@ class ModelHashIdGeneratorTest extends TestCase
         // 1️⃣ Arrange 🏗
         $model = new ModelA();
         $prefixLength = 10;
-        Config::set(Config::PREFIX_LENGTH, $prefixLength);
+        Config::set(ConfigParameters::PREFIX_LENGTH, $prefixLength);
         $shortClassNameLength = mb_strlen(class_basename($model));
 
         // 2️⃣ Act 🏋🏻‍
@@ -98,8 +99,8 @@ class ModelHashIdGeneratorTest extends TestCase
     public function it_can_build_a_lower_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        Config::set(Config::PREFIX_LENGTH, 6);
-        Config::set(Config::PREFIX_CASE, 'lower');
+        Config::set(ConfigParameters::PREFIX_LENGTH, 6);
+        Config::set(ConfigParameters::PREFIX_CASE, 'lower');
 
         $model = new ModelA();
 
@@ -114,8 +115,8 @@ class ModelHashIdGeneratorTest extends TestCase
     public function it_can_build_a_upper_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        Config::set(Config::PREFIX_LENGTH, 6);
-        Config::set(Config::PREFIX_CASE, 'upper');
+        Config::set(ConfigParameters::PREFIX_LENGTH, 6);
+        Config::set(ConfigParameters::PREFIX_CASE, 'upper');
 
         $model = new ModelA();
 
@@ -130,8 +131,8 @@ class ModelHashIdGeneratorTest extends TestCase
     public function it_can_build_a_camel_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        Config::set(Config::PREFIX_LENGTH, 6);
-        Config::set(Config::PREFIX_CASE, 'camel');
+        Config::set(ConfigParameters::PREFIX_LENGTH, 6);
+        Config::set(ConfigParameters::PREFIX_CASE, 'camel');
 
         $model = new ModelA();
 
@@ -146,8 +147,8 @@ class ModelHashIdGeneratorTest extends TestCase
     public function it_can_build_a_snake_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        Config::set(Config::PREFIX_LENGTH, 6);
-        Config::set(Config::PREFIX_CASE, 'snake');
+        Config::set(ConfigParameters::PREFIX_LENGTH, 6);
+        Config::set(ConfigParameters::PREFIX_CASE, 'snake');
 
         $model = new ModelA();
 
@@ -162,8 +163,8 @@ class ModelHashIdGeneratorTest extends TestCase
     public function it_can_build_a_kebab_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        Config::set(Config::PREFIX_LENGTH, 6);
-        Config::set(Config::PREFIX_CASE, 'kebab');
+        Config::set(ConfigParameters::PREFIX_LENGTH, 6);
+        Config::set(ConfigParameters::PREFIX_CASE, 'kebab');
 
         $model = new ModelA();
 
@@ -178,8 +179,8 @@ class ModelHashIdGeneratorTest extends TestCase
     public function it_can_build_a_title_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        Config::set(Config::PREFIX_LENGTH, 6);
-        Config::set(Config::PREFIX_CASE, 'title');
+        Config::set(ConfigParameters::PREFIX_LENGTH, 6);
+        Config::set(ConfigParameters::PREFIX_CASE, 'title');
 
         $model = new ModelA();
 
@@ -194,8 +195,8 @@ class ModelHashIdGeneratorTest extends TestCase
     public function it_can_build_a_studly_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        Config::set(Config::PREFIX_LENGTH, 6);
-        Config::set(Config::PREFIX_CASE, 'studly');
+        Config::set(ConfigParameters::PREFIX_LENGTH, 6);
+        Config::set(ConfigParameters::PREFIX_CASE, 'studly');
 
         $model = new ModelA();
 
@@ -210,8 +211,8 @@ class ModelHashIdGeneratorTest extends TestCase
     public function it_can_build_a_plural_studly_case_prefix_from_a_model(): void
     {
         // 1️⃣ Arrange 🏗
-        Config::set(Config::PREFIX_LENGTH, 6);
-        Config::set(Config::PREFIX_CASE, 'plural_studly');
+        Config::set(ConfigParameters::PREFIX_LENGTH, 6);
+        Config::set(ConfigParameters::PREFIX_CASE, 'plural_studly');
 
         $model = new ModelA();
 
@@ -228,10 +229,10 @@ class ModelHashIdGeneratorTest extends TestCase
     public function it_can_generate_model_hashIds_using_generic_configuration(): void
     {
         // 1️⃣ Arrange 🏗
-        Config::set(Config::SEPARATOR, '@');
-        Config::set(Config::LENGTH, 5);
-        Config::set(Config::PREFIX_CASE, 'lower');
-        Config::set(Config::PREFIX_LENGTH, 4);
+        Config::set(ConfigParameters::SEPARATOR, '@');
+        Config::set(ConfigParameters::LENGTH, 5);
+        Config::set(ConfigParameters::PREFIX_CASE, 'lower');
+        Config::set(ConfigParameters::PREFIX_LENGTH, 4);
 
         $model = ModelA::factory()->create();
 
@@ -251,15 +252,15 @@ class ModelHashIdGeneratorTest extends TestCase
     public function it_can_generate_model_hashIds_with_different_configurations(): void
     {
         // 1️⃣ Arrange 🏗
-        Config::set(Config::SEPARATOR, '_', ModelA::class);
-        Config::set(Config::LENGTH, 5, ModelA::class);
-        Config::set(Config::PREFIX_CASE, 'upper', ModelA::class);
-        Config::set(Config::PREFIX_LENGTH, 3, ModelA::class);
+        Config::set(ConfigParameters::SEPARATOR, '_', ModelA::class);
+        Config::set(ConfigParameters::LENGTH, 5, ModelA::class);
+        Config::set(ConfigParameters::PREFIX_CASE, 'upper', ModelA::class);
+        Config::set(ConfigParameters::PREFIX_LENGTH, 3, ModelA::class);
 
-        Config::set(Config::SEPARATOR, '#', ModelB::class);
-        Config::set(Config::LENGTH, 10, ModelB::class);
-        Config::set(Config::PREFIX_CASE, 'lower', ModelB::class);
-        Config::set(Config::PREFIX_LENGTH, 4, ModelB::class);
+        Config::set(ConfigParameters::SEPARATOR, '#', ModelB::class);
+        Config::set(ConfigParameters::LENGTH, 10, ModelB::class);
+        Config::set(ConfigParameters::PREFIX_CASE, 'lower', ModelB::class);
+        Config::set(ConfigParameters::PREFIX_LENGTH, 4, ModelB::class);
 
         $modelA = ModelA::factory()->create();
         $modelB = ModelB::factory()->create();
@@ -291,14 +292,14 @@ class ModelHashIdGeneratorTest extends TestCase
         $modelLength = 5;
         $modelPrefixLength = 3;
 
-        Config::set(Config::SEPARATOR, $modelSeparator, ModelA::class);
-        Config::set(Config::LENGTH, $modelLength, ModelA::class);
-        Config::set(Config::PREFIX_LENGTH, $modelPrefixLength, ModelA::class);
+        Config::set(ConfigParameters::SEPARATOR, $modelSeparator, ModelA::class);
+        Config::set(ConfigParameters::LENGTH, $modelLength, ModelA::class);
+        Config::set(ConfigParameters::PREFIX_LENGTH, $modelPrefixLength, ModelA::class);
 
-        Config::set(Config::SEPARATOR, '#', ModelB::class);
-        Config::set(Config::LENGTH, '4', ModelB::class);
-        Config::set(Config::PREFIX_CASE, 'lower', ModelB::class);
-        Config::set(Config::PREFIX_LENGTH, 4, ModelB::class);
+        Config::set(ConfigParameters::SEPARATOR, '#', ModelB::class);
+        Config::set(ConfigParameters::LENGTH, '4', ModelB::class);
+        Config::set(ConfigParameters::PREFIX_CASE, 'lower', ModelB::class);
+        Config::set(ConfigParameters::PREFIX_LENGTH, 4, ModelB::class);
 
         $model = ModelA::factory()->create();
         $hashId = Generator::forModel($model);

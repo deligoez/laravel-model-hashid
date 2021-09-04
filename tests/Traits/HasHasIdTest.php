@@ -11,6 +11,7 @@ use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Deligoez\LaravelModelHashId\Support\Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
+use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 
 class HasHasIdTest extends TestCase
 {
@@ -27,7 +28,7 @@ class HasHasIdTest extends TestCase
         $hash = $model->hashId;
 
         // 2️⃣ Act 🏋🏻‍
-        Config::set(Config::SALT, Str::random());
+        Config::set(ConfigParameters::SALT, Str::random());
 
         // 3️⃣ Assert ✅
         $newHash = ModelA::findOrFail($model->getKey())->hashId;
@@ -39,7 +40,7 @@ class HasHasIdTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $randomLength = $this->faker->numberBetween(5, 20);
-        Config::set(Config::LENGTH, $randomLength);
+        Config::set(ConfigParameters::LENGTH, $randomLength);
 
         $model = ModelA::factory()->create();
 
@@ -47,8 +48,8 @@ class HasHasIdTest extends TestCase
         $hashId = $model->hashId;
 
         // 3️⃣ Assert ✅
-        $length = mb_strlen(Config::get(Config::SEPARATOR)) +
-            Config::get(Config::PREFIX_LENGTH) +
+        $length = mb_strlen(Config::get(ConfigParameters::SEPARATOR)) +
+            Config::get(ConfigParameters::PREFIX_LENGTH) +
             $randomLength;
 
         $this->assertEquals($length, mb_strlen($hashId));
@@ -59,7 +60,7 @@ class HasHasIdTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $customAlphabet = 'abcdef1234567890';
-        Config::set(Config::ALPHABET, $customAlphabet);
+        Config::set(ConfigParameters::ALPHABET, $customAlphabet);
 
         $model = ModelA::factory()->create();
 
@@ -80,7 +81,7 @@ class HasHasIdTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $customAlphabet = '😀😃😄😁😆😅😂🤣🥲☺️😊😇🙂🙃😉😌';
-        Config::set(Config::ALPHABET, $customAlphabet);
+        Config::set(ConfigParameters::ALPHABET, $customAlphabet);
 
         $model = ModelA::factory()->create();
 

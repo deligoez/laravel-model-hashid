@@ -9,9 +9,21 @@ use Closure;
 /** @mixin \Illuminate\Database\Eloquent\Builder */
 class FindByHashIdMixin
 {
+    /**
+     * Find a model by its Hash Id.
+     *
+     * @return \Closure
+     */
     public function findByHashId(): Closure
     {
-        return function (mixed $id, $columns = ['*']) {
+        /**
+         * Find a model by its Hash Id.
+         *
+         * @param  mixed  $id
+         * @param  array  $columns
+         * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static[]|static|null
+         */
+        return function ($id, $columns = ['*']) {
             return $this->find($this->getModel()->keyFromHashId($id), $columns);
         };
     }
