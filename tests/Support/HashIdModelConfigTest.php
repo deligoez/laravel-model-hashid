@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Tests\Support;
 
-use Config;
+use Config as LaravelConfig;
 use Illuminate\Foundation\Testing\WithFaker;
+use Deligoez\LaravelModelHashId\Support\Config;
 use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Deligoez\LaravelModelHashId\Support\HashIdModelConfig;
-use Deligoez\LaravelModelHashId\Exceptions\UnknownHashIDConfigParameterException;
+use Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException;
 
 class HashIdModelConfigTest extends TestCase
 {
@@ -22,14 +22,14 @@ class HashIdModelConfigTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $genericSeparator = '@';
-        Config::set(HashIdModelConfig::CONFIG_FILE_NAME.'.' . HashIdModelConfig::SEPARATOR, $genericSeparator);
+        LaravelConfig::set(Config::CONFIG_FILE_NAME.'.' . Config::SEPARATOR, $genericSeparator);
         $newSeparator = '*';
 
         // 2️⃣ Act 🏋🏻‍
-        HashIdModelConfig::set(HashIdModelConfig::SEPARATOR, $newSeparator);
+        Config::set(Config::SEPARATOR, $newSeparator);
 
         // 3️⃣ Assert ✅
-        $this->assertEquals($newSeparator, HashIdModelConfig::get(HashIdModelConfig::SEPARATOR));
+        $this->assertEquals($newSeparator, Config::get(Config::SEPARATOR));
     }
 
     /** @test */
@@ -37,10 +37,10 @@ class HashIdModelConfigTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $genericSeparator = '#';
-        HashIdModelConfig::set(HashIdModelConfig::SEPARATOR, $genericSeparator);
+        Config::set(Config::SEPARATOR, $genericSeparator);
 
         // 2️⃣ Act 🏋🏻‍
-        $separator = HashIdModelConfig::get(HashIdModelConfig::SEPARATOR);
+        $separator = Config::get(Config::SEPARATOR);
 
         // 3️⃣ Assert ✅
         $this->assertEquals($separator, $genericSeparator);
@@ -51,11 +51,11 @@ class HashIdModelConfigTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $genericSeparator = '#';
-        HashIdModelConfig::set(HashIdModelConfig::SEPARATOR, $genericSeparator);
+        Config::set(Config::SEPARATOR, $genericSeparator);
 
         // 2️⃣ Act 🏋🏻‍
-        $modelASeparator = HashIdModelConfig::get(HashIdModelConfig::SEPARATOR, ModelA::class);
-        $modelBSeparator = HashIdModelConfig::get(HashIdModelConfig::SEPARATOR, ModelB::class);
+        $modelASeparator = Config::get(Config::SEPARATOR, ModelA::class);
+        $modelBSeparator = Config::get(Config::SEPARATOR, ModelB::class);
 
         // 3️⃣ Assert ✅
         $this->assertEquals($genericSeparator, $modelASeparator);
@@ -68,17 +68,17 @@ class HashIdModelConfigTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $genericSeparator = '#';
-        HashIdModelConfig::set(HashIdModelConfig::SEPARATOR, $genericSeparator);
+        Config::set(Config::SEPARATOR, $genericSeparator);
 
         $modelASpecificSeparator = '!';
-        HashIdModelConfig::set(HashIdModelConfig::SEPARATOR, $modelASpecificSeparator, ModelA::class);
+        Config::set(Config::SEPARATOR, $modelASpecificSeparator, ModelA::class);
 
         $modelBSpecificSeparator = '@';
-        HashIdModelConfig::set(HashIdModelConfig::SEPARATOR, $modelBSpecificSeparator, ModelB::class);
+        Config::set(Config::SEPARATOR, $modelBSpecificSeparator, ModelB::class);
 
         // 2️⃣ Act 🏋🏻‍
-        $modelASeparator = HashIdModelConfig::get(HashIdModelConfig::SEPARATOR, ModelA::class);
-        $modelBSeparator = HashIdModelConfig::get(HashIdModelConfig::SEPARATOR, ModelB::class);
+        $modelASeparator = Config::get(Config::SEPARATOR, ModelA::class);
+        $modelBSeparator = Config::get(Config::SEPARATOR, ModelB::class);
 
         // 3️⃣ Assert ✅
         $this->assertEquals($modelASpecificSeparator, $modelASeparator);
@@ -90,14 +90,14 @@ class HashIdModelConfigTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $genericSeparator = '#';
-        HashIdModelConfig::set(HashIdModelConfig::SEPARATOR, $genericSeparator);
+        Config::set(Config::SEPARATOR, $genericSeparator);
 
         $modelSpecificSeparator = '!';
-        HashIdModelConfig::set(HashIdModelConfig::SEPARATOR, $modelSpecificSeparator, ModelA::class);
+        Config::set(Config::SEPARATOR, $modelSpecificSeparator, ModelA::class);
 
         // 2️⃣ Act 🏋🏻‍
-        $modelSeparatorViaInstance = HashIdModelConfig::get(HashIdModelConfig::SEPARATOR, new ModelA());
-        $modelSeparatorViaClassName = HashIdModelConfig::get(HashIdModelConfig::SEPARATOR, ModelA::class);
+        $modelSeparatorViaInstance = Config::get(Config::SEPARATOR, new ModelA());
+        $modelSeparatorViaClassName = Config::get(Config::SEPARATOR, ModelA::class);
 
         // 3️⃣ Assert ✅
         $this->assertEquals($modelSpecificSeparator, $modelSeparatorViaInstance);
@@ -111,8 +111,8 @@ class HashIdModelConfigTest extends TestCase
         // 1️⃣ Arrange 🏗
         $genericSeparator = '#';
         $genericLength = 5;
-        HashIdModelConfig::set(HashIdModelConfig::SEPARATOR, $genericSeparator);
-        HashIdModelConfig::set(HashIdModelConfig::LENGTH, $genericLength);
+        Config::set(Config::SEPARATOR, $genericSeparator);
+        Config::set(Config::LENGTH, $genericLength);
 
         $modelASpecificSeparator = '!';
         $modelASpecificLength = 6;
@@ -121,28 +121,28 @@ class HashIdModelConfigTest extends TestCase
         $modelBSpecificLength = 10;
 
         // 2️⃣ Act 🏋🏻‍
-        HashIdModelConfig::set(HashIdModelConfig::SEPARATOR, $modelASpecificSeparator, ModelA::class);
-        HashIdModelConfig::set(HashIdModelConfig::LENGTH, $modelASpecificLength, ModelA::class);
+        Config::set(Config::SEPARATOR, $modelASpecificSeparator, ModelA::class);
+        Config::set(Config::LENGTH, $modelASpecificLength, ModelA::class);
 
-        HashIdModelConfig::set(HashIdModelConfig::SEPARATOR, $modelBSpecificSeparator, ModelB::class);
-        HashIdModelConfig::set(HashIdModelConfig::LENGTH, $modelBSpecificLength, ModelB::class);
+        Config::set(Config::SEPARATOR, $modelBSpecificSeparator, ModelB::class);
+        Config::set(Config::LENGTH, $modelBSpecificLength, ModelB::class);
 
         // 3️⃣ Assert ✅
-        $this->assertEquals($modelASpecificSeparator, HashIdModelConfig::get(HashIdModelConfig::SEPARATOR, ModelA::class));
-        $this->assertEquals($modelASpecificLength, HashIdModelConfig::get(HashIdModelConfig::LENGTH, ModelA::class));
+        $this->assertEquals($modelASpecificSeparator, Config::get(Config::SEPARATOR, ModelA::class));
+        $this->assertEquals($modelASpecificLength, Config::get(Config::LENGTH, ModelA::class));
 
-        $this->assertEquals($modelBSpecificSeparator, HashIdModelConfig::get(HashIdModelConfig::SEPARATOR, ModelB::class));
-        $this->assertEquals($modelBSpecificLength, HashIdModelConfig::get(HashIdModelConfig::LENGTH, ModelB::class));
+        $this->assertEquals($modelBSpecificSeparator, Config::get(Config::SEPARATOR, ModelB::class));
+        $this->assertEquals($modelBSpecificLength, Config::get(Config::LENGTH, ModelB::class));
     }
 
     /** @test */
     public function it_throws_a_runtime_exception_for_unknown_parameters(): void
     {
         // 3️⃣ Assert ✅
-        $this->expectException(UnknownHashIDConfigParameterException::class);
+        $this->expectException(UnknownHashIdConfigParameterException::class);
 
         // 2️⃣ Act 🏋🏻‍
-        HashIdModelConfig::isParameterDefined('unknown-config');
+        Config::isParameterDefined('unknown-config');
     }
 
     /** @test */
@@ -152,6 +152,6 @@ class HashIdModelConfigTest extends TestCase
         $this->expectException(ModelNotFoundException::class);
 
         // 2️⃣ Act 🏋🏻‍
-        HashIdModelConfig::isModelClassExist('class-that-does-not-exist');
+        Config::isModelClassExist('class-that-does-not-exist');
     }
 }

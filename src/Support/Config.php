@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Support;
 
-use Config;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config as LaravelConfig;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException;
 
-class HashIdModelConfig
+class Config
 {
     public const CONFIG_FILE_NAME = 'model-hashid';
 
@@ -39,7 +39,7 @@ class HashIdModelConfig
         self::isParameterDefined($parameter);
 
         if ($model === null) {
-            return Config::get(self::CONFIG_FILE_NAME.'.'.$parameter);
+            return LaravelConfig::get(self::CONFIG_FILE_NAME.'.'.$parameter);
         }
 
         self::isModelClassExist($model);
@@ -47,12 +47,12 @@ class HashIdModelConfig
         $className = $model instanceof Model ? get_class($model) : $model;
 
         // Return specific config for model if defined
-        if (Arr::has(Config::get(self::CONFIG_FILE_NAME. '.' . self::GENERATORS), $className.'.'.$parameter)) {
-            return Config::get(self::CONFIG_FILE_NAME. '.' . self::GENERATORS)[$className][$parameter];
+        if (Arr::has(LaravelConfig::get(self::CONFIG_FILE_NAME. '.' . self::GENERATORS), $className.'.'.$parameter)) {
+            return LaravelConfig::get(self::CONFIG_FILE_NAME. '.' . self::GENERATORS)[$className][$parameter];
         }
 
         // Return generic config
-        return Config::get(self::CONFIG_FILE_NAME.'.'.$parameter);
+        return LaravelConfig::get(self::CONFIG_FILE_NAME.'.'.$parameter);
     }
 
     public static function set(string $parameter, string | int $value, Model | string | null $model = null): void
@@ -60,7 +60,7 @@ class HashIdModelConfig
         self::isParameterDefined($parameter);
 
         if ($model === null) {
-            Config::set(self::CONFIG_FILE_NAME.'.'.$parameter, $value);
+            LaravelConfig::set(self::CONFIG_FILE_NAME.'.'.$parameter, $value);
 
             return;
         }
@@ -69,11 +69,11 @@ class HashIdModelConfig
 
         $className = $model instanceof Model ? get_class($model) : $model;
 
-        $generatorsConfig = Config::get(self::CONFIG_FILE_NAME. '.'. self::GENERATORS);
+        $generatorsConfig = LaravelConfig::get(self::CONFIG_FILE_NAME. '.'. self::GENERATORS);
 
         $generatorsConfig[$className][$parameter] = $value;
 
-        Config::set(self::CONFIG_FILE_NAME. '.' . self::GENERATORS, $generatorsConfig);
+        LaravelConfig::set(self::CONFIG_FILE_NAME. '.' . self::GENERATORS, $generatorsConfig);
     }
 
     /**

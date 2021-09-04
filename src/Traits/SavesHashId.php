@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashId\Traits;
 
 use Illuminate\Database\Eloquent\Model;
-use Deligoez\LaravelModelHashId\Support\HashIdModelConfig;
+use Deligoez\LaravelModelHashId\Support\Config;
 
 trait SavesHashId
 {
@@ -13,7 +13,7 @@ trait SavesHashId
     {
         static::created(
             function (Model $model) {
-                $column = HashIdModelConfig::get(HashIdModelConfig::DATABASE_COLUMN, $model);
+                $column = Config::get(Config::DATABASE_COLUMN, $model);
 
                 $model
                     ->fill([$column => $model->hashId])

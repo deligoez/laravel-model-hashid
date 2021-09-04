@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashId\Traits;
 
 use Hashids\HashidsInterface;
-use Deligoez\LaravelModelHashId\Support\ModelHashIdGenerator;
+use Deligoez\LaravelModelHashId\Support\Generator;
 
 trait HasHashId
 {
@@ -18,25 +18,25 @@ trait HasHashId
      */
     public function initializeHasHashId(): void
     {
-        $this->hashIdGenerator = ModelHashIdGenerator::build($this);
+        $this->hashIdGenerator = Generator::build($this);
     }
 
     public static function keyFromHashID(string $hashId): ?int
     {
-        $hashIdInstance = ModelHashIdGenerator::parseHashIDForModel($hashId);
+        $hashIdInstance = Generator::parseHashIDForModel($hashId);
 
         if ($hashIdInstance === null) {
             return null;
         }
 
-        $generator = ModelHashIdGenerator::build(__CLASS__);
+        $generator = Generator::build(__CLASS__);
 
         return $generator->decode($hashIdInstance->hashIdForKey)[0];
     }
 
     public function getHashIdAttribute(): ?string
     {
-        return ModelHashIdGenerator::forModel($this);
+        return Generator::forModel($this);
     }
 
     public function getHashIdRawAttribute(): string
