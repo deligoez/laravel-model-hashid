@@ -49,7 +49,7 @@ class ConfigParameters
     /*
      * Hash Id configuration key name for GENERATORS.
      */
-    public const GENERATORS = 'generators';
+    public const MODEL_GENERATORS = 'model_generators';
 
     /*
      * All Hash Id configuration parameter keys.
@@ -62,6 +62,6 @@ class ConfigParameters
         self::PREFIX_CASE,
         self::SEPARATOR,
         self::DATABASE_COLUMN,
-        self::GENERATORS,
+        self::MODEL_GENERATORS,
     ];
 }

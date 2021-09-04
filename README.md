@@ -46,7 +46,7 @@ You have complete control over your Hash Id length and style. Check out the conf
     - [Model Hash Id Generation](#model-hash-id-generation)
         - [Model Attributes and Static Model Functions](#model-attributes-and-static-model-functions)
         - [Query Builder Functions](#query-builder-functions)
-    - [Routing and Route Model Binding using Hash Ids](#routing-and-route-model-binding-using-hash-ids)
+    - [Routing and Route Model Binding (Optional)](#routing-and-route-model-binding-optional)
         - [Route Model Binding (Implicit)](#route-model-binding-implicit)
         - [Route Model Binding (Explicit)](#route-model-binding-explicit)
     - [Saving Hash Ids to the Database (Optional)](#saving-hash-ids-to-the-database-optional)
@@ -343,7 +343,7 @@ return [
     |
     */
 
-    'generators' => [
+    'model_generators' => [
         // App\Models\User::class => [
         //     'salt'            => 'your-model-specific-salt-string',
         //     'length'          => 13,

@@ -117,7 +117,7 @@ return [
     |
     */
 
-    'generators' => [
+    'model_generators' => [
         // App\Models\User::class => [
         //     'salt'            => 'your-model-specific-salt-string',
         //     'length'          => 13,

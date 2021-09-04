@@ -51,7 +51,7 @@ class Generator
 
     public static function parseHashIDForModel(string $hashId): ?ModelHashId
     {
-        $generators = Config::get(ConfigParameters::GENERATORS);
+        $generators = Config::get(ConfigParameters::MODEL_GENERATORS);
 
         foreach ($generators as $modelClassName => $generator) {
             $prefix = self::buildPrefixForModel($modelClassName);
