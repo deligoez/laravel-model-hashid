@@ -7,4 +7,12 @@ parameters:
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
     checkModelProperties: true
-    checkMissingIterableValueType: false
+    checkMissingIterableValueType: true
+    ignoreErrors:
+        - '#::whereHashIdNot\(\).#'
+        - '#::findOrNewByHashId\(\).#'
+        - '#::findOrFailByHashId\(\).#'
+        - '#::findManyByHashId\(\).#'
+        - '#::findByHashId\(\).#'
+        - '#::keyFromHashId\(\).#'
+        - '#Access to an undefined property [a-zA-Z0-9\\_]+::\$hashId#'
