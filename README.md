@@ -17,7 +17,8 @@
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)    
 [![tests](https://github.com/deligoez/laravel-model-hashid/actions/workflows/run-tests.yml/badge.svg)](https://github.com/deligoez/laravel-model-hashid/actions/workflows/run-tests.yml)
 [![code style](https://github.com/deligoez/laravel-model-hashid/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/deligoez/laravel-model-hashid/actions/workflows/php-cs-fixer.yml)
-[![types](https://github.com/deligoez/laravel-model-hashid/actions/workflows/phpstan.yml/badge.svg)](https://github.com/deligoez/laravel-model-hashid/actions/workflows/phpstan.yml)   
+[![types](https://github.com/deligoez/laravel-model-hashid/actions/workflows/phpstan.yml/badge.svg)](https://github.com/deligoez/laravel-model-hashid/actions/workflows/phpstan.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=alert_status)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)   
 [![Open Source Love](https://badges.frapsoft.com/os/v3/open-source.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
 
 </div>
