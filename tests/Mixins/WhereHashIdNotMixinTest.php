@@ -16,7 +16,9 @@ class WhereHashIdNotMixinTest extends TestCase
     public function it_can_query_that_a_model_will_not_be_retrieved_by_its_hashId(): void
     {
         // 1️⃣ Arrange 🏗
+        /** @var ModelA $model1 */
         $model1 = ModelA::factory()->create();
+        /** @var ModelA $model2 */
         $model2 = ModelA::factory()->create();
 
         // 2️⃣ Act 🏋🏻‍

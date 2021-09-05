@@ -12,7 +12,9 @@ use Illuminate\Database\Eloquent\Model;
 class Generator
 {
     /**
-     * @throws \ReflectionException
+     * Builds the model prefix according to the model or generic configuration.
+     *
+     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
     public static function buildPrefixForModel(Model | string $model): string
     {
@@ -36,6 +38,11 @@ class Generator
         };
     }
 
+    /**
+     * Generates the Hash Id for the given model.
+     *
+     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
+     */
     public static function forModel(Model $model): ?string
     {
         if ($model->getKey() === null) {
@@ -49,7 +56,12 @@ class Generator
         return "{$prefix}{$separator}{$hashId}";
     }
 
-    public static function parseHashIDForModel(string $hashId): ?ModelHashId
+    /**
+     * Parses the given Hash Id and returns a HashIdDTO.
+     *
+     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
+     */
+    public static function parseHashIDForModel(string $hashId): ?HashIdDTO
     {
         $generators = Config::get(ConfigParameters::MODEL_GENERATORS);
 
@@ -86,6 +98,11 @@ class Generator
         return null;
     }
 
+    /**
+     * Builds a Hash Id generator for the given model.
+     *
+     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
+     */
     public static function build(Model | string $model): HashidsInterface
     {
         Config::isModelClassExist($model);

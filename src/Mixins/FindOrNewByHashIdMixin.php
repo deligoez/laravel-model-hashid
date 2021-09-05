@@ -24,6 +24,7 @@ class FindOrNewByHashIdMixin
          * @return \Illuminate\Database\Eloquent\Model|static
          */
         return function ($id, $columns = ['*']) {
+            /** @var \Illuminate\Database\Eloquent\Builder $this */
             return $this->findOrNew($this->getModel()->keyFromHashId($id), $columns);
         };
     }

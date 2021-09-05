@@ -21,12 +21,14 @@ class FindOrFailByHashIdMixin
          *
          * @param  mixed  $id
          * @param  array  $columns
+         *
          * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static|static[]
          *
          * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
          */
         return function ($id, $columns = ['*']) {
-            return $this->findOrFail($this->getModel()->keyFromHashID($id), $columns);
+            /** @var \Illuminate\Database\Eloquent\Builder $this */
+            return $this->findOrFail($this->getModel()->keyFromHashId($id), $columns);
         };
     }
 }

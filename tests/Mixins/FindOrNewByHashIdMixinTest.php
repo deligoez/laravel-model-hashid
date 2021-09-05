@@ -20,7 +20,7 @@ class FindOrNewByHashIdMixinTest extends TestCase
         $hashId = $model->hashId;
 
         // 2️⃣ Act 🏋🏻‍
-        /** @var ModelA $newModel */
+        /** @var ModelA $foundModel */
         $foundModel = ModelA::findOrNewByHashId($hashId);
 
         // 3️⃣ Assert ✅
@@ -36,7 +36,7 @@ class FindOrNewByHashIdMixinTest extends TestCase
         $selectedColumns = ['id'];
 
         // 2️⃣ Act 🏋🏻‍
-        /** @var ModelA $newModel */
+        /** @var ModelA $foundModel */
         $foundModel = ModelA::findOrNewByHashId($hashId, $selectedColumns);
 
         // 3️⃣ Assert ✅

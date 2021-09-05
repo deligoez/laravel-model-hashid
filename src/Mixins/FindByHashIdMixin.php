@@ -24,6 +24,7 @@ class FindByHashIdMixin
          * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static[]|static|null
          */
         return function ($id, $columns = ['*']) {
+            /** @var \Illuminate\Database\Eloquent\Builder $this */
             return $this->find($this->getModel()->keyFromHashId($id), $columns);
         };
     }
