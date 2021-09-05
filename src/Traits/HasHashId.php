@@ -34,11 +34,15 @@ trait HasHashId
     /**
      * Get the Raw Hash Id for the model.
      *
-     * @return string
+     * @return ?string
      */
-    public function getHashIdRawAttribute(): string
+    public function getHashIdRawAttribute(): ?string
     {
-        return $this->hashIdGenerator->encode($this->getKey());
+        $key = $this->getKey();
+
+        return $key === null
+            ? null
+            : $this->hashIdGenerator->encode($this->getKey());
     }
 
     /**

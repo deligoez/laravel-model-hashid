@@ -20,10 +20,13 @@ class HasHasIdTest extends TestCase
 
     // region Trait Initialization
 
-    /** @test */
+    /** @test
+     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
+     */
     public function model_hashId_salt_can_be_defined(): void
     {
         // 1️⃣ Arrange 🏗
+        /** @var ModelA $model */
         $model = ModelA::factory()->create();
         $hash = $model->hashId;
 
@@ -109,7 +112,7 @@ class HasHasIdTest extends TestCase
         $hashId = $model->hashId;
 
         // 2️⃣ Act 🏋🏻‍
-        $key = ModelA::keyFromHashID($hashId);
+        $key = ModelA::keyFromHashId($hashId);
 
         // 3️⃣ Assert ✅
         $this->assertEquals($model->getKey(), $key);
@@ -119,7 +122,7 @@ class HasHasIdTest extends TestCase
     public function it_returns_null_if_hashId_can_not_parsable(): void
     {
         // 2️⃣ Act 🏋🏻‍
-        $key = ModelA::keyFromHashID('non-existing-hash-id');
+        $key = ModelA::keyFromHashId('non-existing-hash-id');
 
         // 3️⃣ Assert ✅
         $this->assertNull($key);
@@ -140,7 +143,7 @@ class HasHasIdTest extends TestCase
         $key = $model->getKey();
 
         // 3️⃣ Assert ✅
-        $this->assertEquals($key, ModelA::keyFromHashID($hashId));
+        $this->assertEquals($key, ModelA::keyFromHashId($hashId));
     }
 
     /** @test */
@@ -155,6 +158,20 @@ class HasHasIdTest extends TestCase
         // 3️⃣ Assert ✅
         $hashIdRaw = Generator::parseHashIDForModel($model->hashId)->hashIdForKey;
         $this->assertEquals($hashIdRaw, $hashIdRawAttribute);
+    }
+
+    /** @test */
+    public function it_returns_null_if_model_does_not_have_a_key_for_hashIdRaw(): void
+    {
+        // 1️⃣ Arrange 🏗
+        /** @var ModelA $model */
+        $model = ModelA::factory()->make();
+
+        // 2️⃣ Act 🏋🏻‍
+        $hashIdRawAttribute = $model->hashIdRaw;
+
+        // 3️⃣ Assert ✅
+        $this->assertNull($hashIdRawAttribute);
     }
 
     // endregion
