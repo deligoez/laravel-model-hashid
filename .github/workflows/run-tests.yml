@@ -3,8 +3,20 @@ name: tests
 on:
   push:
     branches: [main]
+    paths:
+      - '**.php'
+      - 'testbench.yaml'
+      - 'phpunit.xml.dist'
+      - 'run-tests.yml'
+      - 'php-cs-fixer.yml'
   pull_request:
     branches: [main]
+    paths:
+      - '**.php'
+      - 'testbench.yaml'
+      - 'phpunit.xml.dist'
+      - 'run-tests.yml'
+      - 'php-cs-fixer.yml'
 
 jobs:
   test:

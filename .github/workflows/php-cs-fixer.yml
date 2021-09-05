@@ -1,6 +1,13 @@
 name: code style
 
-on: [push]
+on:
+  push:
+    paths:
+      - '**.php'
+      - 'testbench.yaml'
+      - 'phpunit.xml.dist'
+      - 'run-tests.yml'
+      - 'php-cs-fixer.yml'
 
 jobs:
   php-cs-fixer:
