@@ -7,6 +7,12 @@ namespace Deligoez\LaravelModelHashId\Traits;
 use Hashids\HashidsInterface;
 use Deligoez\LaravelModelHashId\Support\Generator;
 
+/**
+ * @mixin \Illuminate\Database\Eloquent\Model
+ *
+ * @property-read string $hashId
+ * @property-read string $hashIdRaw
+ */
 trait HasHashId
 {
     protected ?HashidsInterface $hashIdGenerator = null;
@@ -55,8 +61,10 @@ trait HasHashId
      * @param  string  $hashId
      *
      * @return int|null
+     *
+     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
-    public static function keyFromHashID(string $hashId): ?int
+    public static function keyFromHashId(string $hashId): ?int
     {
         $hashIdInstance = Generator::parseHashIDForModel($hashId);
 

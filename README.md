@@ -109,14 +109,14 @@ class ModelA extends Model
 
 #### Model Attributes and Static Model Functions
 
-You will be able to use `hashId` and `hashIdRaw` attributes and `keyFromHashID()` static model function.
+You will be able to use `hashId` and `hashIdRaw` attributes and `keyFromHashId()` static model function.
 
 ```php
 $modelA = ModelA::find(1234);
 $modelA->hashId;    // model_a_kqYZeLgo
 $modelA->hashIdRaw; // kqYZeLgo
 
-ModelA::keyFromHashID('model_a_kqYZeLgo') // 1234
+ModelA::keyFromHashId('model_a_kqYZeLgo') // 1234
 ```
 
 #### Query Builder Functions
