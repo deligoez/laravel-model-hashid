@@ -12,13 +12,13 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
         php: [8.0]
         laravel: [8.*]
-        stability: [prefer-lowest, prefer-stable]
+        stability: [prefer-stable]
         include:
           - laravel: 8.*
-            testbench: ^6.6
+          - testbench: ^6.6
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
@@ -31,10 +31,11 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
-          coverage: none
+          coverage: xdebug
 
       - name: Setup problem matchers
         run: |
+          mkdir -p build/logs
           echo "::add-matcher::${{ runner.tool_cache }}/php.json"
           echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
@@ -44,4 +45,16 @@ jobs:
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
       - name: Execute tests
-        run: vendor/bin/testbench package:test --parallel --no-coverage
+        run: vendor/bin/testbench package:test --parallel
+
+      - name: Replace clover.xml paths
+        run: |
+          sed -i 's|/home/runner/work/laravel-model-hashid/laravel-model-hashid/src|/github/workspace/src|g' build/logs/clover.xml
+          sed -i 's|/home/runner/work/laravel-model-hashid/laravel-model-hashid/src|/github/workspace/src|g' build/logs/tests.xml
+
+
+      - name: SonarCloud
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
