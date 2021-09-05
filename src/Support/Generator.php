@@ -61,7 +61,7 @@ class Generator
             $hashIdForKeyArray = explode($prefix.$separator, $hashId);
 
             if (isset($hashIdForKeyArray[1]) && mb_strlen($hashIdForKeyArray[1]) === $length) {
-                return new ModelHashId(
+                return new HashIdDTO(
                     prefix: $prefix,
                     separator: $separator,
                     hashIdForKey: $hashIdForKeyArray[1],
@@ -75,7 +75,7 @@ class Generator
         $genericPrefixLength = Config::get(ConfigParameters::PREFIX_LENGTH);
 
         if ($genericLength + $genericPrefixLength + mb_strlen($genericSeparator) === mb_strlen($hashId)) {
-            return new ModelHashId(
+            return new HashIdDTO(
                 prefix: mb_substr($hashId, 0, $genericPrefixLength),
                 separator: $genericSeparator,
                 hashIdForKey: mb_substr($hashId, $genericLength * -1),
