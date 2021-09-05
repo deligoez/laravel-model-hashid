@@ -54,7 +54,7 @@
     },
     "scripts": {
         "lint": "php-cs-fixer fix -v",
-        "phpstan": "vendor/bin/phpstan analyse",
+        "phpstan": "vendor/bin/phpstan analyse --memory-limit=-1",
         "test": "./vendor/bin/testbench package:test --parallel --no-coverage",
         "test-coverage": "vendor/bin/phpunit --coverage-text"
     },
