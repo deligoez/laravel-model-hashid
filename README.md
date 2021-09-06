@@ -43,7 +43,7 @@ You have complete control over your Hash Id length and style. Check out the conf
 ## Table of contents
 
 - [Features](#features)
-- [Requirements](#requirements)
+- [Compatibility Table](#compatibility-table)
 - [Installation](#installation)
 - [Usage](#usage)
     - [Model Hash Id Generation](#model-hash-id-generation)
@@ -72,14 +72,20 @@ You have complete control over your Hash Id length and style. Check out the conf
   - Model Prefix Length and Case
   - Separator
 - Model Specific Hash Id Generation
-  - You can set separate configurations per Model
-- Route (Model) Binding using Hash Ids (if you want to)
-- Automatically save Hash Ids to the database (if you want to)
+  - Define separate configurations per Model
+- Route (Model) Binding using Hash Ids (optional)
+- Automatically save Hash Ids to the database (optional)
 
-## Requirements
+## Compatibility Table
 
-- Laravel `8.0` or higher
-- PHP `8.0` or higher
+The table below shows the compatibility across Laravel, PHP, and this package's **current version**.
+
+| Package Version | Laravel version | PHP version | Compatible |
+|-----------------|-----------------|-------------|------------|
+|    ^1.0         |       8.*       |       8.0.* |      ✅    |
+|                 |       8.*       |       7.4.* |      ❌    |
+|                 |       8.*       |       7.3.* |      ❌    |
+|                 |       7.x       |           * |      ❌    |
 
 ## Installation
 
@@ -370,6 +376,12 @@ return [
 ```bash
 composer test
 ```
+
+## Used By
+
+This project is used by the following companies/products, you can add yours too:
+
+- [blindnote.com](https://blindnote.com/)
 
 ## Changelog
 
