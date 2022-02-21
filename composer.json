@@ -1,6 +1,8 @@
 {
     "name": "deligoez/laravel-model-hashid",
     "description": "Generate, Save, and Route Stripe-like Hash IDs for Laravel Eloquent Models",
+    "license": "MIT",
+    "type": "library",
     "keywords": [
         "deligoez",
         "laravel",
@@ -8,21 +10,19 @@
         "laravel-model-hashid",
         "hashids"
     ],
+    "authors": [
+        {
+            "name": "Yunus Emre Deligöz",
+            "email": "ye@deligoz.me",
+            "homepage": "https://www.deligoz.me",
+            "role": "Developer"
+        }
+    ],
     "homepage": "https://github.com/deligoez/laravel-model-hashid",
-    "license": "MIT",
-    "type": "library",
     "support": {
         "issues": "https://github.com/deligoez/laravel-model-hashid/issues",
         "source": "https://github.com/deligoez/laravel-model-hashid"
     },
-    "authors": [
-        {
-            "name": "Yunus Emre Deligöz",
-            "homepage": "https://www.deligoz.me",
-            "email": "ye@deligoz.me",
-            "role": "Developer"
-        }
-    ],
     "require": {
         "php": "^8.0",
         "ext-mbstring": "*",
@@ -41,6 +41,8 @@
         "phpunit/phpunit": "^9.5",
         "spatie/laravel-ray": "^1.25"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Deligoez\\LaravelModelHashId\\": "src/"
@@ -52,13 +54,10 @@
             "Deligoez\\LaravelModelHashId\\Tests\\Database\\Factories\\": "tests/database/factories/"
         }
     },
-    "scripts": {
-        "lint": "php-cs-fixer fix -v",
-        "phpstan": "vendor/bin/phpstan analyse --memory-limit=-1",
-        "test": "./vendor/bin/testbench package:test --parallel --no-coverage",
-        "test-coverage": "vendor/bin/phpunit --coverage-text"
-    },
     "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        },
         "sort-packages": true
     },
     "extra": {
@@ -68,6 +67,10 @@
             ]
         }
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    "scripts": {
+        "lint": "php-cs-fixer fix -v",
+        "phpstan": "vendor/bin/phpstan analyse --memory-limit=-1",
+        "test": "./vendor/bin/testbench package:test --parallel --no-coverage",
+        "test-coverage": "vendor/bin/phpunit --coverage-text"
+    }
 }
