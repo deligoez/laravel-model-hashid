@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Tests\Mixins;
 
+use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 
 class FindByHashIdMixinTest extends TestCase
 {

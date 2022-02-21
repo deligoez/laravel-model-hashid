@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Tests\Mixins;
 
-use Illuminate\Foundation\Testing\WithFaker;
+use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
+use Illuminate\Foundation\Testing\WithFaker;
 
 class FindManyByHashIdMixinTest extends TestCase
 {
     use RefreshDatabase;
+
     use WithFaker;
 
     /** @test */

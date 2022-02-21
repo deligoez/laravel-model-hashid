@@ -17,6 +17,6 @@ final class UnknownHashIdConfigParameterException extends Exception
      */
     public static function make(string $parameter): self
     {
-        return new UnknownHashIdConfigParameterException("Unknown HashId config parameter: '{$parameter}'.");
+        return new self("Unknown HashId config parameter: '{$parameter}'.");
     }
 }

@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Tests\Traits;
 
-use Str;
-use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashId\Support\Config;
-use Deligoez\LaravelModelHashId\Tests\TestCase;
-use Deligoez\LaravelModelHashId\Support\Generator;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Deligoez\LaravelModelHashId\Support\ConfigParameters;
+use Deligoez\LaravelModelHashId\Support\Generator;
+use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
+use Deligoez\LaravelModelHashId\Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Str;
 
 class HasHasIdTest extends TestCase
 {
     use RefreshDatabase;
+
     use WithFaker;
 
     // region Trait Initialization

@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashId\Tests\Support;
 
 use Config as LaravelConfig;
-use Illuminate\Foundation\Testing\WithFaker;
+use Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException;
 use Deligoez\LaravelModelHashId\Support\Config;
-use Deligoez\LaravelModelHashId\Tests\TestCase;
+use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelB;
+use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Deligoez\LaravelModelHashId\Support\ConfigParameters;
-use Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException;
+use Illuminate\Foundation\Testing\WithFaker;
 
 class HashIdModelConfigTest extends TestCase
 {
@@ -23,7 +23,7 @@ class HashIdModelConfigTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $genericSeparator = '@';
-        LaravelConfig::set(ConfigParameters::CONFIG_FILE_NAME.'.' . ConfigParameters::SEPARATOR, $genericSeparator);
+        LaravelConfig::set(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::SEPARATOR, $genericSeparator);
         $newSeparator = '*';
 
         // 2️⃣ Act 🏋🏻‍

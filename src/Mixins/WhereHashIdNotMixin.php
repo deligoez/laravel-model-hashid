@@ -16,7 +16,7 @@ class WhereHashIdNotMixin
      */
     public function whereHashIdNot(): Closure
     {
-        /**
+        /*
          * Add a where not clause on the Hash Id to the query.
          *
          * @param  mixed  $id
@@ -24,7 +24,7 @@ class WhereHashIdNotMixin
          * @return \Illuminate\Database\Eloquent\Builder
          */
         return function ($id) {
-            /** @var \Illuminate\Database\Eloquent\Builder $this */
+            /* @var \Illuminate\Database\Eloquent\Builder $this */
             return $this->whereKeyNot($this->getModel()->keyFromHashId($id));
         };
     }

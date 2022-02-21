@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Support;
 
-use Illuminate\Support\Arr;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Config as LaravelConfig;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Config as LaravelConfig;
 
 class Config
 {
@@ -30,8 +30,8 @@ class Config
         $className = $model instanceof Model ? get_class($model) : $model;
 
         // Return specific config for model if defined
-        if (Arr::has(LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME. '.' . ConfigParameters::MODEL_GENERATORS), $className.'.'.$parameter)) {
-            return LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME. '.' . ConfigParameters::MODEL_GENERATORS)[$className][$parameter];
+        if (Arr::has(LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::MODEL_GENERATORS), $className.'.'.$parameter)) {
+            return LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::MODEL_GENERATORS)[$className][$parameter];
         }
 
         // Return generic config
@@ -57,11 +57,11 @@ class Config
 
         $className = $model instanceof Model ? get_class($model) : $model;
 
-        $generatorsConfig = LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME. '.'. ConfigParameters::MODEL_GENERATORS);
+        $generatorsConfig = LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::MODEL_GENERATORS);
 
         $generatorsConfig[$className][$parameter] = $value;
 
-        LaravelConfig::set(ConfigParameters::CONFIG_FILE_NAME. '.' . ConfigParameters::MODEL_GENERATORS, $generatorsConfig);
+        LaravelConfig::set(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::MODEL_GENERATORS, $generatorsConfig);
     }
 
     /**

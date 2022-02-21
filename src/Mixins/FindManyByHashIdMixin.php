@@ -17,7 +17,7 @@ class FindManyByHashIdMixin
      */
     public function findManyByHashId(): Closure
     {
-        /**
+        /*
          * Find multiple models by their Hash Ids.
          *
          * @param  \Illuminate\Contracts\Support\Arrayable|array  $ids

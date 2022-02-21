@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Tests\Support;
 
-use Hashids\Hashids;
-use RuntimeException;
-use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashId\Support\Config;
-use Deligoez\LaravelModelHashId\Tests\TestCase;
+use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 use Deligoez\LaravelModelHashId\Support\Generator;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelB;
-use Deligoez\LaravelModelHashId\Support\ConfigParameters;
+use Deligoez\LaravelModelHashId\Tests\TestCase;
+use Hashids\Hashids;
+use Illuminate\Foundation\Testing\WithFaker;
+use RuntimeException;
 
 class ModelHashIdGeneratorTest extends TestCase
 {

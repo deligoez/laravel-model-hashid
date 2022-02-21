@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Tests\Traits;
 
+use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
+use Deligoez\LaravelModelHashId\Tests\TestCase;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Testing\WithFaker;
-use Deligoez\LaravelModelHashId\Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class HasHasIdRoutingTest extends TestCase
 {
     use RefreshDatabase;
+
     use WithFaker;
 
     /** @test */

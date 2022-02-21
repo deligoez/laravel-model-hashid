@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Traits;
 
-use Illuminate\Database\Eloquent\Model;
 use Deligoez\LaravelModelHashId\Support\Config;
 use Deligoez\LaravelModelHashId\Support\ConfigParameters;
+use Illuminate\Database\Eloquent\Model;
 
 trait SavesHashId
 {

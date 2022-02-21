@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Tests;
 
-use Orchestra\Testbench\TestCase as Orchestra;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Deligoez\LaravelModelHashId\LaravelModelHashIdServiceProvider;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {

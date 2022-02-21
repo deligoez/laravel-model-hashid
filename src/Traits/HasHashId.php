@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Traits;
 
-use Hashids\HashidsInterface;
 use Deligoez\LaravelModelHashId\Support\Generator;
+use Hashids\HashidsInterface;
 
 /**
  * @mixin \Illuminate\Database\Eloquent\Model

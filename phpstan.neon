@@ -9,7 +9,6 @@ parameters:
     checkModelProperties: true
     checkMissingIterableValueType: true
     ignoreErrors:
-        - '#::whereHashIdNot\(\).#'
         - '#::findOrNewByHashId\(\).#'
         - '#::findOrFailByHashId\(\).#'
         - '#::findManyByHashId\(\).#'

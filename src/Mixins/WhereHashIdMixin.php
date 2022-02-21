@@ -16,7 +16,7 @@ class WhereHashIdMixin
      */
     public function whereHashId(): Closure
     {
-        /**
+        /*
          * Add a where clause on the Hash Id to the query.
          *
          * @param  mixed  $id
@@ -24,7 +24,7 @@ class WhereHashIdMixin
          * @return \Illuminate\Database\Eloquent\Builder
          */
         return function ($id) {
-            /** @var \Illuminate\Database\Eloquent\Builder $this */
+            /* @var \Illuminate\Database\Eloquent\Builder $this */
             return $this->whereKey($this->getModel()->keyFromHashId($id));
         };
     }

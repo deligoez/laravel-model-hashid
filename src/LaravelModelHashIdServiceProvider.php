@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId;
 
+use Deligoez\LaravelModelHashId\Mixins\FindByHashIdMixin;
+use Deligoez\LaravelModelHashId\Mixins\FindManyByHashIdMixin;
+use Deligoez\LaravelModelHashId\Mixins\FindOrFailByHashIdMixin;
+use Deligoez\LaravelModelHashId\Mixins\FindOrNewByHashIdMixin;
+use Deligoez\LaravelModelHashId\Mixins\WhereHashIdMixin;
+use Deligoez\LaravelModelHashId\Mixins\WhereHashIdNotMixin;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\ServiceProvider;
 use Spatie\LaravelPackageTools\Package;
-use Illuminate\Database\Eloquent\Builder;
-use Deligoez\LaravelModelHashId\Mixins\WhereHashIdMixin;
-use Deligoez\LaravelModelHashId\Mixins\FindByHashIdMixin;
-use Deligoez\LaravelModelHashId\Mixins\WhereHashIdNotMixin;
-use Deligoez\LaravelModelHashId\Mixins\FindManyByHashIdMixin;
-use Deligoez\LaravelModelHashId\Mixins\FindOrNewByHashIdMixin;
-use Deligoez\LaravelModelHashId\Mixins\FindOrFailByHashIdMixin;
 
 class LaravelModelHashIdServiceProvider extends ServiceProvider
 {
@@ -41,7 +41,7 @@ class LaravelModelHashIdServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/model-hashid.php', 'model-hashid');
+        $this->mergeConfigFrom(__DIR__.'/../config/model-hashid.php', 'model-hashid');
     }
 
     /**

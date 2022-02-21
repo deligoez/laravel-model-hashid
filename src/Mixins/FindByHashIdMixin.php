@@ -16,7 +16,7 @@ class FindByHashIdMixin
      */
     public function findByHashId(): Closure
     {
-        /**
+        /*
          * Find a model by its Hash Id.
          *
          * @param  mixed  $id
@@ -24,7 +24,7 @@ class FindByHashIdMixin
          * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static[]|static|null
          */
         return function ($id, $columns = ['*']) {
-            /** @var \Illuminate\Database\Eloquent\Builder $this */
+            /* @var \Illuminate\Database\Eloquent\Builder $this */
             return $this->find($this->getModel()->keyFromHashId($id), $columns);
         };
     }

@@ -16,7 +16,7 @@ class FindOrFailByHashIdMixin
      */
     public function findOrFailByHashId(): Closure
     {
-        /**
+        /*
          * Find a model by its Hash Id or throw an exception.
          *
          * @param  mixed  $id
@@ -27,7 +27,7 @@ class FindOrFailByHashIdMixin
          * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
          */
         return function ($id, $columns = ['*']) {
-            /** @var \Illuminate\Database\Eloquent\Builder $this */
+            /* @var \Illuminate\Database\Eloquent\Builder $this */
             return $this->findOrFail($this->getModel()->keyFromHashId($id), $columns);
         };
     }
