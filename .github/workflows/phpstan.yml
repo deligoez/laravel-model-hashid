@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '**.php'
+      - 'composer.json'
       - 'phpstan.neon.dist'
 
 jobs:

@@ -6,10 +6,7 @@ on:
     paths:
       - '**.php'
       - 'composer.json'
-      - 'testbench.yaml'
-      - 'phpunit.xml.dist'
-      - 'run-tests.yml'
-      - 'php-cs-fixer.yml'
+      - '.github/**'
   pull_request:
     branches: [main]
     paths:
@@ -27,11 +24,9 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         php: [8.0, 8.1]
-        laravel: [8.*, 9.*]
-        stability: [prefer-stable]
+        laravel: [9.*]
+        dependency-version: [prefer-lowest, prefer-stable]
         include:
-          - laravel: 8.*
-            testbench: 6.*
           - laravel: 9.*
             testbench: 7.*
 
@@ -56,7 +51,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --dev
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
       - name: Validate composer.json and composer.lock
