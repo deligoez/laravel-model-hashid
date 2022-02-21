@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - '**.php'
+      - 'composer.json'
       - 'testbench.yaml'
       - 'phpunit.xml.dist'
       - 'run-tests.yml'
