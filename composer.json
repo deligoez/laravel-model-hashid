@@ -24,7 +24,7 @@
         "source": "https://github.com/deligoez/laravel-model-hashid"
     },
     "require": {
-        "php": "^8.0",
+        "php": "^8.0|^8.1",
         "ext-mbstring": "*",
         "hashids/hashids": "^4.1",
         "illuminate/contracts": "^8.57"
