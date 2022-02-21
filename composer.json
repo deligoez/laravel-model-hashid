@@ -27,7 +27,7 @@
         "php": "^8.0|^8.1",
         "ext-mbstring": "*",
         "hashids/hashids": "^4.1",
-        "illuminate/contracts": "^8.57"
+        "illuminate/contracts": "^8.0|^9.0"
     },
     "require-dev": {
         "brianium/paratest": "^6.3",
