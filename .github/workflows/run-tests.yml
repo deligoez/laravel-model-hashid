@@ -11,10 +11,8 @@ on:
     branches: [main]
     paths:
       - '**.php'
-      - 'testbench.yaml'
-      - 'phpunit.xml.dist'
-      - 'run-tests.yml'
-      - 'php-cs-fixer.yml'
+      - 'composer.json'
+      - '.github/**'
 
 jobs:
   test:

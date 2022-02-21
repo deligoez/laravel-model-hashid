@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Tests\Traits;
 
-use Route;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,7 +27,7 @@ class HasHasIdRoutingTest extends TestCase
 
         Route::get('/model-a/{modelA}', function (ModelA $modelA) {
             return $modelA->toJson();
-        })->middleware('bindings');
+        })->middleware(SubstituteBindings::class);
 
         // 2️⃣ Act 🏋🏻‍
         $response = $this->getJson("/model-a/{$hashId}");
@@ -52,7 +53,7 @@ class HasHasIdRoutingTest extends TestCase
 
         Route::get('/model-a/{hash_id}', function ($modelBinding) {
             return $modelBinding->toJson();
-        })->middleware('bindings');
+        })->middleware(SubstituteBindings::class);
 
         // 2️⃣ Act 🏋🏻‍
         $response = $this->getJson("/model-a/{$hashId}");
@@ -78,7 +79,7 @@ class HasHasIdRoutingTest extends TestCase
 
         Route::get('/model-a/{model_a}', function (ModelA $modelBinding) {
             return $modelBinding->toJson();
-        })->middleware('bindings');
+        })->middleware(SubstituteBindings::class);
 
         // 3️⃣ Assert ✅
         $this->expectException(ModelNotFoundException::class);
