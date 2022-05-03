@@ -114,9 +114,11 @@ $rules = [
     'trailing_comma_in_multiline'                 => ['elements' => ['arrays']],
 
     // php-cs-fixer 3: Changed options
-    'binary_operator_spaces'                      => [
+    'binary_operator_spaces' => [
         'default'   => 'single_space',
-        'operators' => ['=>' => null],
+        'operators' => [
+            '=>' => null,
+        ],
     ],
     'blank_line_before_statement'                 => [
         'statements' => ['return'],
@@ -149,11 +151,16 @@ $rules = [
         'elements' => ['property', 'method', 'const'],
     ],
 
+    'types_spaces' => [
+        'space' => 'none',
+    ],
+
 ];
 
 $finder = Finder::create()
-                ->in(__DIR__.DIRECTORY_SEPARATOR.'tests')
-                ->in(__DIR__.DIRECTORY_SEPARATOR.'src')
+                ->in(__DIR__ . DIRECTORY_SEPARATOR . 'tests')
+                ->in(__DIR__ . DIRECTORY_SEPARATOR . 'src')
+                ->in(__DIR__ . DIRECTORY_SEPARATOR . 'config')
                 ->ignoreDotFiles(true)
                 ->ignoreVCS(true);
 
