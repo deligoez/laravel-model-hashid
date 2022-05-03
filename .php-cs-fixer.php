@@ -6,6 +6,7 @@ use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
 $rules = [
+    'declare_strict_types'                        => true,
     'array_syntax'                                => ['syntax' => 'short'],
     'no_unused_imports'                           => true,
     'blank_line_after_namespace'                  => true,
@@ -13,14 +14,14 @@ $rules = [
     'braces'                                      => true,
     'cast_spaces'                                 => true,
     'concat_space'                                => [
-        'spacing' => 'none',
+        'spacing' => 'one',
     ],
     'declare_equal_normalize'                     => true,
     'elseif'                                      => true,
     'encoding'                                    => true,
     'full_opening_tag'                            => true,
     'fully_qualified_strict_types'                => true, // added by Shift
-    'function_declaration'                        => true,
+    'function_declaration'                        => false,
     'function_typehint_space'                     => true,
     'heredoc_to_nowdoc'                           => true,
     'include'                                     => true,
@@ -59,7 +60,7 @@ $rules = [
     ],
     'no_short_bool_cast'                          => true,
     'no_singleline_whitespace_before_semicolons'  => true,
-    'no_spaces_after_function_name'               => true,
+    'no_spaces_after_function_name'               => false,
     'no_spaces_inside_parenthesis'                => true,
     'no_trailing_comma_in_list_call'              => true,
     'no_trailing_comma_in_singleline_array'       => true,
@@ -122,7 +123,7 @@ $rules = [
     ],
     'class_attributes_separation'                 => [
         'elements' => [
-            'const'        => 'one',
+            'const'        => 'none',
             'method'       => 'one',
             'property'     => 'one',
             'trait_import' => 'one',

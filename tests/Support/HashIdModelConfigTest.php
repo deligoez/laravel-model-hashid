@@ -23,7 +23,7 @@ class HashIdModelConfigTest extends TestCase
     {
         // 1️⃣ Arrange 🏗
         $genericSeparator = '@';
-        LaravelConfig::set(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::SEPARATOR, $genericSeparator);
+        LaravelConfig::set(ConfigParameters::CONFIG_FILE_NAME . '.' . ConfigParameters::SEPARATOR, $genericSeparator);
         $newSeparator = '*';
 
         // 2️⃣ Act 🏋🏻‍

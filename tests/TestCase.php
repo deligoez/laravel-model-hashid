@@ -14,10 +14,10 @@ class TestCase extends Orchestra
     {
         parent::setUp();
 
-        $this->loadMigrationsFrom(__DIR__.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'migrations');
+        $this->loadMigrationsFrom(__DIR__ . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR . 'migrations');
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Deligoez\\LaravelModelHashId\\Tests\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Deligoez\\LaravelModelHashId\\Tests\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
         );
     }
 

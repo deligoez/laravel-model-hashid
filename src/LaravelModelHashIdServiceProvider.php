@@ -27,7 +27,7 @@ class LaravelModelHashIdServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/model-hashid.php' => config_path('model-hashid.php'),
+                __DIR__ . '/../config/model-hashid.php' => config_path('model-hashid.php'),
             ], 'config');
         }
 
@@ -41,7 +41,7 @@ class LaravelModelHashIdServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/model-hashid.php', 'model-hashid');
+        $this->mergeConfigFrom(__DIR__ . '/../config/model-hashid.php', 'model-hashid');
     }
 
     /**
