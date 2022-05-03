@@ -79,23 +79,6 @@ class Config
         LaravelConfig::set(ConfigParameters::CONFIG_FILE_NAME . '.' . ConfigParameters::MODEL_GENERATORS, $generatorsConfig);
     }
 
-    /**
-     * Check for recognized configuration value.
-     *
-     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
-     */
-    public static function hasModelOverride(string $parameter, Model | string | null $model): bool
-    {
-        if ($model === null) {
-            return false;
-        }
-
-        $className = $model instanceof Model ? get_class($model) : $model;
-
-        $generatorsConfig = LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::MODEL_GENERATORS);
-
-        return $generatorsConfig[$className][$parameter] != null;
-    }
 
     /**
      * Check for recognized configuration value.
