@@ -27,6 +27,11 @@ class ConfigParameters
     public const ALPHABET = 'alphabet';
 
     /*
+     * Hash Id configuration key name for PREFIX.
+     */
+    public const PREFIX = 'prefix';
+
+    /*
      * Hash Id configuration key name for PREFIX_LENGTH.
      */
     public const PREFIX_LENGTH = 'prefix_length';
@@ -58,6 +63,7 @@ class ConfigParameters
         self::SALT,
         self::LENGTH,
         self::ALPHABET,
+        self::PREFIX,
         self::PREFIX_LENGTH,
         self::PREFIX_CASE,
         self::SEPARATOR,
