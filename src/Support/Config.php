@@ -87,7 +87,7 @@ class Config
      */
     public static function isParameterDefined(string $parameter): void
     {
-        if (!in_array($parameter, ConfigParameters::$parameters, true)) {
+        if (! in_array($parameter, ConfigParameters::$parameters, true)) {
             throw UnknownHashIdConfigParameterException::make($parameter);
         }
     }
@@ -99,7 +99,7 @@ class Config
      */
     public static function isModelClassExist(Model | string $model): void
     {
-        if (is_string($model) && !class_exists($model)) {
+        if (is_string($model) && ! class_exists($model)) {
             throw new ModelNotFoundException();
         }
     }
