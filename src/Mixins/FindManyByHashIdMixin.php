@@ -24,7 +24,7 @@ class FindManyByHashIdMixin
          * @param  array  $columns
          * @return \Illuminate\Database\Eloquent\Collection
          */
-        return function (Arrayable | array $ids, $columns = ['*']) {
+        return function (Arrayable|array $ids, $columns = ['*']) {
             $ids = $ids instanceof Arrayable ? $ids->toArray() : $ids;
             /** @var \Illuminate\Database\Eloquent\Builder $this */
             $ids = array_map(fn (string $hashId) => $this->getModel()->keyFromHashId($hashId), $ids);
