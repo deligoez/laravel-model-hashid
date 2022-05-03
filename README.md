@@ -42,13 +42,18 @@ You have complete control over your Hash Id length and style. Check out the conf
 
 ## Table of contents
 
+- [Table of contents](#table-of-contents)
 - [Features](#features)
 - [Compatibility Table](#compatibility-table)
 - [Installation](#installation)
 - [Usage](#usage)
-    - [Model Hash Id Generation](#model-hash-id-generation)
-    - [Routing and Route Model Binding (Optional)](#routing-and-route-model-binding-optional)
-    - [Saving Hash Ids to the Database (Optional)](#saving-hash-ids-to-the-database-optional)
+  - [Model Hash Id Generation](#model-hash-id-generation)
+    - [Model Attributes and Static Model Functions](#model-attributes-and-static-model-functions)
+    - [Query Builder Functions](#query-builder-functions)
+  - [Routing and Route Model Binding (Optional)](#routing-and-route-model-binding-optional)
+    - [Route Model Binding (Implicit)](#route-model-binding-implicit)
+    - [Route Model Binding (Explicit)](#route-model-binding-explicit)
+  - [Saving Hash Ids to the Database (Optional)](#saving-hash-ids-to-the-database-optional)
 - [Hash Id Terminology](#hash-id-terminology)
 - [Configuration](#configuration)
 - [Roadmap](#roadmap)
@@ -69,6 +74,7 @@ You have complete control over your Hash Id length and style. Check out the conf
   - Model Prefix Length and Case
   - Separator
 - Model Specific Hash Id Generation
+  - Optional, user-defined prefix per Model
   - Define separate configurations per Model
 - Route (Model) Binding using Hash Ids (optional)
 - Automatically save Hash Ids to the database (optional)
@@ -78,12 +84,12 @@ You have complete control over your Hash Id length and style. Check out the conf
 The table below shows the compatibility across Laravel, PHP, and this package's **current version**.
 
 | Package Version | Laravel version | PHP version | Compatible |
-|-----------------|-----------------|-------------|------------|
-| ^2.0            | 9.*             | 8.1.*       |      ✅    |
-| ^1.0            | 8.*             | 8.0.*       |      ✅    |
-|                 | 8.*             | 7.4.*       |      ❌    |
-|                 | 8.*             | 7.3.*       |      ❌    |
-|                 | 7.x             | *           |      ❌    |
+| --------------- | --------------- | ----------- | ---------- |
+| ^2.0            | 9.*             | 8.1.*       | ✅          |
+| ^1.0            | 8.*             | 8.0.*       | ✅          |
+|                 | 8.*             | 7.4.*       | ❌          |
+|                 | 8.*             | 7.3.*       | ❌          |
+|                 | 7.x             | *           | ❌          |
 
 ## Installation
 
@@ -354,9 +360,18 @@ return [
         // App\Models\User::class => [
         //     'salt'            => 'your-model-specific-salt-string',
         //     'length'          => 13,
-        //     'alphabet'        => 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890',
+        //     'alphabet'        => 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890', 
         //     'prefix_length'   => 3,
         //     'prefix_case'     => 'lower',
+        //     'separator'       => '_',
+        //     'database_column' => 'hash_id',
+        // ],
+
+        // App\Models\Post::class => [
+        //     'salt'            => 'your-model-specific-salt-string',
+        //     'length'          => 13,
+        //     'alphabet'        => 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890',
+        //     'prefix'          => 'abc', // prefix will be 'abc', not a generated prefix
         //     'separator'       => '_',
         //     'database_column' => 'hash_id',
         // ],
@@ -365,7 +380,7 @@ return [
 ```
 
 ## Roadmap
-- [ ] Custom Model Prefixes (Not generated from a Model name)
+- [x] Custom Model Prefixes (Not generated from a Model name)
 - [ ] Hash Id Validation  Rules
 - [ ] Generic Generators (Not bound to a Laravel Model)
 
