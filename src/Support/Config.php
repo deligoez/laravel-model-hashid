@@ -23,10 +23,10 @@ class Config
 
         if ($model === null) {
             return LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.$parameter);
-        };
+        }
 
         // Return the model specific configuration value if it exists.
-        if (($specificConfig = self::getForModel($parameter, $model)) && !is_null($specificConfig)) {
+        if (($specificConfig = self::getForModel($parameter, $model)) && ! is_null($specificConfig)) {
             return $specificConfig;
         }
 
@@ -78,7 +78,6 @@ class Config
 
         LaravelConfig::set(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::MODEL_GENERATORS, $generatorsConfig);
     }
-
 
     /**
      * Check for recognized configuration value.

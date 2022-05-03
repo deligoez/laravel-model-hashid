@@ -20,7 +20,7 @@ class Generator
     {
         Config::isModelClassExist($model);
 
-        if (($prefix = Config::getForModel(ConfigParameters::PREFIX, $model)) && !is_null($prefix)) {
+        if (($prefix = Config::getForModel(ConfigParameters::PREFIX, $model)) && ! is_null($prefix)) {
             return $prefix;
         }
 
