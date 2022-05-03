@@ -23,19 +23,34 @@ class Config
 
         if ($model === null) {
             return LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.$parameter);
-        }
+        };
 
-        self::isModelClassExist($model);
-
-        $className = $model instanceof Model ? get_class($model) : $model;
-
-        // Return specific config for model if defined
-        if (Arr::has(LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::MODEL_GENERATORS), $className.'.'.$parameter)) {
-            return LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::MODEL_GENERATORS)[$className][$parameter];
+        // Return the model specific configuration value if it exists.
+        if (($specificConfig = self::getForModel($parameter, $model)) && !is_null($specificConfig)) {
+            return $specificConfig;
         }
 
         // Return generic config
         return LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.$parameter);
+    }
+
+    /**
+     * Gets a model specific configuration value, returning null if it doesn't exist.
+     *
+     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
+     */
+    public static function getForModel(string $parameter, Model | string $model): string | int | array | null
+    {
+        self::isParameterDefined($parameter);
+
+        $className = $model instanceof Model ? get_class($model) : $model;
+
+        // Get the model specific configuration value if it exists.
+        if (Arr::has(LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::MODEL_GENERATORS), $className.'.'.$parameter)) {
+            return LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::MODEL_GENERATORS)[$className][$parameter];
+        }
+
+        return null;
     }
 
     /**
@@ -63,6 +78,7 @@ class Config
 
         LaravelConfig::set(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::MODEL_GENERATORS, $generatorsConfig);
     }
+
 
     /**
      * Check for recognized configuration value.
