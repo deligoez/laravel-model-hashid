@@ -9,6 +9,7 @@ use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 use Deligoez\LaravelModelHashId\Support\Generator;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelB;
+use Deligoez\LaravelModelHashId\Tests\Models\ModelC;
 use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Hashids\Hashids;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -17,6 +18,50 @@ use RuntimeException;
 class ModelHashIdGeneratorTest extends TestCase
 {
     use WithFaker;
+
+
+    // region prefix
+
+    /** @test */
+    public function it_uses_default_prefix_logic_when_override_is_not_defined(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $model = new ModelA();
+        $prefixLength = $this->faker->numberBetween(1, mb_strlen(class_basename($model)));
+        Config::set(ConfigParameters::PREFIX_LENGTH, $prefixLength, $model);
+
+        // 2️⃣ Act 🏋🏻‍
+        $prefix = Generator::buildPrefixForModel($model);
+
+        // 3️⃣ Assert ✅
+        $this->assertEquals($prefixLength, mb_strlen($prefix));
+    }
+
+    /** @test */
+    public function it_can_use_a_defined_prefix_from_a_model_generator(): void
+    {
+        // 1️⃣ Arrange 🏗
+        $modelSeparator = '_';
+        $modelPrefix = 'a_custom_prefix';
+
+        Config::set(ConfigParameters::SEPARATOR, $modelSeparator, ModelA::class);
+        Config::set(ConfigParameters::PREFIX, $modelPrefix, ModelA::class);
+
+        $model = ModelA::factory()->create();
+
+        // 2️⃣ Act 🏋🏻‍
+        $hashId = Generator::forModel($model);
+
+        // 3️⃣ Assert ✅
+        $modelHash = Generator::parseHashIDForModel($hashId);
+
+        $this->assertEquals($modelPrefix, $modelHash->prefix);
+        $this->assertEquals($modelSeparator, $modelHash->separator);
+        $this->assertEquals($hashId, $model->hashId);
+        $this->assertEquals($model::class, $modelHash->modelClassName);
+    }
+
+    // endregion
 
     // region prefix_length
 
