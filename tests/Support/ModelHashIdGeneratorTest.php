@@ -306,23 +306,16 @@ class ModelHashIdGeneratorTest extends TestCase
         Config::set(ConfigParameters::PREFIX_CASE, 'lower', ModelB::class);
         Config::set(ConfigParameters::PREFIX_LENGTH, 4, ModelB::class);
 
-        Config::set(ConfigParameters::SEPARATOR, '_', ModelC::class);
-        Config::set(ConfigParameters::LENGTH, 10, ModelC::class);
-        Config::set(ConfigParameters::PREFIX, 4, 'ccc');
-
         $modelA = ModelA::factory()->create();
         $modelB = ModelB::factory()->create();
-        $modelC = ModelC::factory()->create();
 
         // 2️⃣ Act 🏋🏻‍
         $hashIdA = Generator::forModel($modelA);
         $hashIdB = Generator::forModel($modelB);
-        $hashIdC = Generator::forModel($modelC);
 
         // 3️⃣ Assert ✅
         $modelHashA = Generator::parseHashIDForModel($hashIdA);
         $modelHashB = Generator::parseHashIDForModel($hashIdB);
-        $modelHashC = Generator::parseHashIDForModel($hashIdC);
 
         $this->assertEquals('MOD', $modelHashA->prefix);
         $this->assertEquals('_', $modelHashA->separator);
@@ -333,11 +326,6 @@ class ModelHashIdGeneratorTest extends TestCase
         $this->assertEquals('#', $modelHashB->separator);
         $this->assertEquals($hashIdB, $modelB->hashId);
         $this->assertEquals($modelB::class, $modelHashB->modelClassName);
-
-        $this->assertEquals('ccc', $modelHashC->prefix);
-        $this->assertEquals('_', $modelHashC->separator);
-        $this->assertEquals($hashIdC, $modelC->hashId);
-        $this->assertEquals($modelC::class, $modelHashC->modelClassName);
     }
 
     /** @test */
