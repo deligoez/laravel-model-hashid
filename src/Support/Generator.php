@@ -20,6 +20,10 @@ class Generator
     {
         Config::isModelClassExist($model);
 
+        if ($prefix = Config::get(ConfigParameters::PREFIX, $model) != 0) {
+            return $prefix;
+        }
+
         $shortClassName = class_basename($model);
         $prefixLength = (int) Config::get(ConfigParameters::PREFIX_LENGTH, $model);
         $prefix = $prefixLength < 0

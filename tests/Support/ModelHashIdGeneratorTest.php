@@ -9,6 +9,7 @@ use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 use Deligoez\LaravelModelHashId\Support\Generator;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelB;
+use Deligoez\LaravelModelHashId\Tests\Models\ModelC;
 use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Hashids\Hashids;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -17,6 +18,24 @@ use RuntimeException;
 class ModelHashIdGeneratorTest extends TestCase
 {
     use WithFaker;
+
+
+    // region prefix
+
+    /** @test */
+    public function it_uses_default_prefix_logic_when_override_is_not_defined(): void
+    {
+         // 1️⃣ Arrange 🏗
+         $model = new ModelA();
+         $prefixLength = $this->faker->numberBetween(1, mb_strlen(class_basename($model)));
+         Config::set(ConfigParameters::PREFIX_LENGTH, $prefixLength, $model);
+
+         // 2️⃣ Act 🏋🏻‍
+         $prefix = Generator::buildPrefixForModel($model);
+
+         // 3️⃣ Assert ✅
+         $this->assertEquals($prefixLength, mb_strlen($prefix));
+    }
 
     // region prefix_length
 
@@ -262,16 +281,23 @@ class ModelHashIdGeneratorTest extends TestCase
         Config::set(ConfigParameters::PREFIX_CASE, 'lower', ModelB::class);
         Config::set(ConfigParameters::PREFIX_LENGTH, 4, ModelB::class);
 
+        Config::set(ConfigParameters::SEPARATOR, '_', ModelC::class);
+        Config::set(ConfigParameters::LENGTH, 10, ModelC::class);
+        Config::set(ConfigParameters::PREFIX, 4, 'ccc');
+
         $modelA = ModelA::factory()->create();
         $modelB = ModelB::factory()->create();
+        $modelC = ModelC::factory()->create();
 
         // 2️⃣ Act 🏋🏻‍
         $hashIdA = Generator::forModel($modelA);
         $hashIdB = Generator::forModel($modelB);
+        $hashIdC = Generator::forModel($modelC);
 
         // 3️⃣ Assert ✅
         $modelHashA = Generator::parseHashIDForModel($hashIdA);
         $modelHashB = Generator::parseHashIDForModel($hashIdB);
+        $modelHashC = Generator::parseHashIDForModel($hashIdC);
 
         $this->assertEquals('MOD', $modelHashA->prefix);
         $this->assertEquals('_', $modelHashA->separator);
@@ -282,6 +308,11 @@ class ModelHashIdGeneratorTest extends TestCase
         $this->assertEquals('#', $modelHashB->separator);
         $this->assertEquals($hashIdB, $modelB->hashId);
         $this->assertEquals($modelB::class, $modelHashB->modelClassName);
+
+        $this->assertEquals('ccc', $modelHashC->prefix);
+        $this->assertEquals('_', $modelHashC->separator);
+        $this->assertEquals($hashIdC, $modelC->hashId);
+        $this->assertEquals($modelC::class, $modelHashC->modelClassName);
     }
 
     /** @test */
