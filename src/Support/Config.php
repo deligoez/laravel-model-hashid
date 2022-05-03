@@ -19,7 +19,7 @@ class Config
      */
     public static function get(string $parameter, Model | string | null $model = null): string | int | array
     {
-        self::isParameterDefined($parameter);
+        self::checkIfParameterDefined($parameter);
 
         if ($model === null) {
             return LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME . '.' . $parameter);
@@ -41,7 +41,7 @@ class Config
      */
     public static function getForModel(string $parameter, Model | string $model): string | int | array | null
     {
-        self::isParameterDefined($parameter);
+        self::checkIfParameterDefined($parameter);
 
         $className = $model instanceof Model ? get_class($model) : $model;
 
@@ -60,7 +60,7 @@ class Config
      */
     public static function set(string $parameter, string | int $value, Model | string | null $model = null): void
     {
-        self::isParameterDefined($parameter);
+        self::checkIfParameterDefined($parameter);
 
         if ($model === null) {
             LaravelConfig::set(ConfigParameters::CONFIG_FILE_NAME . '.' . $parameter, $value);
@@ -68,7 +68,7 @@ class Config
             return;
         }
 
-        self::isModelClassExist($model);
+        self::checkIfModelClassExist($model);
 
         $className = $model instanceof Model ? get_class($model) : $model;
 
@@ -84,7 +84,7 @@ class Config
      *
      * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
-    public static function isParameterDefined(string $parameter): void
+    public static function checkIfParameterDefined(string $parameter): void
     {
         if (! in_array($parameter, ConfigParameters::$parameters, true)) {
             throw UnknownHashIdConfigParameterException::make($parameter);
@@ -96,7 +96,7 @@ class Config
      *
      * @param  \Illuminate\Database\Eloquent\Model|string  $model
      */
-    public static function isModelClassExist(Model | string $model): void
+    public static function checkIfModelClassExist(Model | string $model): void
     {
         if (is_string($model) && ! class_exists($model)) {
             throw new ModelNotFoundException();

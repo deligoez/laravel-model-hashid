@@ -143,7 +143,7 @@ class HashIdModelConfigTest extends TestCase
         $this->expectException(UnknownHashIdConfigParameterException::class);
 
         // 2️⃣ Act 🏋🏻‍
-        Config::isParameterDefined('unknown-config');
+        Config::checkIfParameterDefined('unknown-config');
     }
 
     /** @test */
@@ -153,6 +153,6 @@ class HashIdModelConfigTest extends TestCase
         $this->expectException(ModelNotFoundException::class);
 
         // 2️⃣ Act 🏋🏻‍
-        Config::isModelClassExist('class-that-does-not-exist');
+        Config::checkIfModelClassExist('class-that-does-not-exist');
     }
 }

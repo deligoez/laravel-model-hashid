@@ -18,7 +18,7 @@ class Generator
      */
     public static function buildPrefixForModel(Model | string $model): string
     {
-        Config::isModelClassExist($model);
+        Config::checkIfModelClassExist($model);
 
         if (($prefix = Config::getForModel(ConfigParameters::PREFIX, $model)) && ! is_null($prefix)) {
             return $prefix;
@@ -109,7 +109,7 @@ class Generator
      */
     public static function build(Model | string $model): HashidsInterface
     {
-        Config::isModelClassExist($model);
+        Config::checkIfModelClassExist($model);
 
         $salt = Config::get(ConfigParameters::SALT, $model);
         $length = Config::get(ConfigParameters::LENGTH, $model);
