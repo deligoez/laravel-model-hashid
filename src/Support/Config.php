@@ -17,40 +17,38 @@ class Config
      *
      * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
-    public static function get(string $parameter, Model | string | null $model = null): string | int | array
+    public static function get(string $parameter, Model|string|null $model = null): string|int|array
     {
         self::checkIfParameterDefined($parameter);
 
-        if ($model === null) {
-            return LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME . '.' . $parameter);
+        if ($model !== null) {
+            $className = $model instanceof Model ? get_class($model) : $model;
+
+            // Get the model specific configuration value if it exists.
+            if (Arr::has(LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME . '.' . ConfigParameters::MODEL_GENERATORS), $className . '.' . $parameter)) {
+                return LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME . '.' . ConfigParameters::MODEL_GENERATORS)[$className][$parameter];
+            }
         }
 
-        // Return the model specific configuration value if it exists.
-        if (($specificConfig = self::getForModel($parameter, $model)) && ! is_null($specificConfig)) {
-            return $specificConfig;
-        }
-
-        // Return generic config
         return LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME . '.' . $parameter);
     }
 
     /**
-     * Gets a model specific configuration value, returning null if it doesn't exist.
+     * Check if the specified Hash Id configuration exists.
      *
      * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
-    public static function getForModel(string $parameter, Model | string $model): string | int | array | null
+    public static function has(string $parameter, Model|string|null $model = null): bool
     {
         self::checkIfParameterDefined($parameter);
 
-        $className = $model instanceof Model ? get_class($model) : $model;
+        if ($model !== null) {
+            $className = $model instanceof Model ? get_class($model) : $model;
 
-        // Get the model specific configuration value if it exists.
-        if (Arr::has(LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME . '.' . ConfigParameters::MODEL_GENERATORS), $className . '.' . $parameter)) {
-            return LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME . '.' . ConfigParameters::MODEL_GENERATORS)[$className][$parameter];
+            return Arr::has(LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME . '.' . ConfigParameters::MODEL_GENERATORS), $className . '.' . $parameter);
         }
 
-        return null;
+        return LaravelConfig::has(ConfigParameters::CONFIG_FILE_NAME . '.' . $parameter);
     }
 
     /**
@@ -58,7 +56,7 @@ class Config
      *
      * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
-    public static function set(string $parameter, string | int $value, Model | string | null $model = null): void
+    public static function set(string $parameter, string|int $value, Model|string|null $model = null): void
     {
         self::checkIfParameterDefined($parameter);
 
@@ -96,7 +94,7 @@ class Config
      *
      * @param  \Illuminate\Database\Eloquent\Model|string  $model
      */
-    public static function checkIfModelClassExist(Model | string $model): void
+    public static function checkIfModelClassExist(Model|string $model): void
     {
         if (is_string($model) && ! class_exists($model)) {
             throw new ModelNotFoundException();

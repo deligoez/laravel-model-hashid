@@ -16,12 +16,12 @@ class Generator
      *
      * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
-    public static function buildPrefixForModel(Model | string $model): string
+    public static function buildPrefixForModel(Model|string $model): string
     {
         Config::checkIfModelClassExist($model);
 
-        if (($prefix = Config::getForModel(ConfigParameters::PREFIX, $model)) && ! is_null($prefix)) {
-            return $prefix;
+        if (Config::has(ConfigParameters::PREFIX, $model)) {
+            return Config::get(ConfigParameters::PREFIX, $model);
         }
 
         $shortClassName = class_basename($model);
@@ -107,7 +107,7 @@ class Generator
      *
      * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
-    public static function build(Model | string $model): HashidsInterface
+    public static function build(Model|string $model): HashidsInterface
     {
         Config::checkIfModelClassExist($model);
 
