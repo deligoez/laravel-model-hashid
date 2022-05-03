@@ -69,7 +69,7 @@ You have complete control over your Hash Id length and style. Check out the conf
   - Model Prefix Length and Case
   - Separator
 - Model Specific Hash Id Generation
-  - Optional, user-defined prefix per Model
+  - User-defined prefix per Model (optional)
   - Define separate configurations per Model
 - Route (Model) Binding using Hash Ids (optional)
 - Automatically save Hash Ids to the database (optional)
@@ -374,7 +374,7 @@ return [
 ```
 
 ## Roadmap
-- [x] Custom Model Prefixes (Not generated from a Model name)
+- [x] Custom Model Prefixes (Not generated from a Model name) (Thanks to @plunkettscott)
 - [ ] Hash Id Validation  Rules
 - [ ] Generic Generators (Not bound to a Laravel Model)
 
@@ -405,6 +405,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 ## Credits
 
 - [Yunus Emre Deligöz](https://github.com/deligoez)
+- [@plunkettscott](https://github.com/plunkettscott)
 - [All Contributors](../../contributors)
 
 ## License
