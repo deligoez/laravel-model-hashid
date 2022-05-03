@@ -1,6 +1,6 @@
 {
     "name": "deligoez/laravel-model-hashid",
-    "description": "Generate, Save, and Route Stripe-like Hash IDs for Laravel Eloquent Models",
+    "description": "Generate, Save, and Route Stripe/Youtube-like Hash IDs for Laravel Eloquent Models",
     "license": "MIT",
     "type": "library",
     "keywords": [
