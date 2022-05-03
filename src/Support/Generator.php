@@ -20,6 +20,11 @@ class Generator
     {
         Config::isModelClassExist($model);
 
+        $prefix = Config::getForModel(ConfigParameters::PREFIX, $model);
+        if (!is_null($prefix)) {
+            return $prefix;
+        }
+
         $shortClassName = class_basename($model);
         $prefixLength = (int) Config::get(ConfigParameters::PREFIX_LENGTH, $model);
         $prefix = $prefixLength < 0
@@ -70,7 +75,7 @@ class Generator
             $separator = Config::get(ConfigParameters::SEPARATOR, $modelClassName);
             $length = (int) Config::get(ConfigParameters::LENGTH, $modelClassName);
 
-            $hashIdForKeyArray = explode($prefix.$separator, $hashId);
+            $hashIdForKeyArray = explode($prefix . $separator, $hashId);
 
             if (isset($hashIdForKeyArray[1]) && mb_strlen($hashIdForKeyArray[1]) === $length) {
                 return new HashIdDTO(
