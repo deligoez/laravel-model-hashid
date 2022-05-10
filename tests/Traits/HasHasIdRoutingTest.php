@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Tests\Traits;
 
+use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Routing\Middleware\SubstituteBindings;
+use Deligoez\LaravelModelHashId\Support\Config;
+
 use Illuminate\Support\Facades\Route;
 
 class HasHasIdRoutingTest extends TestCase
@@ -68,6 +71,33 @@ class HasHasIdRoutingTest extends TestCase
     }
 
     /** @test */
+    public function it_can_resolve_a_hashID_via_route_model_binding_using_negative_one_prefix_legth(): void
+    {
+        // 1️⃣ Arrange 🏗
+        Config::set(ConfigParameters::PREFIX_LENGTH, -1);
+
+        ModelA::factory()->count($this->faker->numberBetween(2, 5))->create();
+        $model = ModelA::factory()->create(['name' => 'model-that-should-bind']);
+        $hashId = $model->hashId;
+
+
+        Route::get('/model-a/{modelA}', function (ModelA $modelA) {
+            return $modelA->toJson();
+        })->middleware(SubstituteBindings::class);
+
+        // 2️⃣ Act 🏋🏻‍
+        $response = $this->getJson("/model-a/{$hashId}");
+
+        // 3️⃣ Assert ✅
+        $response
+            ->assertOk()
+            ->assertJsonFragment([
+                'id'   => $model->getKey(),
+                'name' => 'model-that-should-bind',
+            ]);
+    }
+
+    /** @test */
     public function it_throws_a_model_not_found_exception_while_routing_with_model_key(): void
     {
         // 1️⃣ Arrange 🏗
@@ -87,4 +117,5 @@ class HasHasIdRoutingTest extends TestCase
         // 2️⃣ Act 🏋🏻‍
         $this->getJson("/model-a/{$model->getKey()}");
     }
+
 }
