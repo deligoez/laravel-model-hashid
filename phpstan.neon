@@ -11,6 +11,7 @@ parameters:
     ignoreErrors:
         - '#::findOrNewByHashId\(\).#'
         - '#::findOrFailByHashId\(\).#'
+        - '#::findOrByHashId\(\).#'
         - '#::findManyByHashId\(\).#'
         - '#::findByHashId\(\).#'
         - '#::keyFromHashId\(\).#'
