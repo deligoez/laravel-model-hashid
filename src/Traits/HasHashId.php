@@ -66,7 +66,7 @@ trait HasHashId
      */
     public static function keyFromHashId(string $hashId): ?int
     {
-        $hashIdInstance = Generator::parseHashIDForModel($hashId);
+        $hashIdInstance = Generator::parseHashIDForModel($hashId, __CLASS__);
 
         if ($hashIdInstance === null) {
             return null;
