@@ -15,7 +15,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 class SavesHashIdTest extends TestCase
 {
     use RefreshDatabase;
-
     use WithFaker;
 
     /** @test */
