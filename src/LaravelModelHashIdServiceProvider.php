@@ -6,6 +6,7 @@ namespace Deligoez\LaravelModelHashId;
 
 use Deligoez\LaravelModelHashId\Mixins\FindByHashIdMixin;
 use Deligoez\LaravelModelHashId\Mixins\FindManyByHashIdMixin;
+use Deligoez\LaravelModelHashId\Mixins\FindOrByHashIdMixin;
 use Deligoez\LaravelModelHashId\Mixins\FindOrFailByHashIdMixin;
 use Deligoez\LaravelModelHashId\Mixins\FindOrNewByHashIdMixin;
 use Deligoez\LaravelModelHashId\Mixins\WhereHashIdMixin;
@@ -54,6 +55,7 @@ class LaravelModelHashIdServiceProvider extends ServiceProvider
         Builder::mixin(new FindByHashIdMixin());
         Builder::mixin(new FindManyByHashIdMixin());
         Builder::mixin(new FindOrFailByHashIdMixin());
+        Builder::mixin(new FindOrByHashIdMixin());
         Builder::mixin(new FindOrNewByHashIdMixin());
         Builder::mixin(new WhereHashIdMixin());
         Builder::mixin(new WhereHashIdNotMixin());
