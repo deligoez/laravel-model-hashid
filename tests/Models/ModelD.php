@@ -12,9 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class ModelD extends Model
 {
     use HasFactory;
-
     use HasHashId;
-
     use SavesHashId;
 
     protected $fillable = [

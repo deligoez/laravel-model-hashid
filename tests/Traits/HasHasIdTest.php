@@ -16,7 +16,6 @@ use Str;
 class HasHasIdTest extends TestCase
 {
     use RefreshDatabase;
-
     use WithFaker;
 
     // region Trait Initialization

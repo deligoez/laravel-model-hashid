@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 class HasHasIdRoutingTest extends TestCase
 {
     use RefreshDatabase;
-
     use WithFaker;
 
     /** @test */

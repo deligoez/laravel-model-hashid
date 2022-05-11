@@ -12,7 +12,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 class FindManyByHashIdMixinTest extends TestCase
 {
     use RefreshDatabase;
-
     use WithFaker;
 
     /** @test */

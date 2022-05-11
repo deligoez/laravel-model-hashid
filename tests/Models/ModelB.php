@@ -12,9 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class ModelB extends Model
 {
     use HasFactory;
-
     use HasHashId;
-
     use HasHashIdRouting;
 
     protected $fillable = ['title'];
