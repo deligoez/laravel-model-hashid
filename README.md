@@ -141,6 +141,9 @@ ModelA::findManyByHashId(['model_a_kqYZeLgo', 'model_a_ZeLgokqY']);
 // Find a model by its Hash Id or throw an exception.
 ModelA::findOrFailByHashId('model_a_kqYZeLgo');
 
+// Find a model by its Hash Id or or call a callback.
+ModelA::findOrByHashId('model_a_kqYZeLgo');
+
 // Find a model by its Hash Id or return fresh model instance.
 ModelA::findOrNewByHashId('model_a_kqYZeLgo');
 
@@ -225,7 +228,7 @@ A typical Hash Id consist of 3 parts.
 - Separator (`_`)
 - Raw Hash Id (`kqYZeLgo`)
 
-Model Prefix and separator are OPTIONAL. You can generate Hash Ids that only contains Raw Hash Ids.
+Model Prefix and Separator are OPTIONAL. You can generate Hash Ids that only contains Raw Hash Ids.
 
 ## Configuration
 
@@ -405,7 +408,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 ## Credits
 
 - [Yunus Emre Deligöz](https://github.com/deligoez)
-- [@plunkettscott](https://github.com/plunkettscott)
+- [Scott Plunkett](https://github.com/plunkettscott)
 - [All Contributors](../../contributors)
 
 ## License
