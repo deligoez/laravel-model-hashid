@@ -65,7 +65,7 @@ class Generator
      *
      * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
-    public static function parseHashIDForModel(string $hashId): ?HashIdDTO
+    public static function parseHashIDForModel(string $hashId, ?string $className = null): ?HashIdDTO
     {
         $generators = Config::get(ConfigParameters::MODEL_GENERATORS);
 
@@ -89,6 +89,10 @@ class Generator
         $genericLength = (int) Config::get(ConfigParameters::LENGTH);
         $genericSeparator = Config::get(ConfigParameters::SEPARATOR);
         $genericPrefixLength = Config::get(ConfigParameters::PREFIX_LENGTH);
+
+        if ($genericPrefixLength === -1) {
+            $genericPrefixLength = mb_strlen(self::buildPrefixForModel($className));
+        }
 
         if ($genericLength + $genericPrefixLength + mb_strlen($genericSeparator) === mb_strlen($hashId)) {
             return new HashIdDTO(
