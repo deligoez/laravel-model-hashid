@@ -114,11 +114,9 @@ $rules = [
     'trailing_comma_in_multiline'                 => ['elements' => ['arrays']],
 
     // php-cs-fixer 3: Changed options
-    'binary_operator_spaces' => [
+    'binary_operator_spaces'                      => [
         'default'   => 'single_space',
-        'operators' => [
-            '=>' => null,
-        ],
+        'operators' => ['=>' => null],
     ],
     'blank_line_before_statement'                 => [
         'statements' => ['return'],
@@ -128,7 +126,7 @@ $rules = [
             'const'        => 'none',
             'method'       => 'one',
             'property'     => 'one',
-            'trait_import' => 'one',
+            'trait_import' => 'none',
         ],
     ],
     'class_definition'                            => [
@@ -150,7 +148,6 @@ $rules = [
     'visibility_required'                         => [
         'elements' => ['property', 'method', 'const'],
     ],
-
     'types_spaces' => [
         'space' => 'none',
     ],
