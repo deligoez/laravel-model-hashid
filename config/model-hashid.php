@@ -114,7 +114,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you can set specific HashID generators for individual Models.
-    | Each one of the setting above can be defined per model. You can
+    | Each one of the settings above can be defined per model. You can
     | see an example below as a comment.
     |
     */
@@ -134,7 +134,7 @@ return [
         //     'salt'            => 'your-model-specific-salt-string',
         //     'length'          => 13,
         //     'alphabet'        => 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890',
-        //     'prefix'          => 'abc', // prefix will be 'abc', not a generated prefix
+        //     'prefix'          => 'abc', // prefix will be 'abc' for this model, not a generated prefix
         //     'separator'       => '_',
         //     'database_column' => 'hash_id',
         // ],
