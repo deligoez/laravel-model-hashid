@@ -15,39 +15,39 @@ class FindByHashIdMixinTest extends TestCase
     /** @test */
     public function it_can_find_a_model_by_its_hashId(): void
     {
-        // 1️⃣ Arrange 🏗
+        // 1. Arrange 🏗
         $model = ModelA::factory()->create();
         $hashId = $model->hashId;
 
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         $foundModel = ModelA::findByHashId($hashId);
 
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $this->assertTrue($model->is($foundModel));
     }
 
     /** @test */
     public function it_can_find_a_model_by_its_hashId_from_specific_columns(): void
     {
-        // 1️⃣ Arrange 🏗
+        // 1. Arrange 🏗
         $model = ModelA::factory()->create();
         $hashId = $model->hashId;
         $selectedColumns = ['id'];
 
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         $foundModel = ModelA::findByHashId($hashId, $selectedColumns);
 
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $this->assertTrue($model->is($foundModel));
     }
 
     /** @test */
     public function it_returns_null_if_can_not_find_a_model_with_given_hashId(): void
     {
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         $foundModel = ModelA::findByHashId('non-existing-hash-id');
 
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $this->assertNull($foundModel);
     }
 }

@@ -15,42 +15,42 @@ class FindOrNewByHashIdMixinTest extends TestCase
     /** @test */
     public function it_can_find_a_model_by_its_hashId(): void
     {
-        // 1️⃣ Arrange 🏗
+        // 1. Arrange 🏗
         $model = ModelA::factory()->create();
         $hashId = $model->hashId;
 
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         /** @var ModelA $foundModel */
         $foundModel = ModelA::findOrNewByHashId($hashId);
 
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $this->assertTrue($model->is($foundModel));
     }
 
     /** @test */
     public function it_can_find_a_model_by_its_hashId_from_specific_columns(): void
     {
-        // 1️⃣ Arrange 🏗
+        // 1. Arrange 🏗
         $model = ModelA::factory()->create();
         $hashId = $model->hashId;
         $selectedColumns = ['id'];
 
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         /** @var ModelA $foundModel */
         $foundModel = ModelA::findOrNewByHashId($hashId, $selectedColumns);
 
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $this->assertTrue($model->is($foundModel));
     }
 
     /** @test */
     public function it_can_new_a_model_if_hashId_not_found(): void
     {
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         /** @var ModelA $newModel */
         $newModel = ModelA::findOrNewByHashId('non-existing-hash-id');
 
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $this->assertFalse($newModel->exists);
     }
 }

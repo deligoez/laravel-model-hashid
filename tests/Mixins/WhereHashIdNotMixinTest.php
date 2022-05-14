@@ -15,18 +15,18 @@ class WhereHashIdNotMixinTest extends TestCase
     /** @test */
     public function it_can_query_that_a_model_will_not_be_retrieved_by_its_hashId(): void
     {
-        // 1️⃣ Arrange 🏗
+        // 1. Arrange 🏗
         /** @var ModelA $model1 */
         $model1 = ModelA::factory()->create();
         /** @var ModelA $model2 */
         $model2 = ModelA::factory()->create();
 
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         $foundModel = ModelA::query()
                             ->whereHashIdNot($model1->hashId)
                             ->first();
 
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $this->assertTrue($model2->is($foundModel));
     }
 }

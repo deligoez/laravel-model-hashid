@@ -21,44 +21,44 @@ class HashIdModelConfigTest extends TestCase
     /** @test */
     public function it_can_set_generic_config_without_model_instance_or_class_name(): void
     {
-        // 1️⃣ Arrange 🏗
+        // 1. Arrange 🏗
         $genericSeparator = '@';
         LaravelConfig::set(ConfigParameters::CONFIG_FILE_NAME . '.' . ConfigParameters::SEPARATOR, $genericSeparator);
         $newSeparator = '*';
 
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         Config::set(ConfigParameters::SEPARATOR, $newSeparator);
 
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $this->assertEquals($newSeparator, Config::get(ConfigParameters::SEPARATOR));
     }
 
     /** @test */
     public function it_can_get_generic_config_without_model_instance_or_class_name(): void
     {
-        // 1️⃣ Arrange 🏗
+        // 1. Arrange 🏗
         $genericSeparator = '#';
         Config::set(ConfigParameters::SEPARATOR, $genericSeparator);
 
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         $separator = Config::get(ConfigParameters::SEPARATOR);
 
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $this->assertEquals($separator, $genericSeparator);
     }
 
     /** @test */
     public function it_can_get_generic_config_for_different_models(): void
     {
-        // 1️⃣ Arrange 🏗
+        // 1. Arrange 🏗
         $genericSeparator = '#';
         Config::set(ConfigParameters::SEPARATOR, $genericSeparator);
 
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         $modelASeparator = Config::get(ConfigParameters::SEPARATOR, ModelA::class);
         $modelBSeparator = Config::get(ConfigParameters::SEPARATOR, ModelB::class);
 
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $this->assertEquals($genericSeparator, $modelASeparator);
         $this->assertEquals($genericSeparator, $modelBSeparator);
         $this->assertEquals($modelASeparator, $modelBSeparator);
@@ -67,7 +67,7 @@ class HashIdModelConfigTest extends TestCase
     /** @test */
     public function it_can_get_specific_config_for_different_models(): void
     {
-        // 1️⃣ Arrange 🏗
+        // 1. Arrange 🏗
         $genericSeparator = '#';
         Config::set(ConfigParameters::SEPARATOR, $genericSeparator);
 
@@ -77,11 +77,11 @@ class HashIdModelConfigTest extends TestCase
         $modelBSpecificSeparator = '@';
         Config::set(ConfigParameters::SEPARATOR, $modelBSpecificSeparator, ModelB::class);
 
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         $modelASeparator = Config::get(ConfigParameters::SEPARATOR, ModelA::class);
         $modelBSeparator = Config::get(ConfigParameters::SEPARATOR, ModelB::class);
 
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $this->assertEquals($modelASpecificSeparator, $modelASeparator);
         $this->assertEquals($modelBSpecificSeparator, $modelBSeparator);
     }
@@ -89,18 +89,18 @@ class HashIdModelConfigTest extends TestCase
     /** @test */
     public function it_can_get_specific_config_via_model_instance_or_class_name(): void
     {
-        // 1️⃣ Arrange 🏗
+        // 1. Arrange 🏗
         $genericSeparator = '#';
         Config::set(ConfigParameters::SEPARATOR, $genericSeparator);
 
         $modelSpecificSeparator = '!';
         Config::set(ConfigParameters::SEPARATOR, $modelSpecificSeparator, ModelA::class);
 
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         $modelSeparatorViaInstance = Config::get(ConfigParameters::SEPARATOR, new ModelA());
         $modelSeparatorViaClassName = Config::get(ConfigParameters::SEPARATOR, ModelA::class);
 
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $this->assertEquals($modelSpecificSeparator, $modelSeparatorViaInstance);
         $this->assertEquals($modelSpecificSeparator, $modelSeparatorViaClassName);
         $this->assertEquals($modelSeparatorViaClassName, $modelSeparatorViaInstance);
@@ -109,7 +109,7 @@ class HashIdModelConfigTest extends TestCase
     /** @test */
     public function it_can_set_specific_config_via_model_instance_or_class_name(): void
     {
-        // 1️⃣ Arrange 🏗
+        // 1. Arrange 🏗
         $genericSeparator = '#';
         $genericLength = 5;
         Config::set(ConfigParameters::SEPARATOR, $genericSeparator);
@@ -121,14 +121,14 @@ class HashIdModelConfigTest extends TestCase
         $modelBSpecificSeparator = '@';
         $modelBSpecificLength = 10;
 
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         Config::set(ConfigParameters::SEPARATOR, $modelASpecificSeparator, ModelA::class);
         Config::set(ConfigParameters::LENGTH, $modelASpecificLength, ModelA::class);
 
         Config::set(ConfigParameters::SEPARATOR, $modelBSpecificSeparator, ModelB::class);
         Config::set(ConfigParameters::LENGTH, $modelBSpecificLength, ModelB::class);
 
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $this->assertEquals($modelASpecificSeparator, Config::get(ConfigParameters::SEPARATOR, ModelA::class));
         $this->assertEquals($modelASpecificLength, Config::get(ConfigParameters::LENGTH, ModelA::class));
 
@@ -139,20 +139,20 @@ class HashIdModelConfigTest extends TestCase
     /** @test */
     public function it_throws_a_runtime_exception_for_unknown_parameters(): void
     {
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $this->expectException(UnknownHashIdConfigParameterException::class);
 
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         Config::checkIfParameterDefined('unknown-config');
     }
 
     /** @test */
     public function it_throws_a_runtime_exception_for_class_names_that_does_not_exist(): void
     {
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $this->expectException(ModelNotFoundException::class);
 
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         Config::checkIfModelClassExist('class-that-does-not-exist');
     }
 }

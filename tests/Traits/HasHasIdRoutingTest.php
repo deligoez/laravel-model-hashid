@@ -22,7 +22,7 @@ class HasHasIdRoutingTest extends TestCase
     /** @test */
     public function it_can_resolve_a_hashId_via_route_model_binding(): void
     {
-        // 1️⃣ Arrange 🏗
+        // 1. Arrange 🏗
         ModelA::factory()->count($this->faker->numberBetween(2, 5))->create();
         $model = ModelA::factory()->create(['name' => 'model-that-should-bind']);
         $hashId = $model->hashId;
@@ -31,10 +31,10 @@ class HasHasIdRoutingTest extends TestCase
             return $modelA->toJson();
         })->middleware(SubstituteBindings::class);
 
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         $response = $this->getJson("/model-a/{$hashId}");
 
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $response
             ->assertOk()
             ->assertJsonFragment([
@@ -46,7 +46,7 @@ class HasHasIdRoutingTest extends TestCase
     /** @test */
     public function it_can_resolve_a_hashId_via_route_model_binding_using_custom_route_key_name(): void
     {
-        // 1️⃣ Arrange 🏗
+        // 1. Arrange 🏗
         ModelA::factory()->count($this->faker->numberBetween(2, 5))->create();
         $model = ModelA::factory()->create(['name' => 'model-that-should-bind']);
         $hashId = $model->hashId;
@@ -57,10 +57,10 @@ class HasHasIdRoutingTest extends TestCase
             return $modelBinding->toJson();
         })->middleware(SubstituteBindings::class);
 
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         $response = $this->getJson("/model-a/{$hashId}");
 
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $response
             ->assertOk()
             ->assertJsonFragment([
@@ -72,7 +72,7 @@ class HasHasIdRoutingTest extends TestCase
     /** @test */
     public function it_can_resolve_a_hashId_via_route_model_binding_using_negative_one_prefix_length(): void
     {
-        // 1️⃣ Arrange 🏗
+        // 1. Arrange 🏗
         Config::set(ConfigParameters::PREFIX_LENGTH, -1);
 
         ModelA::factory()->count($this->faker->numberBetween(2, 5))->create();
@@ -83,10 +83,10 @@ class HasHasIdRoutingTest extends TestCase
             return $modelA->toJson();
         })->middleware(SubstituteBindings::class);
 
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         $response = $this->getJson("/model-a/{$hashId}");
 
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $response
             ->assertOk()
             ->assertJsonFragment([
@@ -98,7 +98,7 @@ class HasHasIdRoutingTest extends TestCase
     /** @test */
     public function it_can_resolve_a_hashId_via_route_model_binding_using_negative_one_prefix_length_per_model(): void
     {
-        // 1️⃣ Arrange 🏗
+        // 1. Arrange 🏗
         Config::set(ConfigParameters::PREFIX_LENGTH, 5);
         Config::set(ConfigParameters::PREFIX_LENGTH, -1, ModelA::class);
 
@@ -110,10 +110,10 @@ class HasHasIdRoutingTest extends TestCase
             return $modelA->toJson();
         })->middleware(SubstituteBindings::class);
 
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         $response = $this->getJson("/model-a/{$hashId}");
 
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $response
             ->assertOk()
             ->assertJsonFragment([
@@ -125,7 +125,7 @@ class HasHasIdRoutingTest extends TestCase
     /** @test */
     public function it_throws_a_model_not_found_exception_while_routing_with_model_key(): void
     {
-        // 1️⃣ Arrange 🏗
+        // 1. Arrange 🏗
         $this->withoutExceptionHandling();
 
         $model = ModelA::factory()->create(['name' => 'model-that-should-bind']);
@@ -136,10 +136,10 @@ class HasHasIdRoutingTest extends TestCase
             return $modelBinding->toJson();
         })->middleware(SubstituteBindings::class);
 
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $this->expectException(ModelNotFoundException::class);
 
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         $this->getJson("/model-a/{$model->getKey()}");
     }
 }

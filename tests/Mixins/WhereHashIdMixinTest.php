@@ -15,15 +15,15 @@ class WhereHashIdMixinTest extends TestCase
     /** @test */
     public function it_can_query_a_model_by_its_hashId(): void
     {
-        // 1️⃣ Arrange 🏗
+        // 1. Arrange 🏗
         $model = ModelA::factory()->create();
 
-        // 2️⃣ Act 🏋🏻‍
+        // 2. Act 🏋🏻‍
         $foundModel = ModelA::query()
                             ->whereHashId($model->hashId)
                             ->first();
 
-        // 3️⃣ Assert ✅
+        // 3. Assert ✅
         $this->assertTrue($model->is($foundModel));
     }
 }
