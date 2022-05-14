@@ -10,7 +10,7 @@ use Closure;
 class FindOrByHashIdMixin
 {
     /**
-     * Find a model by its Hash Id or throw an exception.
+     * Find a model by its Hash Id or call a callback.
      *
      * @return \Closure
      */
