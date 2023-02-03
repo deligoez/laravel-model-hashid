@@ -80,7 +80,7 @@ The table below shows the compatibility across Laravel, PHP, and this package's 
 
 | Package Version | Laravel version | PHP version | Compatible |
 |-----------------|-----------------|-------------|------------|
-| ^2.0            | 9.*             | 8.1.*       |      ✅    |
+| ^2.0            | 9.* , 10.*      | 8.1.*       |      ✅    |
 | ^1.0            | 8.*             | 8.0.*       |      ✅    |
 |                 | 8.*             | 7.4.*       |      ❌    |
 |                 | 8.*             | 7.3.*       |      ❌    |
