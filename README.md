@@ -392,6 +392,7 @@ composer test
 This project is used by the following companies/products, you can add yours too:
 
 - [blindnote.com](https://blindnote.com/)
+- [tarfin.com](https://tarfin.com/)
 
 ## Changelog
 
