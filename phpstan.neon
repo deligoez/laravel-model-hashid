@@ -9,10 +9,5 @@ parameters:
     checkModelProperties: true
     checkMissingIterableValueType: true
     ignoreErrors:
-        - '#::findOrNewByHashId\(\).#'
-        - '#::findOrFailByHashId\(\).#'
-        - '#::findOrByHashId\(\).#'
-        - '#::findManyByHashId\(\).#'
-        - '#::findByHashId\(\).#'
         - '#::keyFromHashId\(\).#'
         - '#Access to an undefined property [a-zA-Z0-9\\_]+::\$hashId#'

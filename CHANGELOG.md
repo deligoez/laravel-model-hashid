@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-model-hashid` will be documented in this file.
 
+## 2.3.0 - 2023-01-04
+- Add support for Laravel 9 by @laravel-shift in #14
+
 ## 2.2.0 - 2022-05-12
 - Introduce `findOrByHashId` Mixin
 - Fix route model binding with a prefix length of -1 by @striebwj in #9

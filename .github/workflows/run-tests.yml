@@ -18,23 +18,26 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        php: [8.0, 8.1]
+        php: [8.0, 8.1, 8.2]
         laravel: [9.*, 10.*]
         dependency-version: [prefer-lowest, prefer-stable]
         include:
-          - laravel: 10.*
-            testbench: 8.*
-          - laravel: 9.*
-            testbench: 7.*
+          -   laravel: 10.*
+              testbench: 8.*
+          -   laravel: 9.*
+              testbench: 7.*
+        exclude:
+          -   laravel: 10.*
+              php: 8.0
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -58,7 +61,7 @@ jobs:
         run: composer validate --strict
 
       - name: Execute tests
-        run: vendor/bin/testbench package:test --parallel
+        run: vendor/bin/testbench package:test
 
       - name: Replace clover.xml paths
         run: |
