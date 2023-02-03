@@ -411,6 +411,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 - [Yunus Emre Deligöz](https://github.com/deligoez)
 - [Scott Plunkett](https://github.com/plunkettscott)
 - [Wade](https://github.com/striebwj)
+- [Laravel Shift](https://github.com/laravel-shift)
 - [All Contributors](../../contributors)
 
 ## License
