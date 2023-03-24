@@ -33,7 +33,7 @@ class HashIdExists extends Exists implements ValidationRule, ValidatorAwareRule
 
         $validator = ValidatorFacade::make(
             [$attribute => $id],
-            [$attribute => (string) $this]
+            [$attribute =>  $this->buildParentRule()]
         );
 
         if ($validator->fails()) {
@@ -46,6 +46,14 @@ class HashIdExists extends Exists implements ValidationRule, ValidatorAwareRule
         $this->validator = $validator;
 
         return $this;
+    }
+
+    protected function buildParentRule(): Exists
+    {
+        return tap(new parent($this->model, (new $this->model)->getKeyName()), function (Exists $parent) {
+            $parent->wheres = $this->wheres;
+            $parent->using = $this->using;
+        });
     }
 
     protected function fail(string $attribute, Closure $fail): void {
