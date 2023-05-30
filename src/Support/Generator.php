@@ -74,7 +74,11 @@ class Generator
             $separator = Config::get(ConfigParameters::SEPARATOR, $modelClassName);
             $length = (int) Config::get(ConfigParameters::LENGTH, $modelClassName);
 
-            $hashIdForKeyArray = explode($prefix . $separator, $hashId);
+            if ($prefix || $separator) {
+                $hashIdForKeyArray = explode($prefix . $separator, $hashId);
+            } else {
+                $hashIdForKeyArray = ['', $hashId];
+            }
 
             if (isset($hashIdForKeyArray[1]) && mb_strlen($hashIdForKeyArray[1]) === $length) {
                 return new HashIdDTO(
