@@ -1,4 +1,4 @@
-name: code style
+name: Pint
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
       - 'php-cs-fixer.yml'
 
 jobs:
-  php-cs-fixer:
+  php-code-styling:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,15 +19,10 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - name: Run PHP CS Fixer
-        uses: docker://oskarstark/php-cs-fixer-ga
-        with:
-          args: --config=.php-cs-fixer.php --allow-risky=yes
+      - name: Fix PHP code style issues
+        uses: aglipanci/laravel-pint-action@2.2.0
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Fix styling
-          commit_user_name: Yunus Emre Deligöz
-          commit_user_email: ye@deligoz.me
-          commit_author: Yunus Emre Deligöz <ye@deligoz.me>
+          commit_message: "chore: Fix styling"
