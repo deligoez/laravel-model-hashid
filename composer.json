@@ -66,6 +66,7 @@
         }
     },
     "scripts": {
+        "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
         "phpstan": "vendor/bin/phpstan analyse --configuration=phpstan.neon.dist",
         "lint": "php-cs-fixer fix -v",
         "test": "./vendor/bin/testbench package:test --no-coverage",
