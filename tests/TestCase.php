@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Tests;
 
-use Deligoez\LaravelModelHashId\LaravelModelHashIdServiceProvider;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Deligoez\LaravelModelHashId\LaravelModelHashIdServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -14,10 +14,10 @@ class TestCase extends Orchestra
     {
         parent::setUp();
 
-        $this->loadMigrationsFrom(__DIR__ . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR . 'migrations');
+        $this->loadMigrationsFrom(__DIR__.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'migrations');
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Deligoez\\LaravelModelHashId\\Tests\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
+            fn (string $modelName) => 'Deligoez\\LaravelModelHashId\\Tests\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 

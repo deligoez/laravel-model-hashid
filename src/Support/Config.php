@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Support;
 
-use Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Arr;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config as LaravelConfig;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException;
 
 class Config
 {
@@ -25,12 +25,12 @@ class Config
             $className = $model instanceof Model ? get_class($model) : $model;
 
             // Get the model specific configuration value if it exists.
-            if (Arr::has(LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME . '.' . ConfigParameters::MODEL_GENERATORS), $className . '.' . $parameter)) {
-                return LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME . '.' . ConfigParameters::MODEL_GENERATORS)[$className][$parameter];
+            if (Arr::has(LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::MODEL_GENERATORS), $className.'.'.$parameter)) {
+                return LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::MODEL_GENERATORS)[$className][$parameter];
             }
         }
 
-        return LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME . '.' . $parameter);
+        return LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.$parameter);
     }
 
     /**
@@ -45,10 +45,10 @@ class Config
         if ($model !== null) {
             $className = $model instanceof Model ? get_class($model) : $model;
 
-            return Arr::has(LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME . '.' . ConfigParameters::MODEL_GENERATORS), $className . '.' . $parameter);
+            return Arr::has(LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::MODEL_GENERATORS), $className.'.'.$parameter);
         }
 
-        return LaravelConfig::has(ConfigParameters::CONFIG_FILE_NAME . '.' . $parameter);
+        return LaravelConfig::has(ConfigParameters::CONFIG_FILE_NAME.'.'.$parameter);
     }
 
     /**
@@ -61,7 +61,7 @@ class Config
         self::checkIfParameterDefined($parameter);
 
         if ($model === null) {
-            LaravelConfig::set(ConfigParameters::CONFIG_FILE_NAME . '.' . $parameter, $value);
+            LaravelConfig::set(ConfigParameters::CONFIG_FILE_NAME.'.'.$parameter, $value);
 
             return;
         }
@@ -70,11 +70,11 @@ class Config
 
         $className = $model instanceof Model ? get_class($model) : $model;
 
-        $generatorsConfig = LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME . '.' . ConfigParameters::MODEL_GENERATORS);
+        $generatorsConfig = LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::MODEL_GENERATORS);
 
         $generatorsConfig[$className][$parameter] = $value;
 
-        LaravelConfig::set(ConfigParameters::CONFIG_FILE_NAME . '.' . ConfigParameters::MODEL_GENERATORS, $generatorsConfig);
+        LaravelConfig::set(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::MODEL_GENERATORS, $generatorsConfig);
     }
 
     /**
@@ -84,19 +84,17 @@ class Config
      */
     public static function checkIfParameterDefined(string $parameter): void
     {
-        if (! in_array($parameter, ConfigParameters::$parameters, true)) {
+        if (!in_array($parameter, ConfigParameters::$parameters, true)) {
             throw UnknownHashIdConfigParameterException::make($parameter);
         }
     }
 
     /**
      * Check if given model class is exists.
-     *
-     * @param  \Illuminate\Database\Eloquent\Model|string  $model
      */
     public static function checkIfModelClassExist(Model|string $model): void
     {
-        if (is_string($model) && ! class_exists($model)) {
+        if (is_string($model) && !class_exists($model)) {
             throw new ModelNotFoundException();
         }
     }

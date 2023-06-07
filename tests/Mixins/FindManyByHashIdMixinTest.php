@@ -4,23 +4,25 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Tests\Mixins;
 
-use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
+use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 
 class FindManyByHashIdMixinTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
 
-    /** @test */
-    public function it_can_find_many_models_by_its_hashId(): void
+    /**
+     * @test
+     */
+    public function it_can_find_many_models_by_its_hash_id(): void
     {
         // 1. Arrange 🏗
         $models = ModelA::factory()
-                        ->count($this->faker->numberBetween(2, 5))
-                        ->create();
+            ->count($this->faker->numberBetween(2, 5))
+            ->create();
 
         $modelHashId = $models->pluck('hashId')->toArray();
 
@@ -31,13 +33,15 @@ class FindManyByHashIdMixinTest extends TestCase
         $this->assertSame($models->pluck('id')->toArray(), $foundModels->pluck('id')->toArray());
     }
 
-    /** @test */
-    public function it_can_find_many_models_by_its_hashIds_from_specific_columns(): void
+    /**
+     * @test
+     */
+    public function it_can_find_many_models_by_its_hash_ids_from_specific_columns(): void
     {
         // 1. Arrange 🏗
         $models = ModelA::factory()
-                        ->count($this->faker->numberBetween(2, 5))
-                        ->create();
+            ->count($this->faker->numberBetween(2, 5))
+            ->create();
 
         $modelHashIDs = $models->pluck('hashId')->toArray();
 

@@ -11,8 +11,6 @@ class FindByHashIdMixin
 {
     /**
      * Find a model by its Hash Id.
-     *
-     * @return \Closure
      */
     public function findByHashId(): Closure
     {

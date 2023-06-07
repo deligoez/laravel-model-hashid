@@ -11,8 +11,6 @@ class FindOrByHashIdMixin
 {
     /**
      * Find a model by its Hash Id or call a callback.
-     *
-     * @return \Closure
      */
     public function findOrByHashId(): Closure
     {

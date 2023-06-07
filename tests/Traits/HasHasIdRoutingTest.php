@@ -4,27 +4,29 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Tests\Traits;
 
-use Deligoez\LaravelModelHashId\Support\Config;
-use Deligoez\LaravelModelHashId\Support\ConfigParameters;
-use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
-use Deligoez\LaravelModelHashId\Tests\TestCase;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Testing\WithFaker;
+use Deligoez\LaravelModelHashId\Support\Config;
+use Deligoez\LaravelModelHashId\Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 
 class HasHasIdRoutingTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
 
-    /** @test */
-    public function it_can_resolve_a_hashId_via_route_model_binding(): void
+    /**
+     * @test
+     */
+    public function it_can_resolve_a_hash_id_via_route_model_binding(): void
     {
         // 1. Arrange 🏗
         ModelA::factory()->count($this->faker->numberBetween(2, 5))->create();
-        $model = ModelA::factory()->create(['name' => 'model-that-should-bind']);
+        $model  = ModelA::factory()->create(['name' => 'model-that-should-bind']);
         $hashId = $model->hashId;
 
         Route::get('/model-a/{modelA}', function (ModelA $modelA) {
@@ -43,12 +45,14 @@ class HasHasIdRoutingTest extends TestCase
             ]);
     }
 
-    /** @test */
-    public function it_can_resolve_a_hashId_via_route_model_binding_using_custom_route_key_name(): void
+    /**
+     * @test
+     */
+    public function it_can_resolve_a_hash_id_via_route_model_binding_using_custom_route_key_name(): void
     {
         // 1. Arrange 🏗
         ModelA::factory()->count($this->faker->numberBetween(2, 5))->create();
-        $model = ModelA::factory()->create(['name' => 'model-that-should-bind']);
+        $model  = ModelA::factory()->create(['name' => 'model-that-should-bind']);
         $hashId = $model->hashId;
 
         Route::model('hash_id', ModelA::class);
@@ -69,14 +73,16 @@ class HasHasIdRoutingTest extends TestCase
             ]);
     }
 
-    /** @test */
-    public function it_can_resolve_a_hashId_via_route_model_binding_using_negative_one_prefix_length(): void
+    /**
+     * @test
+     */
+    public function it_can_resolve_a_hash_id_via_route_model_binding_using_negative_one_prefix_length(): void
     {
         // 1. Arrange 🏗
         Config::set(ConfigParameters::PREFIX_LENGTH, -1);
 
         ModelA::factory()->count($this->faker->numberBetween(2, 5))->create();
-        $model = ModelA::factory()->create(['name' => 'model-that-should-bind']);
+        $model  = ModelA::factory()->create(['name' => 'model-that-should-bind']);
         $hashId = $model->hashId;
 
         Route::get('/model-a/{modelA}', function (ModelA $modelA) {
@@ -95,15 +101,17 @@ class HasHasIdRoutingTest extends TestCase
             ]);
     }
 
-    /** @test */
-    public function it_can_resolve_a_hashId_via_route_model_binding_using_negative_one_prefix_length_per_model(): void
+    /**
+     * @test
+     */
+    public function it_can_resolve_a_hash_id_via_route_model_binding_using_negative_one_prefix_length_per_model(): void
     {
         // 1. Arrange 🏗
         Config::set(ConfigParameters::PREFIX_LENGTH, 5);
         Config::set(ConfigParameters::PREFIX_LENGTH, -1, ModelA::class);
 
         ModelA::factory()->count($this->faker->numberBetween(2, 5))->create();
-        $model = ModelA::factory()->create(['name' => 'model-that-should-bind']);
+        $model  = ModelA::factory()->create(['name' => 'model-that-should-bind']);
         $hashId = $model->hashId;
 
         Route::get('/model-a/{modelA}', function (ModelA $modelA) {
@@ -117,12 +125,14 @@ class HasHasIdRoutingTest extends TestCase
         $response
             ->assertOk()
             ->assertJsonFragment([
-                                     'id'   => $model->getKey(),
-                                     'name' => 'model-that-should-bind',
-                                 ]);
+                'id'   => $model->getKey(),
+                'name' => 'model-that-should-bind',
+            ]);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_throws_a_model_not_found_exception_while_routing_with_model_key(): void
     {
         // 1. Arrange 🏗

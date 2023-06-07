@@ -11,8 +11,6 @@ class WhereHashIdNotMixin
 {
     /**
      * Add a where not clause on the Hash Id to the query.
-     *
-     * @return \Closure
      */
     public function whereHashIdNot(): Closure
     {
