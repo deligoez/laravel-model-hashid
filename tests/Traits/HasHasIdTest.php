@@ -11,6 +11,7 @@ use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Deligoez\LaravelModelHashId\Support\Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
+use Deligoez\LaravelModelHashId\Tests\Models\ModelB;
 use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 
 class HasHasIdTest extends TestCase
@@ -133,6 +134,27 @@ class HasHasIdTest extends TestCase
     {
         // 2. Act 🏋🏻‍
         $key = ModelA::keyFromHashId('non-existing-hash-id');
+
+        // 3. Assert ✅
+        $this->assertNull($key);
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_null_if_hash_id_prefix_does_not_match_model_prefix(): void
+    {
+        // 1. Arrange 🏗
+        Config::set(ConfigParameters::PREFIX, 'a_custom_prefix', ModelA::class);
+        Config::set(ConfigParameters::PREFIX, 'b_custom_prefix', ModelB::class);
+
+        ModelA::factory()->create();
+        $modelB = ModelB::factory()->create();
+
+        $hashId = $modelB->hashId;
+
+        // 2. Act 🏋🏻‍
+        $key = ModelA::keyFromHashId($hashId);
 
         // 3. Assert ✅
         $this->assertNull($key);
