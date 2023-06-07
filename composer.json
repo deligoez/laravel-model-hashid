@@ -66,8 +66,8 @@
         }
     },
     "scripts": {
+        "phpstan": "vendor/bin/phpstan analyse --configuration=phpstan.neon.dist",
         "lint": "php-cs-fixer fix -v",
-        "phpstan": "vendor/bin/phpstan analyse --memory-limit=-1",
         "test": "./vendor/bin/testbench package:test --no-coverage",
         "test-coverage": "vendor/bin/phpunit --coverage-text"
     }
