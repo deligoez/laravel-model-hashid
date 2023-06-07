@@ -11,8 +11,6 @@ class WhereHashIdMixin
 {
     /**
      * Add a where clause on the Hash Id to the query.
-     *
-     * @return \Closure
      */
     public function whereHashId(): Closure
     {

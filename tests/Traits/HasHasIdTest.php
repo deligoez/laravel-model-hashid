@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Tests\Traits;
 
+use Str;
+use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashId\Support\Config;
-use Deligoez\LaravelModelHashId\Support\ConfigParameters;
+use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Deligoez\LaravelModelHashId\Support\Generator;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelB;
-use Deligoez\LaravelModelHashId\Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Str;
+use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 
 class HasHasIdTest extends TestCase
 {
@@ -24,12 +24,12 @@ class HasHasIdTest extends TestCase
     /** @test
      * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
-    public function model_hashId_salt_can_be_defined(): void
+    public function model_hash_id_salt_can_be_defined(): void
     {
         // 1. Arrange 🏗
         /** @var ModelA $model */
         $model = ModelA::factory()->create();
-        $hash = $model->hashId;
+        $hash  = $model->hashId;
 
         // 2. Act 🏋🏻‍
         Config::set(ConfigParameters::SALT, Str::random());
@@ -39,8 +39,10 @@ class HasHasIdTest extends TestCase
         $this->assertNotEquals($hash, $newHash);
     }
 
-    /** @test */
-    public function model_hashId_length_can_be_defined(): void
+    /**
+     * @test
+     */
+    public function model_hash_id_length_can_be_defined(): void
     {
         // 1. Arrange 🏗
         $randomLength = $this->faker->numberBetween(5, 20);
@@ -59,8 +61,10 @@ class HasHasIdTest extends TestCase
         $this->assertEquals($length, mb_strlen($hashId));
     }
 
-    /** @test */
-    public function model_hashId_alphabet_can_be_defined(): void
+    /**
+     * @test
+     */
+    public function model_hash_id_alphabet_can_be_defined(): void
     {
         // 1. Arrange 🏗
         $customAlphabet = 'abcdef1234567890';
@@ -80,8 +84,10 @@ class HasHasIdTest extends TestCase
         }
     }
 
-    /** @test */
-    public function model_hashId_alphabet_can_also_be_defined_from_emojis(): void
+    /**
+     * @test
+     */
+    public function model_hash_id_alphabet_can_also_be_defined_from_emojis(): void
     {
         // 1. Arrange 🏗
         $customAlphabet = '😀😃😄😁😆😅😂🤣🥲☺️😊😇🙂🙃😉😌';
@@ -105,11 +111,13 @@ class HasHasIdTest extends TestCase
 
     // region Trait Static Functions
 
-    /** @test */
-    public function it_can_get_a_model_key_from_hashId(): void
+    /**
+     * @test
+     */
+    public function it_can_get_a_model_key_from_hash_id(): void
     {
         // 1. Arrange 🏗
-        $model = ModelA::factory()->create();
+        $model  = ModelA::factory()->create();
         $hashId = $model->hashId;
 
         // 2. Act 🏋🏻‍
@@ -119,8 +127,10 @@ class HasHasIdTest extends TestCase
         $this->assertEquals($model->getKey(), $key);
     }
 
-    /** @test */
-    public function it_returns_null_if_hashId_can_not_parsable(): void
+    /**
+     * @test
+     */
+    public function it_returns_null_if_hash_id_can_not_parsable(): void
     {
         // 2. Act 🏋🏻‍
         $key = ModelA::keyFromHashId('non-existing-hash-id');
@@ -129,8 +139,10 @@ class HasHasIdTest extends TestCase
         $this->assertNull($key);
     }
 
-    /** @test */
-    public function it_returns_null_if_hashId_prefix_does_not_match_model_prefix(): void
+    /**
+     * @test
+     */
+    public function it_returns_null_if_hash_id_prefix_does_not_match_model_prefix(): void
     {
         // 1. Arrange 🏗
         Config::set(ConfigParameters::PREFIX, 'a_custom_prefix', ModelA::class);
@@ -152,22 +164,26 @@ class HasHasIdTest extends TestCase
 
     // region Accessors
 
-    /** @test */
-    public function model_has_a_hashId_attribute(): void
+    /**
+     * @test
+     */
+    public function model_has_a_hash_id_attribute(): void
     {
         // 1. Arrange 🏗
         $model = ModelA::factory()->create();
 
         // 2. Act 🏋🏻‍
         $hashId = $model->hashId;
-        $key = $model->getKey();
+        $key    = $model->getKey();
 
         // 3. Assert ✅
         $this->assertEquals($key, ModelA::keyFromHashId($hashId));
     }
 
-    /** @test */
-    public function model_has_a_hashIdRaw_attribute(): void
+    /**
+     * @test
+     */
+    public function model_has_a_hash_id_raw_attribute(): void
     {
         // 1. Arrange 🏗
         $model = ModelA::factory()->create();
@@ -180,8 +196,10 @@ class HasHasIdTest extends TestCase
         $this->assertEquals($hashIdRaw, $hashIdRawAttribute);
     }
 
-    /** @test */
-    public function it_returns_null_if_model_does_not_have_a_key_for_hashIdRaw(): void
+    /**
+     * @test
+     */
+    public function it_returns_null_if_model_does_not_have_a_key_for_hash_id_raw(): void
     {
         // 1. Arrange 🏗
         /** @var ModelA $model */

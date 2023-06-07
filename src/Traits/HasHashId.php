@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Traits;
 
-use Deligoez\LaravelModelHashId\Support\Config;
-use Deligoez\LaravelModelHashId\Support\ConfigParameters;
-use Deligoez\LaravelModelHashId\Support\Generator;
 use Hashids\HashidsInterface;
+use Deligoez\LaravelModelHashId\Support\Config;
+use Deligoez\LaravelModelHashId\Support\Generator;
+use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 
 /**
  * @mixin \Illuminate\Database\Eloquent\Model
@@ -22,7 +22,6 @@ trait HasHashId
     /**
      * Initialize the HasHasId trait for an instance.
      *
-     * @return void
      *
      * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
@@ -34,7 +33,6 @@ trait HasHashId
     /**
      * Get the Hash Id for the model.
      *
-     * @return string|null
      *
      * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
@@ -60,18 +58,16 @@ trait HasHashId
     /**
      * Decode given Hash Id and return the model key.
      *
-     * @param  string  $hashId
      *
-     * @return int|null
      *
      * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
     public static function keyFromHashId(string $hashId): ?int
     {
-        $modelPrefix = Generator::buildPrefixForModel(__CLASS__);
+        $modelPrefix    = Generator::buildPrefixForModel(__CLASS__);
         $modelSeparator = Config::get(ConfigParameters::SEPARATOR, __CLASS__);
 
-        if (! str_starts_with($hashId, $modelPrefix . $modelSeparator)) {
+        if (!str_starts_with($hashId, $modelPrefix.$modelSeparator)) {
             return null;
         }
 
