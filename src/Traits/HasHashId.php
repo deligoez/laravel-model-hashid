@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashId\Traits;
 
 use Hashids\HashidsInterface;
-use Deligoez\LaravelModelHashId\Support\Config;
 use Deligoez\LaravelModelHashId\Support\Generator;
-use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 
 /**
  * @mixin \Illuminate\Database\Eloquent\Model
@@ -64,13 +62,6 @@ trait HasHashId
      */
     public static function keyFromHashId(string $hashId): ?int
     {
-        $modelPrefix    = Generator::buildPrefixForModel(__CLASS__);
-        $modelSeparator = Config::get(ConfigParameters::SEPARATOR, __CLASS__);
-
-        if (!str_starts_with($hashId, $modelPrefix.$modelSeparator)) {
-            return null;
-        }
-
         $hashIdInstance = Generator::parseHashIDForModel($hashId, __CLASS__);
 
         if ($hashIdInstance === null) {
