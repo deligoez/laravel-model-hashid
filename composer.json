@@ -30,7 +30,7 @@
         "illuminate/contracts": "^9.0|^10.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.14.3",
+        "laravel/pint": "^1.10",
         "nunomaduro/collision": "^6.4",
         "nunomaduro/larastan": "^2.4",
         "orchestra/testbench": "^7.21|^8.0",
@@ -68,7 +68,9 @@
     "scripts": {
         "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
         "phpstan": "vendor/bin/phpstan analyse --configuration=phpstan.neon.dist",
-        "lint": "php-cs-fixer fix -v",
+        "pint": "vendor/bin/pint",
+        "lint": "@pint",
+        "lintc": "vendor/bin/pint && (git diff-index --quiet HEAD || (git add . && git commit -m 'chore: Fix styling'))",
         "test": "./vendor/bin/testbench package:test --no-coverage",
         "test-coverage": "vendor/bin/phpunit --coverage-text"
     }
