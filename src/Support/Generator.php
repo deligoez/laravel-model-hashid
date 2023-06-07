@@ -8,6 +8,7 @@ use Str;
 use Hashids\Hashids;
 use Hashids\HashidsInterface;
 use Illuminate\Database\Eloquent\Model;
+use Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException;
 
 class Generator
 {
@@ -69,20 +70,18 @@ class Generator
     {
         $generators = Config::get(ConfigParameters::MODEL_GENERATORS);
 
+        if ($className !== null) {
+            $generatorForModel = $generators[$className] ?? null;
+
+            if ($generatorForModel !== null) {
+                return self::createHashIdDTO($hashId, $className);
+            }
+        }
+
         foreach ($generators as $modelClassName => $generator) {
-            $prefix    = self::buildPrefixForModel($modelClassName);
-            $separator = Config::get(ConfigParameters::SEPARATOR, $modelClassName);
-            $length    = (int) Config::get(ConfigParameters::LENGTH, $modelClassName);
-
-            $hashIdForKeyArray = explode($prefix.$separator, $hashId);
-
-            if (isset($hashIdForKeyArray[1]) && mb_strlen($hashIdForKeyArray[1]) === $length) {
-                return new HashIdDTO(
-                    prefix: $prefix,
-                    separator: $separator,
-                    hashIdForKey: $hashIdForKeyArray[1],
-                    modelClassName: $modelClassName
-                );
+            $hashIdDTO = self::createHashIdDTO($hashId, $modelClassName);
+            if ($hashIdDTO !== null) {
+                return $hashIdDTO;
             }
         }
 
@@ -100,6 +99,31 @@ class Generator
                 separator: $genericSeparator,
                 hashIdForKey: mb_substr($hashId, $genericLength * -1),
                 modelClassName: null
+            );
+        }
+
+        return null;
+    }
+
+    /**
+     * @throws UnknownHashIdConfigParameterException
+     */
+    private static function createHashIdDTO(string $hashId, string $className): ?HashIdDTO
+    {
+        $prefix    = self::buildPrefixForModel($className);
+        $separator = Config::get(ConfigParameters::SEPARATOR, $className);
+        $length    = (int) Config::get(ConfigParameters::LENGTH, $className);
+
+        $hashIdForKeyArray = $prefix !== '' || $separator !== ''
+            ? explode($prefix.$separator, $hashId)
+            : ['', $hashId];
+
+        if (isset($hashIdForKeyArray[1]) && mb_strlen($hashIdForKeyArray[1]) === $length) {
+            return new HashIdDTO(
+                prefix: $prefix,
+                separator: $separator,
+                hashIdForKey: $hashIdForKeyArray[1],
+                modelClassName: $className
             );
         }
 

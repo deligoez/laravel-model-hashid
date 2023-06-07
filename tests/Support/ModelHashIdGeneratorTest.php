@@ -438,4 +438,42 @@ class ModelHashIdGeneratorTest extends TestCase
         // 2. Act 🏋🏻‍
         Generator::build('class-name-that-does-not-exist');
     }
+
+    /**
+     * @test
+     */
+    public function model_prefix_and_separator_can_be_both_empty(): void
+    {
+        // 1. Arrange 🏗
+        Config::set(ConfigParameters::SEPARATOR, '', ModelA::class);
+        Config::set(ConfigParameters::LENGTH, 5, ModelA::class);
+        Config::set(ConfigParameters::PREFIX_LENGTH, 0, ModelA::class);
+        Config::set(ConfigParameters::SALT, 'salt-for-model-a', ModelA::class);
+
+        Config::set(ConfigParameters::SEPARATOR, '', ModelB::class);
+        Config::set(ConfigParameters::LENGTH, 5, ModelB::class);
+        Config::set(ConfigParameters::PREFIX_LENGTH, 0, ModelB::class);
+        Config::set(ConfigParameters::SALT, 'salt-for-model-b', ModelB::class);
+
+        $modelA = ModelA::factory()->create();
+        $modelB = ModelB::factory()->create();
+
+        // 2. Act 🏋🏻‍
+        $hashIdForModelA = Generator::forModel($modelA);
+        $hashIdForModelB = Generator::forModel($modelB);
+
+        // 3. Assert ✅
+        $modelHashForA = Generator::parseHashIDForModel($hashIdForModelA, ModelA::class);
+        $modelHashForB = Generator::parseHashIDForModel($hashIdForModelB, ModelB::class);
+
+        $this->assertEquals('', $modelHashForA->prefix);
+        $this->assertEquals('', $modelHashForA->separator);
+        $this->assertEquals($hashIdForModelA, $modelA->hashId);
+        $this->assertEquals(ModelA::class, $modelHashForA->modelClassName);
+
+        $this->assertEquals('', $modelHashForB->prefix);
+        $this->assertEquals('', $modelHashForB->separator);
+        $this->assertEquals($hashIdForModelB, $modelB->hashId);
+        $this->assertEquals(ModelB::class, $modelHashForB->modelClassName);
+    }
 }
