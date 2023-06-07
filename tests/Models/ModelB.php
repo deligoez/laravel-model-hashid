@@ -9,6 +9,11 @@ use Deligoez\LaravelModelHashId\Traits\HasHashId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Deligoez\LaravelModelHashId\Traits\HasHashIdRouting;
 
+/**
+ * Class ModelB.
+ *
+ * @property string    $title
+ */
 class ModelB extends Model
 {
     use HasFactory;
