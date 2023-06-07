@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-model-hashid` will be documented in this file.
 
+## 2.3.4 - 2023-06-08
+* Fix if prefix and separator are both empty by @terranc in #18
+* Feat: resolve route binding query using `resolveRouteBindingQuery()` by @bensherred in #16
+* Test: Return null if the hash ID prefix does not match the model prefix @bensherred in #17
+
 ## 2.3.0 - 2023-01-04
 - Add support for Laravel 9 by @laravel-shift in #14
 
