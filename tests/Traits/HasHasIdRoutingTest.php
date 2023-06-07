@@ -48,6 +48,27 @@ class HasHasIdRoutingTest extends TestCase
     /**
      * @test
      */
+    public function it_can_resolve_a_hash_id_via_route_model_binding_query(): void
+    {
+        // 1. Arrange 🏗
+        $model  = ModelA::factory()->create(['name' => 'model-that-should-bind']);
+        $hashId = $model->hashId;
+
+        // 2. Act 🏋🏻‍
+        $query = $model->resolveRouteBindingQuery(ModelA::query(), $hashId);
+
+        // 3. Assert ✅
+        /** @var ModelA $resolvedModel */
+        $resolvedModel = $query->first();
+
+        $this->assertInstanceOf(ModelA::class, $resolvedModel);
+        $this->assertEquals($model->getKey(), $resolvedModel->getKey());
+        $this->assertEquals('model-that-should-bind', $resolvedModel->name);
+    }
+
+    /**
+     * @test
+     */
     public function it_can_resolve_a_hash_id_via_route_model_binding_using_custom_route_key_name(): void
     {
         // 1. Arrange 🏗

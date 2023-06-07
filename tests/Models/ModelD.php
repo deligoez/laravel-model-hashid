@@ -9,6 +9,12 @@ use Deligoez\LaravelModelHashId\Traits\HasHashId;
 use Deligoez\LaravelModelHashId\Traits\SavesHashId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * Class ModelA.
+ *
+ * @property string    $slug
+ * @property string    $hash
+ */
 class ModelD extends Model
 {
     use HasFactory;
