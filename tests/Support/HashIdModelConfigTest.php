@@ -5,25 +5,27 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashId\Tests\Support;
 
 use Config as LaravelConfig;
-use Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException;
+use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashId\Support\Config;
-use Deligoez\LaravelModelHashId\Support\ConfigParameters;
+use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelB;
-use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Foundation\Testing\WithFaker;
+use Deligoez\LaravelModelHashId\Support\ConfigParameters;
+use Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException;
 
 class HashIdModelConfigTest extends TestCase
 {
     use WithFaker;
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_can_set_generic_config_without_model_instance_or_class_name(): void
     {
         // 1. Arrange 🏗
         $genericSeparator = '@';
-        LaravelConfig::set(ConfigParameters::CONFIG_FILE_NAME . '.' . ConfigParameters::SEPARATOR, $genericSeparator);
+        LaravelConfig::set(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::SEPARATOR, $genericSeparator);
         $newSeparator = '*';
 
         // 2. Act 🏋🏻‍
@@ -33,7 +35,9 @@ class HashIdModelConfigTest extends TestCase
         $this->assertEquals($newSeparator, Config::get(ConfigParameters::SEPARATOR));
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_can_get_generic_config_without_model_instance_or_class_name(): void
     {
         // 1. Arrange 🏗
@@ -47,7 +51,9 @@ class HashIdModelConfigTest extends TestCase
         $this->assertEquals($separator, $genericSeparator);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_can_get_generic_config_for_different_models(): void
     {
         // 1. Arrange 🏗
@@ -64,7 +70,9 @@ class HashIdModelConfigTest extends TestCase
         $this->assertEquals($modelASeparator, $modelBSeparator);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_can_get_specific_config_for_different_models(): void
     {
         // 1. Arrange 🏗
@@ -86,7 +94,9 @@ class HashIdModelConfigTest extends TestCase
         $this->assertEquals($modelBSpecificSeparator, $modelBSeparator);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_can_get_specific_config_via_model_instance_or_class_name(): void
     {
         // 1. Arrange 🏗
@@ -97,7 +107,7 @@ class HashIdModelConfigTest extends TestCase
         Config::set(ConfigParameters::SEPARATOR, $modelSpecificSeparator, ModelA::class);
 
         // 2. Act 🏋🏻‍
-        $modelSeparatorViaInstance = Config::get(ConfigParameters::SEPARATOR, new ModelA());
+        $modelSeparatorViaInstance  = Config::get(ConfigParameters::SEPARATOR, new ModelA());
         $modelSeparatorViaClassName = Config::get(ConfigParameters::SEPARATOR, ModelA::class);
 
         // 3. Assert ✅
@@ -106,20 +116,22 @@ class HashIdModelConfigTest extends TestCase
         $this->assertEquals($modelSeparatorViaClassName, $modelSeparatorViaInstance);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_can_set_specific_config_via_model_instance_or_class_name(): void
     {
         // 1. Arrange 🏗
         $genericSeparator = '#';
-        $genericLength = 5;
+        $genericLength    = 5;
         Config::set(ConfigParameters::SEPARATOR, $genericSeparator);
         Config::set(ConfigParameters::LENGTH, $genericLength);
 
         $modelASpecificSeparator = '!';
-        $modelASpecificLength = 6;
+        $modelASpecificLength    = 6;
 
         $modelBSpecificSeparator = '@';
-        $modelBSpecificLength = 10;
+        $modelBSpecificLength    = 10;
 
         // 2. Act 🏋🏻‍
         Config::set(ConfigParameters::SEPARATOR, $modelASpecificSeparator, ModelA::class);
@@ -136,7 +148,9 @@ class HashIdModelConfigTest extends TestCase
         $this->assertEquals($modelBSpecificLength, Config::get(ConfigParameters::LENGTH, ModelB::class));
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_throws_a_runtime_exception_for_unknown_parameters(): void
     {
         // 3. Assert ✅
@@ -146,7 +160,9 @@ class HashIdModelConfigTest extends TestCase
         Config::checkIfParameterDefined('unknown-config');
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function it_throws_a_runtime_exception_for_class_names_that_does_not_exist(): void
     {
         // 3. Assert ✅

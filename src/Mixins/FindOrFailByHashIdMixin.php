@@ -11,8 +11,6 @@ class FindOrFailByHashIdMixin
 {
     /**
      * Find a model by its Hash Id or throw an exception.
-     *
-     * @return \Closure
      */
     public function findOrFailByHashId(): Closure
     {
