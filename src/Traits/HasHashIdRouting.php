@@ -13,8 +13,6 @@ trait HasHashIdRouting
      *
      * @param  mixed  $value
      * @param  string|null  $field
-     *
-     * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function resolveRouteBinding($value, $field = null): ?Model
     {
@@ -27,8 +25,6 @@ trait HasHashIdRouting
 
     /**
      * Get the value of the model's route key.
-     *
-     * @return string
      */
     public function getRouteKey(): string
     {

@@ -12,8 +12,6 @@ class FindManyByHashIdMixin
 {
     /**
      * Find multiple models by their Hash Ids.
-     *
-     * @return \Closure
      */
     public function findManyByHashId(): Closure
     {

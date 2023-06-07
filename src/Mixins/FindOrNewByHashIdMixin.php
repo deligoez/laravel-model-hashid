@@ -11,8 +11,6 @@ class FindOrNewByHashIdMixin
 {
     /**
      * Find a model by its Hash Id or return fresh model instance.
-     *
-     * @return \Closure
      */
     public function findOrNewByHashId(): Closure
     {
