@@ -27,7 +27,7 @@
         "php": "^8.0|^8.1|^8.2",
         "ext-mbstring": "*",
         "hashids/hashids": "^4.1",
-        "illuminate/contracts": "^8.0|^9.0|^10.0"
+        "illuminate/contracts": "^9.0|^10.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.14.3",
