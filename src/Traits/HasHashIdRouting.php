@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Traits;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 trait HasHashIdRouting
 {
@@ -27,13 +28,11 @@ trait HasHashIdRouting
     /**
      * Retrieve the model for a bound value.
      *
-     * @param  Builder  $query
+     * @param  Model|Relation  $query
      * @param  mixed  $value
-     * @param  string|null  $field
-     *
-     * @return Builder
+     * @param  null  $field
      */
-    public function resolveRouteBindingQuery($query, $value, $field = null): Builder
+    public function resolveRouteBindingQuery($query, $value, $field = null): Builder|Relation
     {
         /* @var \Illuminate\Database\Eloquent\Builder $this */
         $id = $this->getModel()->keyFromHashId($value);
