@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Support;
 
-use Str;
+use Illuminate\Support\Str;
 use Hashids\Hashids;
 use Hashids\HashidsInterface;
 use Illuminate\Database\Eloquent\Model;
