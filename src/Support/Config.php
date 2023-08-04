@@ -17,7 +17,7 @@ class Config
      *
      * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
-    public static function get(string $parameter, Model|string|null $model = null): string|int|array
+    public static function get(string $parameter, Model|string $model = null): string|int|array
     {
         self::checkIfParameterDefined($parameter);
 
@@ -38,7 +38,7 @@ class Config
      *
      * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
-    public static function has(string $parameter, Model|string|null $model = null): bool
+    public static function has(string $parameter, Model|string $model = null): bool
     {
         self::checkIfParameterDefined($parameter);
 
@@ -56,7 +56,7 @@ class Config
      *
      * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
-    public static function set(string $parameter, string|int $value, Model|string|null $model = null): void
+    public static function set(string $parameter, string|int $value, Model|string $model = null): void
     {
         self::checkIfParameterDefined($parameter);
 
