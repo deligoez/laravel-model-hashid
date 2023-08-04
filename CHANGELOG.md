@@ -2,7 +2,11 @@
 
 All notable changes to `laravel-model-hashid` will be documented in this file.
 
-## 2.3.4 - 2023-06-08
+
+## 2.4.1 - 2023-08-04
+* Str use path fixed in Generator.php by @frkcn in https://github.com/deligoez/laravel-model-hashid/pull/20
+
+## 2.4.0 - 2023-06-08
 * Fix if prefix and separator are both empty by @terranc in #18
 * Feat: resolve route binding query using `resolveRouteBindingQuery()` by @bensherred in #16
 * Test: Return null if the hash ID prefix does not match the model prefix @bensherred in #17
