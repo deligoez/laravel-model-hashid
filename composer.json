@@ -26,7 +26,7 @@
     "require": {
         "php": "^8.0|^8.1|^8.2",
         "ext-mbstring": "*",
-        "hashids/hashids": "^4.1",
+        "hashids/hashids": "^4.1|^5.0",
         "illuminate/contracts": "^9.0|^10.0"
     },
     "require-dev": {
