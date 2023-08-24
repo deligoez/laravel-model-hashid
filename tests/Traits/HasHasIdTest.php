@@ -142,6 +142,23 @@ class HasHasIdTest extends TestCase
     /**
      * @test
      */
+    public function it_returns_null_if_hash_id_failed_to_decode(): void
+    {
+        // 1. Arrange 🏗
+        $model  = ModelA::factory()->create();
+        $hashId = $model->hashId;
+        $invalidHashId = substr_replace($hashId,"0",-1);
+        
+        // 2. Act 🏋🏻‍
+        $key = ModelA::keyFromHashId( $invalidHashId);
+
+        // 3. Assert ✅
+        $this->assertNull($key);
+    }
+
+    /**
+     * @test
+     */
     public function it_returns_null_if_hash_id_prefix_does_not_match_model_prefix(): void
     {
         // 1. Arrange 🏗
