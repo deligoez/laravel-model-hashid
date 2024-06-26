@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class ModelC.
  *
- * @property string    $slug
- * @property string    $hash_id
+ * @property string $slug
+ * @property string $hash_id
  */
 class ModelC extends Model
 {
