@@ -14,6 +14,13 @@
             <directory>tests</directory>
         </testsuite>
     </testsuites>
+    <php>
+        <env name="DB_DRIVER" value="mysql"/>
+        <env name="DB_HOST" value="127.0.0.1"/>
+        <env name="DB_PORT" value="3306"/>
+        <env name="DB_USERNAME" value="root"/>
+        <env name="DB_DATABASE" value="testing"/>
+    </php>
     <logging>
         <junit outputFile="build/report.junit.xml"/>
     </logging>
