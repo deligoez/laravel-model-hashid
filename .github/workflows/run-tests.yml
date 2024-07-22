@@ -2,36 +2,45 @@ name: tests
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
     paths:
-      - '**.php'
-      - 'composer.json'
-      - '.github/**'
+      - **.php
+      - composer.json
+      - .github/**
   pull_request:
-    branches: [main]
+    branches:
+      - main
     paths:
-      - '**.php'
-      - 'composer.json'
-      - '.github/**'
+      - **.php
+      - composer.json
+      - .github/**
 
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
         php: [8.0, 8.1, 8.2]
-        laravel: [9.*, 10.*]
+        laravel: ['9.*', '10.*', '11.*']
         dependency-version: [prefer-lowest, prefer-stable]
         include:
-          -   laravel: 10.*
-              testbench: 8.*
-          -   laravel: 9.*
-              testbench: 7.*
+          - laravel: 10.*
+            testbench: 8.*
+          - laravel: 9.*
+            testbench: 7.*
+          - laravel: 11.*
+            testbench: 9.*
         exclude:
-          -   laravel: 10.*
-              php: 8.0
+          - laravel: 10.*
+            php: 8.0
+          - laravel: 11.*
+            php: 8.0
+          - laravel: 11.*
+            php: 8.1
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
@@ -67,7 +76,6 @@ jobs:
         run: |
           sed -i 's|/home/runner/work/laravel-model-hashid/laravel-model-hashid/src|/github/workspace/src|g' build/logs/clover.xml
           sed -i 's|/home/runner/work/laravel-model-hashid/laravel-model-hashid/src|/github/workspace/src|g' build/logs/tests.xml
-
 
       - name: SonarCloud
         uses: sonarsource/sonarcloud-github-action@master
