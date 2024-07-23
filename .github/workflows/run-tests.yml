@@ -19,7 +19,6 @@ on:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
-
     strategy:
       fail-fast: false
       matrix:
