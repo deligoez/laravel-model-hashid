@@ -29,8 +29,7 @@ jobs:
         include:
           -   laravel: 9.*
               testbench: 7.*
-              phpunit: 9.*
-              collision: 5.*
+              phpunit: 10.*
           -   laravel: 10.*
               testbench: 8.*
               phpunit: 10.*
