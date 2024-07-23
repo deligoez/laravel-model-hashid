@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Tests\Mixins;
 
+use PHPUnit\Framework\Attributes\Test;
 use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
-use PHPUnit\Framework\Attributes\Test;
 
 class FindOrNewByHashIdMixinTest extends TestCase
 {
