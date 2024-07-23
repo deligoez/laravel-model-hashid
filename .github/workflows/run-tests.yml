@@ -70,7 +70,7 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
-        run: vendor/bin/testbench package:test
+        run: vendor/bin/testbench package:test -v
 
       - name: Replace clover.xml paths
         run: |
