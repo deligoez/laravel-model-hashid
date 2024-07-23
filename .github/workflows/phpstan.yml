@@ -1,27 +1,86 @@
-name: types
+name: tests
 
 on:
   push:
+    branches:
+      - main
     paths:
       - '**.php'
-      - 'composer.json'
-      - 'phpstan.neon.dist'
+      - composer.json
+      - .github/**
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '**.php'
+      - composer.json
+      - .github/**
 
 jobs:
-  phpstan:
-    name: phpstan
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        php: [8.1, 8.2, 8.3]
+        laravel: ['9.*', '10.*', '11.*']
+        dependency-version: [prefer-lowest, prefer-stable]
+        include:
+          -   laravel: 10.*
+              testbench: 8.*
+          -   laravel: 9.*
+              testbench: 7.*
+          -   laravel: 11.*
+              testbench: 9.*
+        exclude:
+          -   laravel: 10.*
+              php: 8.1
+          -   laravel: 11.*
+              php: 8.1
+          -   laravel: 11.*
+              php: 8.1
+          -   laravel: 9.*
+              php: 8.3
+
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
-          coverage: none
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
+          coverage: xdebug
 
-      - name: Install composer dependencies
-        uses: ramsey/composer-install@v1
+      - name: Setup problem matchers
+        run: |
+          mkdir -p build/logs
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-      - name: Run PHPStan
-        run: ./vendor/bin/phpstan --error-format=github
+      - name: Install dependencies
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --dev
+          composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
+
+      - name: Execute tests
+        run: vendor/bin/testbench package:test
+
+      - name: Replace clover.xml paths
+        run: |
+          sed -i 's|/home/runner/work/laravel-model-hashid/laravel-model-hashid/src|/github/workspace/src|g' build/logs/clover.xml
+          sed -i 's|/home/runner/work/laravel-model-hashid/laravel-model-hashid/src|/github/workspace/src|g' build/logs/tests.xml
+
+      - name: SonarCloud
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
