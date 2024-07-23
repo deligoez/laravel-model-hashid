@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashId\Tests\Support;
 
 use Hashids\Hashids;
-use PHPUnit\Framework\Attributes\Test;
 use RuntimeException;
+use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashId\Support\Config;
 use Deligoez\LaravelModelHashId\Tests\TestCase;

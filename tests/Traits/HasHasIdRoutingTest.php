@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashId\Tests\Traits;
 
 use Illuminate\Support\Facades\Route;
+use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashId\Support\Config;
 use Deligoez\LaravelModelHashId\Tests\TestCase;
@@ -13,7 +14,6 @@ use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Deligoez\LaravelModelHashId\Support\ConfigParameters;
-use PHPUnit\Framework\Attributes\Test;
 
 class HasHasIdRoutingTest extends TestCase
 {

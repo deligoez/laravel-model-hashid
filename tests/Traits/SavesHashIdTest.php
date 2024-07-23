@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Tests\Traits;
 
+use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashId\Support\Config;
 use Deligoez\LaravelModelHashId\Tests\TestCase;
@@ -11,7 +12,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelC;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelD;
 use Deligoez\LaravelModelHashId\Support\ConfigParameters;
-use PHPUnit\Framework\Attributes\Test;
 
 class SavesHashIdTest extends TestCase
 {

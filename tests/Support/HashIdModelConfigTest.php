@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashId\Tests\Support;
 
 use Config as LaravelConfig;
+use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashId\Support\Config;
 use Deligoez\LaravelModelHashId\Tests\TestCase;
@@ -13,7 +14,6 @@ use Deligoez\LaravelModelHashId\Tests\Models\ModelB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 use Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException;
-use PHPUnit\Framework\Attributes\Test;
 
 class HashIdModelConfigTest extends TestCase
 {
