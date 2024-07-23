@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Tests\Traits;
 
+use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashId\Support\Config;
 use Deligoez\LaravelModelHashId\Tests\TestCase;
@@ -17,9 +18,7 @@ class SavesHashIdTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_saves_hash_id_after_a_model_is_created(): void
     {
         // 2. Act 🏋🏻‍
@@ -29,9 +28,7 @@ class SavesHashIdTest extends TestCase
         $this->assertEquals($model->hash_id, ModelC::find($model->id)->hashId);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_saves_hash_id_to_a_custom_column_after_a_model_is_created(): void
     {
         // 1. Arrange 🏗

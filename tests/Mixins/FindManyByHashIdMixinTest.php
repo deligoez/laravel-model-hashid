@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Tests\Mixins;
 
+use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,9 +15,7 @@ class FindManyByHashIdMixinTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_find_many_models_by_its_hash_id(): void
     {
         // 1. Arrange 🏗
@@ -33,9 +32,7 @@ class FindManyByHashIdMixinTest extends TestCase
         $this->assertSame($models->pluck('id')->toArray(), $foundModels->pluck('id')->toArray());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_find_many_models_by_its_hash_ids_from_specific_columns(): void
     {
         // 1. Arrange 🏗

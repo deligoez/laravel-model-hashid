@@ -19,6 +19,8 @@ class TestCase extends Orchestra
         Factory::guessFactoryNamesUsing(
             fn (string $modelName) => 'Deligoez\\LaravelModelHashId\\Tests\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
+
+        $this->artisan('migrate');
     }
 
     protected function getPackageProviders($app): array

@@ -24,7 +24,7 @@ class FindOrByHashIdMixin
          *
          * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
          */
-        return function ($id, $columns = ['*'], Closure $callback = null) {
+        return function ($id, $columns = ['*'], ?Closure $callback = null) {
             /* @var \Illuminate\Database\Eloquent\Builder $this */
             return $this->findOr($this->getModel()->keyFromHashId($id), $columns, $callback);
         };

@@ -11,6 +11,5 @@ class HashIdDTO
         public string $separator,
         public string $hashIdForKey,
         public ?string $modelClassName
-    ) {
-    }
+    ) {}
 }

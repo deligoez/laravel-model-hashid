@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Tests\Mixins;
 
+use PHPUnit\Framework\Attributes\Test;
 use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
@@ -13,9 +14,7 @@ class FindOrFailByHashIdMixinTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_find_or_fail_a_model_by_its_hash_id(): void
     {
         // 1️⃣.1️⃣ Arrange 🏗
@@ -37,9 +36,7 @@ class FindOrFailByHashIdMixinTest extends TestCase
         ModelA::findOrFailByHashId($model->hashId);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_find_or_fail_a_model_by_its_hash_id_from_specific_columns(): void
     {
         // 1️⃣.1️⃣ Arrange 🏗

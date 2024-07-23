@@ -12,7 +12,7 @@ use Deligoez\LaravelModelHashId\Traits\HasHashIdRouting;
 /**
  * Class ModelA.
  *
- * @property string    $name
+ * @property string $name
  */
 class ModelA extends Model
 {

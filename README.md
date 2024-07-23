@@ -23,7 +23,7 @@
 
 </div>
 
-Using this package you can generate, save and, route [Stripe-like](https://gist.github.com/fnky/76f533366f75cf75802c8052b577e2a5) Hash Ids for your Eloquent Models.
+Using this package you can generate, save and, route [Stripe-like](https://gist.github.com/fnky/76f533366f75cf75802c8052b577e2a5) Hash Ids for your Eloquent Models. 
 
 Hash Ids are short, unique, and non-sequential, and can generate unique Ids for URLs and hide database row numbers from
 the user. For more information about Hash Ids please visit [hashids.org](https://hashids.org/).
@@ -32,7 +32,7 @@ With this package, you can customize Hash Id generation and add a model prefix a
 
 For a `User` model with an id of `1234`, you can generate Hash Ids like `user_kqYZeLgo`.
 
-So instead of;   
+So instead of;
 `https://your-endpoint.com/user/1234`   
 
 You can have endpoints like;   
@@ -404,7 +404,7 @@ Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
 ## Security Vulnerabilities
 
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+Please review [our security policy](../../security/policy) on how to report security vulnerabilities. 
 
 ## Credits
 
