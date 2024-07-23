@@ -23,7 +23,7 @@
 
 </div>
 
-Using this package you can generate, save and, route [Stripe-like](https://gist.github.com/fnky/76f533366f75cf75802c8052b577e2a5) Hash Ids for your Eloquent Models.
+Using this package you can generate, save and, route [Stripe-like](https://gist.github.com/fnky/76f533366f75cf75802c8052b577e2a5) Hash Ids for your Eloquent Models. 
 
 Hash Ids are short, unique, and non-sequential, and can generate unique Ids for URLs and hide database row numbers from
 the user. For more information about Hash Ids please visit [hashids.org](https://hashids.org/).
