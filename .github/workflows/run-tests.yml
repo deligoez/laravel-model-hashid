@@ -63,6 +63,15 @@ jobs:
             composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --dev
             composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
+      - name: Create Database
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
 
