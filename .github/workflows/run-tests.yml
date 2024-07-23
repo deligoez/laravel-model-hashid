@@ -76,7 +76,12 @@ jobs:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
         run: |
-          php artisan migrate --force
+          php artisan migrate --force -v
+
+      - name: Show Laravel logs
+        if: failure()
+        run: |
+          cat storage/logs/laravel.log
 
       - name: Execute tests
         env:
