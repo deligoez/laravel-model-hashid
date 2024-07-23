@@ -28,10 +28,12 @@ jobs:
         laravel: ['10.*', '11.*']
         dependency-version: [prefer-lowest, prefer-stable]
         include:
-          -   laravel: 10.*
-              testbench: 8.*
-          -   laravel: 11.*
-              testbench: 9.*
+          - laravel: 10.*
+            testbench: 8.*
+            phpunit: 10.*
+          - laravel: 11.*
+            testbench: 9.*
+            phpunit: 11.*
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
@@ -54,7 +56,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --dev
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --dev
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
       - name: Validate composer.json and composer.lock
