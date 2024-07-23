@@ -32,7 +32,7 @@ With this package, you can customize Hash Id generation and add a model prefix a
 
 For a `User` model with an id of `1234`, you can generate Hash Ids like `user_kqYZeLgo`.
 
-So instead of;   
+So instead of;
 `https://your-endpoint.com/user/1234`   
 
 You can have endpoints like;   
