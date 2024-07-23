@@ -5,14 +5,14 @@ on:
     branches:
       - main
     paths:
-      - **.php
+      - '**.php'
       - composer.json
       - .github/**
   pull_request:
     branches:
       - main
     paths:
-      - **.php
+      - '**.php'
       - composer.json
       - .github/**
 
