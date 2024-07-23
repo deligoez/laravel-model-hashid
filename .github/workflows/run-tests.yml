@@ -29,10 +29,16 @@ jobs:
         include:
           -   laravel: 9.*
               testbench: 7.*
+              phpunit: 9.*
+              collision: 6.*
           -   laravel: 10.*
               testbench: 8.*
+              phpunit: 10.*
+              collision: 7.*
           -   laravel: 11.*
               testbench: 9.*
+              phpunit: 11.*
+              collision: 8.*
         exclude:
           -   laravel: 9.*
               php: 8.3
@@ -60,7 +66,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-            composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nunomaduro/collision:${{ matrix.collision }}" --no-interaction --dev
+            composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nunomaduro/collision:${{ matrix.collision }}" "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --dev
             composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
       - name: Validate composer.json and composer.lock
