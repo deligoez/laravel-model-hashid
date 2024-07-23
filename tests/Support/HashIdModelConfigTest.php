@@ -19,7 +19,9 @@ class HashIdModelConfigTest extends TestCase
 {
     use WithFaker;
 
-    #[Test]
+    /**
+     * @test
+     */
     public function it_can_set_generic_config_without_model_instance_or_class_name(): void
     {
         // 1. Arrange 🏗
@@ -34,7 +36,9 @@ class HashIdModelConfigTest extends TestCase
         $this->assertEquals($newSeparator, Config::get(ConfigParameters::SEPARATOR));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function it_can_get_generic_config_without_model_instance_or_class_name(): void
     {
         // 1. Arrange 🏗
@@ -48,7 +52,9 @@ class HashIdModelConfigTest extends TestCase
         $this->assertEquals($separator, $genericSeparator);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function it_can_get_generic_config_for_different_models(): void
     {
         // 1. Arrange 🏗
@@ -65,7 +71,9 @@ class HashIdModelConfigTest extends TestCase
         $this->assertEquals($modelASeparator, $modelBSeparator);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function it_can_get_specific_config_for_different_models(): void
     {
         // 1. Arrange 🏗
@@ -87,7 +95,9 @@ class HashIdModelConfigTest extends TestCase
         $this->assertEquals($modelBSpecificSeparator, $modelBSeparator);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function it_can_get_specific_config_via_model_instance_or_class_name(): void
     {
         // 1. Arrange 🏗
@@ -107,7 +117,9 @@ class HashIdModelConfigTest extends TestCase
         $this->assertEquals($modelSeparatorViaClassName, $modelSeparatorViaInstance);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function it_can_set_specific_config_via_model_instance_or_class_name(): void
     {
         // 1. Arrange 🏗
@@ -137,7 +149,9 @@ class HashIdModelConfigTest extends TestCase
         $this->assertEquals($modelBSpecificLength, Config::get(ConfigParameters::LENGTH, ModelB::class));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function it_throws_a_runtime_exception_for_unknown_parameters(): void
     {
         // 3. Assert ✅
@@ -147,7 +161,9 @@ class HashIdModelConfigTest extends TestCase
         Config::checkIfParameterDefined('unknown-config');
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function it_throws_a_runtime_exception_for_class_names_that_does_not_exist(): void
     {
         // 3. Assert ✅

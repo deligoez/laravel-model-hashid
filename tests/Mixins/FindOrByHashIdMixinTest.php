@@ -14,7 +14,9 @@ class FindOrByHashIdMixinTest extends TestCase
 {
     use RefreshDatabase;
 
-    #[Test]
+    /**
+     * @test
+     */
     public function it_can_find_or_a_model_by_its_hash_id(): void
     {
         // 1️⃣.1️⃣ Arrange 🏗
@@ -38,7 +40,9 @@ class FindOrByHashIdMixinTest extends TestCase
         });
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function it_can_find_or_fail_a_model_by_its_hash_id_from_specific_columns(): void
     {
         // 1️⃣.1️⃣ Arrange 🏗

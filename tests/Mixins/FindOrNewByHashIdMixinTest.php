@@ -13,7 +13,9 @@ class FindOrNewByHashIdMixinTest extends TestCase
 {
     use RefreshDatabase;
 
-    #[Test]
+    /**
+     * @test
+     */
     public function it_can_find_a_model_by_its_hash_id(): void
     {
         // 1. Arrange 🏗
@@ -28,7 +30,9 @@ class FindOrNewByHashIdMixinTest extends TestCase
         $this->assertTrue($model->is($foundModel));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function it_can_find_a_model_by_its_hash_id_from_specific_columns(): void
     {
         // 1. Arrange 🏗
@@ -44,7 +48,9 @@ class FindOrNewByHashIdMixinTest extends TestCase
         $this->assertTrue($model->is($foundModel));
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function it_can_new_a_model_if_hash_id_not_found(): void
     {
         // 2. Act 🏋🏻‍

@@ -18,7 +18,9 @@ class SavesHashIdTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
-    #[Test]
+    /**
+     * @test
+     */
     public function it_saves_hash_id_after_a_model_is_created(): void
     {
         // 2. Act 🏋🏻‍
@@ -28,7 +30,9 @@ class SavesHashIdTest extends TestCase
         $this->assertEquals($model->hash_id, ModelC::find($model->id)->hashId);
     }
 
-    #[Test]
+    /**
+     * @test
+     */
     public function it_saves_hash_id_to_a_custom_column_after_a_model_is_created(): void
     {
         // 1. Arrange 🏗

@@ -13,7 +13,9 @@ class WhereHashIdNotMixinTest extends TestCase
 {
     use RefreshDatabase;
 
-    #[Test]
+    /**
+     * @test
+     */
     public function it_can_query_that_a_model_will_not_be_retrieved_by_its_hash_id(): void
     {
         // 1. Arrange 🏗
