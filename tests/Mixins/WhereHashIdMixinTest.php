@@ -13,9 +13,7 @@ class WhereHashIdMixinTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_query_a_model_by_its_hash_id(): void
     {
         // 1. Arrange 🏗
