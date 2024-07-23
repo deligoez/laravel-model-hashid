@@ -2,21 +2,24 @@ name: tests
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
     paths:
-      - '**.php'
-      - 'composer.json'
-      - '.github/**'
+      - **.php
+      - composer.json
+      - .github/**
   pull_request:
-    branches: [main]
+    branches:
+      - main
     paths:
-      - '**.php'
-      - 'composer.json'
-      - '.github/**'
+      - **.php
+      - composer.json
+      - .github/**
 
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+
     strategy:
       fail-fast: false
       matrix:
@@ -75,7 +78,6 @@ jobs:
         run: |
           sed -i 's|/home/runner/work/laravel-model-hashid/laravel-model-hashid/src|/github/workspace/src|g' build/logs/clover.xml
           sed -i 's|/home/runner/work/laravel-model-hashid/laravel-model-hashid/src|/github/workspace/src|g' build/logs/tests.xml
-
 
       - name: SonarCloud
         uses: sonarsource/sonarcloud-github-action@master
