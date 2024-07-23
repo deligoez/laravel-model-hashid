@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Tests\Traits;
 
+use PHPUnit\Framework\Attributes\Test;
 use Str;
 use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashId\Support\Config;
@@ -21,8 +22,7 @@ class HasHasIdTest extends TestCase
 
     // region Trait Initialization
 
-    /** @test
-     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
+    /**#[Tests \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
     public function model_hash_id_salt_can_be_defined(): void
     {
@@ -39,9 +39,7 @@ class HasHasIdTest extends TestCase
         $this->assertNotEquals($hash, $newHash);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function model_hash_id_length_can_be_defined(): void
     {
         // 1. Arrange 🏗
@@ -61,9 +59,7 @@ class HasHasIdTest extends TestCase
         $this->assertEquals($length, mb_strlen($hashId));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function model_hash_id_alphabet_can_be_defined(): void
     {
         // 1. Arrange 🏗
@@ -84,9 +80,7 @@ class HasHasIdTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function model_hash_id_alphabet_can_also_be_defined_from_emojis(): void
     {
         // 1. Arrange 🏗
@@ -111,9 +105,7 @@ class HasHasIdTest extends TestCase
 
     // region Trait Static Functions
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_get_a_model_key_from_hash_id(): void
     {
         // 1. Arrange 🏗
@@ -127,9 +119,7 @@ class HasHasIdTest extends TestCase
         $this->assertEquals($model->getKey(), $key);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_null_if_hash_id_can_not_parsable(): void
     {
         // 2. Act 🏋🏻‍
@@ -139,9 +129,7 @@ class HasHasIdTest extends TestCase
         $this->assertNull($key);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_null_if_hash_id_prefix_does_not_match_model_prefix(): void
     {
         // 1. Arrange 🏗
@@ -164,9 +152,7 @@ class HasHasIdTest extends TestCase
 
     // region Accessors
 
-    /**
-     * @test
-     */
+    #[Test]
     public function model_has_a_hash_id_attribute(): void
     {
         // 1. Arrange 🏗
@@ -180,9 +166,7 @@ class HasHasIdTest extends TestCase
         $this->assertEquals($key, ModelA::keyFromHashId($hashId));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function model_has_a_hash_id_raw_attribute(): void
     {
         // 1. Arrange 🏗
@@ -196,9 +180,7 @@ class HasHasIdTest extends TestCase
         $this->assertEquals($hashIdRaw, $hashIdRawAttribute);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_null_if_model_does_not_have_a_key_for_hash_id_raw(): void
     {
         // 1. Arrange 🏗

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashId\Tests\Support;
 
 use Hashids\Hashids;
+use PHPUnit\Framework\Attributes\Test;
 use RuntimeException;
 use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashId\Support\Config;
@@ -20,9 +21,7 @@ class ModelHashIdGeneratorTest extends TestCase
 
     // region prefix
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_uses_default_prefix_logic_when_override_is_not_defined(): void
     {
         // 1. Arrange 🏗
@@ -37,9 +36,7 @@ class ModelHashIdGeneratorTest extends TestCase
         $this->assertEquals($prefixLength, mb_strlen($prefix));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_use_a_defined_prefix_from_a_model_generator(): void
     {
         // 1. Arrange 🏗
@@ -67,9 +64,7 @@ class ModelHashIdGeneratorTest extends TestCase
 
     // region prefix_length
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_set_prefix_length_for_a_model(): void
     {
         // 1. Arrange 🏗
@@ -84,9 +79,7 @@ class ModelHashIdGeneratorTest extends TestCase
         $this->assertEquals($prefixLength, mb_strlen($prefix));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function prefix_length_will_be_the_length_of_class_name_if_prefix_length_is_under_zero(): void
     {
         // 1. Arrange 🏗
@@ -101,9 +94,7 @@ class ModelHashIdGeneratorTest extends TestCase
         $this->assertEquals(mb_strlen(class_basename($model)), mb_strlen($prefix));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_set_prefix_length_to_zero_and_prefix_to_empty(): void
     {
         // 1. Arrange 🏗
@@ -118,9 +109,7 @@ class ModelHashIdGeneratorTest extends TestCase
         $this->assertEquals($prefixLength, mb_strlen($prefix));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function prefix_length_will_be_the_short_class_name_length_if_prefix_length_is_more_than_that(): void
     {
         // 1. Arrange 🏗
@@ -136,9 +125,7 @@ class ModelHashIdGeneratorTest extends TestCase
         $this->assertEquals($shortClassNameLength, mb_strlen($prefix));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_throws_a_runtime_exception_for_class_names_that_does_not_exist(): void
     {
         // 3. Assert ✅
@@ -152,9 +139,7 @@ class ModelHashIdGeneratorTest extends TestCase
 
     // region prefix_case
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_build_a_lower_case_prefix_from_a_model(): void
     {
         // 1. Arrange 🏗
@@ -170,9 +155,7 @@ class ModelHashIdGeneratorTest extends TestCase
         $this->assertEquals('modela', $prefix);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_build_a_upper_case_prefix_from_a_model(): void
     {
         // 1. Arrange 🏗
@@ -188,9 +171,7 @@ class ModelHashIdGeneratorTest extends TestCase
         $this->assertEquals('MODELA', $prefix);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_build_a_camel_case_prefix_from_a_model(): void
     {
         // 1. Arrange 🏗
@@ -206,9 +187,7 @@ class ModelHashIdGeneratorTest extends TestCase
         $this->assertEquals('modelA', $prefix);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_build_a_snake_case_prefix_from_a_model(): void
     {
         // 1. Arrange 🏗
@@ -224,9 +203,7 @@ class ModelHashIdGeneratorTest extends TestCase
         $this->assertEquals('model_a', $prefix);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_build_a_kebab_case_prefix_from_a_model(): void
     {
         // 1. Arrange 🏗
@@ -242,9 +219,7 @@ class ModelHashIdGeneratorTest extends TestCase
         $this->assertEquals('model-a', $prefix);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_build_a_title_case_prefix_from_a_model(): void
     {
         // 1. Arrange 🏗
@@ -260,9 +235,7 @@ class ModelHashIdGeneratorTest extends TestCase
         $this->assertEquals('Modela', $prefix);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_build_a_studly_case_prefix_from_a_model(): void
     {
         // 1. Arrange 🏗
@@ -278,9 +251,7 @@ class ModelHashIdGeneratorTest extends TestCase
         $this->assertEquals('ModelA', $prefix);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_build_a_plural_studly_case_prefix_from_a_model(): void
     {
         // 1. Arrange 🏗
@@ -298,9 +269,7 @@ class ModelHashIdGeneratorTest extends TestCase
 
     // endregion
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_generate_model_hash_ids_using_generic_configuration(): void
     {
         // 1. Arrange 🏗
@@ -323,9 +292,7 @@ class ModelHashIdGeneratorTest extends TestCase
         $this->assertEquals(null, $modelHash->modelClassName);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_generate_model_hash_ids_with_different_configurations(): void
     {
         // 1. Arrange 🏗
@@ -361,9 +328,7 @@ class ModelHashIdGeneratorTest extends TestCase
         $this->assertEquals($modelB::class, $modelHashB->modelClassName);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_parse_a_model_hash_ids_into_parts(): void
     {
         // 1. Arrange 🏗
@@ -395,9 +360,7 @@ class ModelHashIdGeneratorTest extends TestCase
         $this->assertEquals($model->hashId, $hashId);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_null_if_model_does_not_have_a_key(): void
     {
         // 1. Arrange 🏗
@@ -410,9 +373,7 @@ class ModelHashIdGeneratorTest extends TestCase
         $this->assertNull($hashIdForModel);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_build_a_hash_id_generator_from_a_model_instance_or_class_name(): void
     {
         // 1. Arrange 🏗
@@ -427,9 +388,7 @@ class ModelHashIdGeneratorTest extends TestCase
         $this->assertInstanceOf(Hashids::class, $generatorFromClassName);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_throws_a_runtime_exception_for_class_names_that_does_not_exist_while_building_a_generator(): void
     {
         // 3. Assert ✅
@@ -439,9 +398,7 @@ class ModelHashIdGeneratorTest extends TestCase
         Generator::build('class-name-that-does-not-exist');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function model_prefix_and_separator_can_be_both_empty(): void
     {
         // 1. Arrange 🏗

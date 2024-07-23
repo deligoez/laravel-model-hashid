@@ -13,15 +13,14 @@ use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Deligoez\LaravelModelHashId\Support\ConfigParameters;
+use PHPUnit\Framework\Attributes\Test;
 
 class HasHasIdRoutingTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_resolve_a_hash_id_via_route_model_binding(): void
     {
         // 1. Arrange 🏗
@@ -45,9 +44,7 @@ class HasHasIdRoutingTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_resolve_a_hash_id_via_route_model_binding_query(): void
     {
         // 1. Arrange 🏗
@@ -66,9 +63,7 @@ class HasHasIdRoutingTest extends TestCase
         $this->assertEquals('model-that-should-bind', $resolvedModel->name);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_resolve_a_hash_id_via_route_model_binding_using_custom_route_key_name(): void
     {
         // 1. Arrange 🏗
@@ -94,9 +89,7 @@ class HasHasIdRoutingTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_resolve_a_hash_id_via_route_model_binding_using_negative_one_prefix_length(): void
     {
         // 1. Arrange 🏗
@@ -122,9 +115,7 @@ class HasHasIdRoutingTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_resolve_a_hash_id_via_route_model_binding_using_negative_one_prefix_length_per_model(): void
     {
         // 1. Arrange 🏗
@@ -151,9 +142,7 @@ class HasHasIdRoutingTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_throws_a_model_not_found_exception_while_routing_with_model_key(): void
     {
         // 1. Arrange 🏗
