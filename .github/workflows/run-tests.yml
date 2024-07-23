@@ -30,6 +30,7 @@ jobs:
           -   laravel: 9.*
               testbench: 7.*
               phpunit: 9.*
+              collision: 7.*
           -   laravel: 10.*
               testbench: 8.*
               phpunit: 10.*
