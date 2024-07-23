@@ -28,10 +28,8 @@ trait HasHashIdRouting
     /**
      * Retrieve the model for a bound value.
      *
-     * @param Model|Relation $query
-     * @param mixed $value
-     * @param $field
-     * @return Builder|Relation
+     * @param  Model|Relation  $query
+     * @param  mixed  $value
      */
     public function resolveRouteBindingQuery($query, $value, $field = null): Builder|Relation
     {
