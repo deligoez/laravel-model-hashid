@@ -1,18 +1,18 @@
-name: tests
+name: phpstan
 
 on:
   push:
     branches:
       - main
     paths:
-      - **.php
+      - '**.php'
       - composer.json
       - .github/**
   pull_request:
     branches:
       - main
     paths:
-      - **.php
+      - '**.php'
       - composer.json
       - .github/**
 
@@ -24,25 +24,25 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        php: [8.2, 8.3]
+        php: [8.2, 8.3, 8.4]
         laravel: ['10.*', '11.*', '12.*']
-        dependency-version: [prefer-lowest, prefer-stable]
+        stability: [prefer-lowest, prefer-stable]
         include:
           - laravel: 10.*
-            testbench: 8.*
-            phpunit: 10.*
+            testbench: ^8.33
           - laravel: 11.*
-            testbench: 9.*
-            phpunit: 11.*
+            testbench: ^9.0
           - laravel: 12.*
-            testbench: 10.*
-            phpunit: '8.2'
+            testbench: ^10.0
+        exclude:
+          - php: 8.4
+            laravel: 10.*
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -59,7 +59,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --dev
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --dev
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
       - name: Validate composer.json and composer.lock

@@ -95,7 +95,7 @@ class Config
     public static function checkIfModelClassExist(Model|string $model): void
     {
         if (is_string($model) && !class_exists($model)) {
-            throw new ModelNotFoundException();
+            throw new ModelNotFoundException;
         }
     }
 }

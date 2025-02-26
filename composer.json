@@ -24,14 +24,15 @@
         "source": "https://github.com/deligoez/laravel-model-hashid"
     },
     "require": {
-        "php": "^8.2|^8.3",
+        "php": "^8.2|^8.3|^8.4",
         "ext-mbstring": "*",
         "hashids/hashids": "^4.1|^5.0",
         "illuminate/contracts": "^9.0|^10.0|^11.0|^12.0"
     },
     "require-dev": {
         "laravel/pint": "^1.10",
-        "nunomaduro/larastan": "^2.4",
+        "nunomaduro/collision": "^7.0|^8.6",
+        "nunomaduro/larastan": "^2.4|^3.0",
         "orchestra/testbench": "^8.0|^9.0|^10.0",
         "phpstan/extension-installer": "^1.2",
         "phpstan/phpstan-deprecation-rules": "^1.1.1|^2.0",
