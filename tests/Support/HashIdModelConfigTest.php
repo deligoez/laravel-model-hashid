@@ -98,7 +98,7 @@ class HashIdModelConfigTest extends TestCase
         Config::set(ConfigParameters::SEPARATOR, $modelSpecificSeparator, ModelA::class);
 
         // 2. Act 🏋🏻‍
-        $modelSeparatorViaInstance  = Config::get(ConfigParameters::SEPARATOR, new ModelA);
+        $modelSeparatorViaInstance  = Config::get(ConfigParameters::SEPARATOR, new ModelA());
         $modelSeparatorViaClassName = Config::get(ConfigParameters::SEPARATOR, ModelA::class);
 
         // 3. Assert ✅
