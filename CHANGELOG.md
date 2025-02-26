@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-model-hashid` will be documented in this file.
 
+## 2.5.0 - 2025-02-26
+* Add support for Laravel 12 by @laravel-shift in #30
+* Add support for PHP 8.4 by @frkcn in #31
 
 ## 2.4.1 - 2023-08-04
 * Str use path fixed in Generator.php by @frkcn in https://github.com/deligoez/laravel-model-hashid/pull/20

@@ -78,13 +78,13 @@ You have complete control over your Hash Id length and style. Check out the conf
 
 The table below shows the compatibility across Laravel, PHP, and this package's **current version**.
 
-| Package Version | Laravel version | PHP version | Compatible |
-|-----------------|-----------------|-------------|------------|
-| ^2.0            | 9.* , 10.*      | 8.1.*       |      ✅    |
-| ^1.0            | 8.*             | 8.0.*       |      ✅    |
-|                 | 8.*             | 7.4.*       |      ❌    |
-|                 | 8.*             | 7.3.*       |      ❌    |
-|                 | 7.x             | *           |      ❌    |
+| Package Version | Laravel version        | PHP version               | Compatible |
+|-----------------|------------------------|---------------------------|------------|
+| ^2.0            | 9.* , 10.*, 11.*, 12.* | 8.1.*, 8.2*, 8.3.*, 8.4.* |      ✅    |
+| ^1.0            | 8.*                    | 8.0.*                     |      ✅    |
+|                 | 8.*                    | 7.4.*                     |      ❌    |
+|                 | 8.*                    | 7.3.*                     |      ❌    |
+|                 | 7.x                    | *                         |      ❌    |
 
 ## Installation
 

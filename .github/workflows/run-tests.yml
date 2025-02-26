@@ -5,14 +5,14 @@ on:
     branches:
       - main
     paths:
-      - **.php
+      - '**.php'
       - composer.json
       - .github/**
   pull_request:
     branches:
       - main
     paths:
-      - **.php
+      - '**.php'
       - composer.json
       - .github/**
 
@@ -24,9 +24,9 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        php: [8.2, 8.3]
+        php: [8.2, 8.3, 8.4]
         laravel: ['10.*', '11.*', '12.*']
-        dependency-version: [prefer-lowest, prefer-stable]
+        stability: [prefer-lowest, prefer-stable]
         include:
           - laravel: 10.*
             testbench: 8.*
@@ -42,7 +42,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
