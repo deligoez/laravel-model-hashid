@@ -49,12 +49,12 @@ class LaravelModelHashIdServiceProvider extends ServiceProvider
      */
     protected function bootMixins(): void
     {
-        Builder::mixin(new FindByHashIdMixin());
-        Builder::mixin(new FindManyByHashIdMixin());
-        Builder::mixin(new FindOrFailByHashIdMixin());
-        Builder::mixin(new FindOrByHashIdMixin());
-        Builder::mixin(new FindOrNewByHashIdMixin());
-        Builder::mixin(new WhereHashIdMixin());
-        Builder::mixin(new WhereHashIdNotMixin());
+        Builder::mixin(new FindByHashIdMixin);
+        Builder::mixin(new FindManyByHashIdMixin);
+        Builder::mixin(new FindOrFailByHashIdMixin);
+        Builder::mixin(new FindOrByHashIdMixin);
+        Builder::mixin(new FindOrNewByHashIdMixin);
+        Builder::mixin(new WhereHashIdMixin);
+        Builder::mixin(new WhereHashIdNotMixin);
     }
 }

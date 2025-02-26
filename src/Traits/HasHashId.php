@@ -41,8 +41,6 @@ trait HasHashId
 
     /**
      * Get the Raw Hash Id for the model.
-     *
-     * @return ?string
      */
     public function getHashIdRawAttribute(): ?string
     {
