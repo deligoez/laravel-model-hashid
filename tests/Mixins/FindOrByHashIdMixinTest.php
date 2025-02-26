@@ -34,7 +34,7 @@ class FindOrByHashIdMixinTest extends TestCase
 
         // 2️⃣.2️⃣ Act 🏋🏻‍
         ModelA::findOrByHashId($model->hashId, function (): void {
-            throw new RuntimeException;
+            throw new RuntimeException();
         });
     }
 
@@ -59,7 +59,7 @@ class FindOrByHashIdMixinTest extends TestCase
 
         // 2️⃣.2️⃣ Act 🏋🏻‍
         ModelA::findOrByHashId($model->hashId, function (): void {
-            throw new RuntimeException;
+            throw new RuntimeException();
         });
     }
 }

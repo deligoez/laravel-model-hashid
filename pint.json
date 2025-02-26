@@ -53,7 +53,6 @@
         ]
       ]
     },
-    "no_superfluous_phpdoc_tags": true,
     "no_superfluous_phpdoc_tags": {
       "allow_mixed": true
     },
@@ -85,6 +84,7 @@
         "property": "none",
         "trait_import": "none"
       }
-    }
+    },
+    "new_with_parentheses": true
   }
 }
