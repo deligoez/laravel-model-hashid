@@ -251,6 +251,12 @@ describe('generator', function (): void {
             ->and(Generator::build(ModelA::class))->toBeInstanceOf(Hashids::class);
     });
 
+    it('can build a hash id generator when config values are strings', function (): void {
+        Config::set(ConfigParameters::LENGTH, '8', ModelA::class);
+
+        expect(Generator::build(ModelA::class))->toBeInstanceOf(Hashids::class);
+    });
+
     it('throws a runtime exception for invalid class names while building', function (): void {
         expect(fn () => Generator::build('class-name-that-does-not-exist'))
             ->toThrow(RuntimeException::class);
