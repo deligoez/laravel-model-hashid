@@ -10,8 +10,7 @@ use Deligoez\LaravelModelHashId\Support\Generator;
 
 class DecodeHashIdCommand extends Command
 {
-    protected $signature = 'hashid:decode {hashid : The hash ID to decode} {model? : The fully qualified model class name (optional)}';
-
+    protected $signature   = 'hashid:decode {hashid : The hash ID to decode} {model? : The fully qualified model class name (optional)}';
     protected $description = 'Decode a hash ID to its integer key';
 
     public function handle(): int
@@ -52,7 +51,7 @@ class DecodeHashIdCommand extends Command
 
         $prefix    = Generator::buildPrefixForModel($modelClass);
         $parsed    = Generator::parseHashIDForModel($hashId, $modelClass);
-        $separator = $parsed?->separator ?? '_';
+        $separator = $parsed !== null ? $parsed->separator : '_';
 
         $this->table(
             ['Field', 'Value'],
