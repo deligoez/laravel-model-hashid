@@ -27,8 +27,8 @@ it('does not replace id for unsaved models', function (): void {
 
 it('respects hidden attributes', function (): void {
     $model = new class() extends ModelE {
-        protected $table   = 'model_e_s';
-        protected $hidden  = ['name'];
+        protected $table  = 'model_e_s';
+        protected $hidden = ['name'];
     };
 
     $model->name = 'hidden';
