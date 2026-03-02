@@ -25,6 +25,9 @@ on:
       - .github/workflows/ci.yml
 
 jobs:
+  # ──────────────────────────────────────────────
+  # Tier 1: Lint (parallel) — fast code style checks
+  # ──────────────────────────────────────────────
   pint:
     name: Pint
     runs-on: ubuntu-latest
@@ -37,10 +40,10 @@ jobs:
           php-version: '8.4'
           coverage: none
 
-      - name: Install dependencies
-        run: composer install --no-interaction --prefer-dist
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@v3
 
-      - name: Run Pint
+      - name: Check code style
         run: composer test:pint
 
   rector:
@@ -55,12 +58,15 @@ jobs:
           php-version: '8.4'
           coverage: none
 
-      - name: Install dependencies
-        run: composer install --no-interaction --prefer-dist
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@v3
 
-      - name: Run Rector
+      - name: Check Rector
         run: composer test:rector
 
+  # ──────────────────────────────────────────────
+  # Tier 2: Analysis & Tests (parallel, after lint)
+  # ──────────────────────────────────────────────
   larastan:
     name: Larastan
     needs: [pint, rector]
@@ -75,13 +81,32 @@ jobs:
           php-version: '8.4'
           coverage: none
 
-      - name: Install dependencies
-        run: composer install --no-interaction --prefer-dist
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@v3
 
       - name: Run Larastan
         run: composer test:phpstan
 
-  tests:
+  pest-types:
+    name: Pest Types
+    needs: [pint, rector]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Execute type coverage
+        run: composer test:types
+
+  pest:
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }}
     needs: [pint, rector]
     runs-on: ubuntu-latest
@@ -89,14 +114,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.2', '8.3', '8.4']
-        laravel: ['11.*', '12.*']
+        php: ['8.3', '8.4']
+        laravel: ['11', '12']
         stability: [prefer-lowest, prefer-stable]
-        include:
-          - laravel: '11.*'
-            testbench: ^9.0
-          - laravel: '12.*'
-            testbench: ^10.0
 
     steps:
       - uses: actions/checkout@v4
@@ -108,10 +128,16 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, intl, fileinfo
           coverage: none
 
-      - name: Install dependencies
+      - name: Setup problem matchers
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --dev
-          composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Install dependencies
+        run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction --no-progress --with="illuminate/contracts:^${{ matrix.laravel }}"
+
+      - name: List Installed Dependencies
+        run: composer show -D
 
       - name: Execute tests
         run: composer test:unit
