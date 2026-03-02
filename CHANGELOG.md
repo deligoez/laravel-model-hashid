@@ -13,6 +13,8 @@ All notable changes to `laravel-model-hashid` will be documented in this file.
 - `HasHashIdRouting::getRouteKey()` return type changed from `string` to `mixed`
 
 ### Added
+- `ValidHashId` validation rule — format validation with optional model-specific check (no DB hit)
+- `HashIdExists` validation rule — database existence check for Hash Ids
 - Rector with PHP 8.3 target and Laravel rule sets
 - Architecture tests (Pest Arch)
 - Pest type coverage plugin
