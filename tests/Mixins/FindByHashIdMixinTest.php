@@ -2,53 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashId\Tests\Mixins;
-
-use PHPUnit\Framework\Attributes\Test;
-use Deligoez\LaravelModelHashId\Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 
-class FindByHashIdMixinTest extends TestCase
-{
-    use RefreshDatabase;
+it('can find a model by its hash id', function (): void {
+    $model  = ModelA::factory()->create();
+    $hashId = $model->hashId;
 
-    #[Test]
-    public function it_can_find_a_model_by_its_hash_id(): void
-    {
-        // 1. Arrange 🏗
-        $model  = ModelA::factory()->create();
-        $hashId = $model->hashId;
+    $foundModel = ModelA::findByHashId($hashId);
 
-        // 2. Act 🏋🏻‍
-        $foundModel = ModelA::findByHashId($hashId);
+    expect($model->is($foundModel))->toBeTrue();
+});
 
-        // 3. Assert ✅
-        $this->assertTrue($model->is($foundModel));
-    }
+it('can find a model by its hash id from specific columns', function (): void {
+    $model  = ModelA::factory()->create();
+    $hashId = $model->hashId;
 
-    #[Test]
-    public function it_can_find_a_model_by_its_hash_id_from_specific_columns(): void
-    {
-        // 1. Arrange 🏗
-        $model           = ModelA::factory()->create();
-        $hashId          = $model->hashId;
-        $selectedColumns = ['id'];
+    $foundModel = ModelA::findByHashId($hashId, ['id']);
 
-        // 2. Act 🏋🏻‍
-        $foundModel = ModelA::findByHashId($hashId, $selectedColumns);
+    expect($model->is($foundModel))->toBeTrue();
+});
 
-        // 3. Assert ✅
-        $this->assertTrue($model->is($foundModel));
-    }
+it('returns null if can not find a model with given hash id', function (): void {
+    $foundModel = ModelA::findByHashId('non-existing-hash-id');
 
-    #[Test]
-    public function it_returns_null_if_can_not_find_a_model_with_given_hash_id(): void
-    {
-        // 2. Act 🏋🏻‍
-        $foundModel = ModelA::findByHashId('non-existing-hash-id');
-
-        // 3. Assert ✅
-        $this->assertNull($foundModel);
-    }
-}
+    expect($foundModel)->toBeNull();
+});
