@@ -92,6 +92,24 @@ it('can resolve a hash id via route model binding using negative one prefix leng
         ]);
 });
 
+it('returns null route key for unsaved model', function (): void {
+    $model = new ModelA();
+
+    expect($model->getRouteKey())->toBeNull();
+});
+
+it('returns 404 when hash id does not match any existing model', function (): void {
+    $model  = ModelA::factory()->create();
+    $hashId = $model->hashId;
+    $model->delete();
+
+    Route::get('/model-a/{modelA}', fn (ModelA $modelA) => $modelA->toJson())
+        ->middleware(SubstituteBindings::class);
+
+    $this->getJson("/model-a/{$hashId}")
+        ->assertNotFound();
+});
+
 it('throws a model not found exception while routing with model key', function (): void {
     $this->withoutExceptionHandling();
 
