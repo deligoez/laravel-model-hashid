@@ -18,7 +18,7 @@ trait HasHashId
     protected ?HashidsInterface $hashIdGenerator = null;
 
     /**
-     * Initialize the HasHasId trait for an instance.
+     * Initialize the HasHashId trait for an instance.
      *
      * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
