@@ -42,7 +42,7 @@ trait HasHashIdRouting
     /**
      * Get the value of the model's route key.
      */
-    public function getRouteKey(): string
+    public function getRouteKey(): mixed
     {
         return $this->hashId;
     }
