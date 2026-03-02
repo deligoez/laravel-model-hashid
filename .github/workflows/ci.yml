@@ -140,4 +140,4 @@ jobs:
         run: composer show -D
 
       - name: Execute tests
-        run: composer test:unit
+        run: vendor/bin/pest --colors=always --order-by=random --no-coverage
