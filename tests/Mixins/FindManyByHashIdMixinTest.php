@@ -2,52 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashId\Tests\Mixins;
-
-use PHPUnit\Framework\Attributes\Test;
-use Illuminate\Foundation\Testing\WithFaker;
-use Deligoez\LaravelModelHashId\Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 
-class FindManyByHashIdMixinTest extends TestCase
-{
-    use RefreshDatabase;
-    use WithFaker;
+it('can find many models by their hash ids', function (): void {
+    $models = ModelA::factory()
+        ->count(fake()->numberBetween(2, 5))
+        ->create();
 
-    #[Test]
-    public function it_can_find_many_models_by_its_hash_id(): void
-    {
-        // 1. Arrange 🏗
-        $models = ModelA::factory()
-            ->count($this->faker->numberBetween(2, 5))
-            ->create();
+    $modelHashIds = $models->pluck('hashId')->toArray();
 
-        $modelHashId = $models->pluck('hashId')->toArray();
+    $foundModels = ModelA::findManyByHashId($modelHashIds);
 
-        // 2. Act 🏋🏻‍
-        $foundModels = ModelA::findManyByHashId($modelHashId);
+    expect($foundModels->pluck('id')->toArray())->toBe($models->pluck('id')->toArray());
+});
 
-        // 3. Assert ✅
-        $this->assertSame($models->pluck('id')->toArray(), $foundModels->pluck('id')->toArray());
-    }
+it('can find many models by their hash ids from specific columns', function (): void {
+    $models = ModelA::factory()
+        ->count(fake()->numberBetween(2, 5))
+        ->create();
 
-    #[Test]
-    public function it_can_find_many_models_by_its_hash_ids_from_specific_columns(): void
-    {
-        // 1. Arrange 🏗
-        $models = ModelA::factory()
-            ->count($this->faker->numberBetween(2, 5))
-            ->create();
+    $modelHashIds = $models->pluck('hashId')->toArray();
 
-        $modelHashIDs = $models->pluck('hashId')->toArray();
+    $foundModels = ModelA::findManyByHashId($modelHashIds, ['id']);
 
-        $selectedColumns = ['id'];
-
-        // 2. Act 🏋🏻‍
-        $foundModels = ModelA::findManyByHashId($modelHashIDs, $selectedColumns);
-
-        // 3. Assert ✅
-        $this->assertSame($models->pluck('id')->toArray(), $foundModels->pluck('id')->toArray());
-    }
-}
+    expect($foundModels->pluck('id')->toArray())->toBe($models->pluck('id')->toArray());
+});
