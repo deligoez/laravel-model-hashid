@@ -13,6 +13,14 @@ All notable changes to `laravel-model-hashid` will be documented in this file.
 - `HasHashIdRouting::getRouteKey()` return type changed from `string` to `mixed`
 
 ### Added
+- `HashId` utility class — generic encode/decode without a model (`HashId::encode()`, `HashId::decode()`, `HashId::buildGenerator()`)
+- `Blueprint::hashId()` macro — schema sugar for nullable, unique hash id columns in migrations
+- `HashIdCast` — Eloquent cast for transparent hash id attribute storage
+- `SerializesHashId` trait — replaces primary key with hash id in `toArray()` / `toJson()` output
+- `@hashid` Blade directive — XSS-safe hash id output in templates
+- `DecryptsHashIds` trait — auto-decodes hash id inputs to integer keys in `FormRequest`
+- `hashid:encode` Artisan command — encode a key to a hash id via CLI
+- `hashid:decode` Artisan command — decode a hash id to its key via CLI
 - `ValidHashId` validation rule — format validation with optional model-specific check (no DB hit)
 - `HashIdExists` validation rule — database existence check for Hash Ids
 - Rector with PHP 8.3 target and Laravel rule sets
