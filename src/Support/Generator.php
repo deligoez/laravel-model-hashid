@@ -19,7 +19,7 @@ class Generator
      */
     public static function buildPrefixForModel(Model|string $model): string
     {
-        Config::checkIfModelClassExist($model);
+        Config::checkIfModelClassExists($model);
 
         if (Config::has(ConfigParameters::PREFIX, $model)) {
             return Config::get(ConfigParameters::PREFIX, $model);

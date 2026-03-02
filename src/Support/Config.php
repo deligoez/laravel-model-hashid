@@ -66,7 +66,7 @@ class Config
             return;
         }
 
-        self::checkIfModelClassExist($model);
+        self::checkIfModelClassExists($model);
 
         $className = $model instanceof Model ? $model::class : $model;
 
@@ -90,9 +90,9 @@ class Config
     }
 
     /**
-     * Check if given model class is exists.
+     * Check if the given model class exists.
      */
-    public static function checkIfModelClassExist(Model|string $model): void
+    public static function checkIfModelClassExists(Model|string $model): void
     {
         if (is_string($model) && !class_exists($model)) {
             throw new ModelNotFoundException();

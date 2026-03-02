@@ -78,6 +78,6 @@ it('throws a runtime exception for unknown parameters', function (): void {
 });
 
 it('throws a runtime exception for class names that does not exist', function (): void {
-    expect(fn () => Config::checkIfModelClassExist('class-that-does-not-exist'))
+    expect(fn () => Config::checkIfModelClassExists('class-that-does-not-exist'))
         ->toThrow(ModelNotFoundException::class);
 });
