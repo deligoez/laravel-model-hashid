@@ -84,7 +84,7 @@ class Config
      */
     public static function checkIfParameterDefined(string $parameter): void
     {
-        if (!in_array($parameter, ConfigParameters::$parameters, true)) {
+        if (!in_array($parameter, ConfigParameters::PARAMETERS, true)) {
             throw UnknownHashIdConfigParameterException::make($parameter);
         }
     }
