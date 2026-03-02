@@ -17,8 +17,6 @@ parameters:
         -
             identifier: varTag.nativeType
         -
-            identifier: binaryOp.invalid
-        -
             identifier: trait.unused
         -
             identifier: typeCoverage.paramTypeCoverage
