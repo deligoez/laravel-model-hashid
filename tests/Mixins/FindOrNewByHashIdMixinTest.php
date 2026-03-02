@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 
-it('can find a model by its hash id', function (): void {
+it('can find an existing model by its hash id or return a new instance', function (): void {
     $model  = ModelA::factory()->create();
     $hashId = $model->hashId;
 
@@ -13,7 +13,7 @@ it('can find a model by its hash id', function (): void {
     expect($model->is($foundModel))->toBeTrue();
 });
 
-it('can find a model by its hash id from specific columns', function (): void {
+it('can find an existing model by its hash id from specific columns or return a new instance', function (): void {
     $model  = ModelA::factory()->create();
     $hashId = $model->hashId;
 
