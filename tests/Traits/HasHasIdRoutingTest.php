@@ -2,164 +2,106 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashId\Tests\Traits;
-
 use Illuminate\Support\Facades\Route;
-use PHPUnit\Framework\Attributes\Test;
-use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashId\Support\Config;
-use Deligoez\LaravelModelHashId\Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 
-class HasHasIdRoutingTest extends TestCase
-{
-    use RefreshDatabase;
-    use WithFaker;
+it('can resolve a hash id via route model binding', function (): void {
+    ModelA::factory()->count(fake()->numberBetween(2, 5))->create();
+    $model  = ModelA::factory()->create(['name' => 'model-that-should-bind']);
+    $hashId = $model->hashId;
 
-    #[Test]
-    public function it_can_resolve_a_hash_id_via_route_model_binding(): void
-    {
-        // 1. Arrange 🏗
-        ModelA::factory()->count($this->faker->numberBetween(2, 5))->create();
-        $model  = ModelA::factory()->create(['name' => 'model-that-should-bind']);
-        $hashId = $model->hashId;
+    Route::get('/model-a/{modelA}', fn (ModelA $modelA) => $modelA->toJson())
+        ->middleware(SubstituteBindings::class);
 
-        Route::get('/model-a/{modelA}', function (ModelA $modelA) {
-            return $modelA->toJson();
-        })->middleware(SubstituteBindings::class);
+    $this->getJson("/model-a/{$hashId}")
+        ->assertOk()
+        ->assertJsonFragment([
+            'id'   => $model->getKey(),
+            'name' => 'model-that-should-bind',
+        ]);
+});
 
-        // 2. Act 🏋🏻‍
-        $response = $this->getJson("/model-a/{$hashId}");
+it('can resolve a hash id via route model binding query', function (): void {
+    $model  = ModelA::factory()->create(['name' => 'model-that-should-bind']);
+    $hashId = $model->hashId;
 
-        // 3. Assert ✅
-        $response
-            ->assertOk()
-            ->assertJsonFragment([
-                'id'   => $model->getKey(),
-                'name' => 'model-that-should-bind',
-            ]);
-    }
+    $resolvedModel = $model->resolveRouteBindingQuery(ModelA::query(), $hashId)->first();
 
-    #[Test]
-    public function it_can_resolve_a_hash_id_via_route_model_binding_query(): void
-    {
-        // 1. Arrange 🏗
-        $model  = ModelA::factory()->create(['name' => 'model-that-should-bind']);
-        $hashId = $model->hashId;
+    expect($resolvedModel)
+        ->toBeInstanceOf(ModelA::class)
+        ->getKey()->toEqual($model->getKey())
+        ->name->toEqual('model-that-should-bind');
+});
 
-        // 2. Act 🏋🏻‍
-        $query = $model->resolveRouteBindingQuery(ModelA::query(), $hashId);
+it('can resolve a hash id via route model binding using custom route key name', function (): void {
+    ModelA::factory()->count(fake()->numberBetween(2, 5))->create();
+    $model  = ModelA::factory()->create(['name' => 'model-that-should-bind']);
+    $hashId = $model->hashId;
 
-        // 3. Assert ✅
-        /** @var ModelA $resolvedModel */
-        $resolvedModel = $query->first();
+    Route::model('hash_id', ModelA::class);
 
-        $this->assertInstanceOf(ModelA::class, $resolvedModel);
-        $this->assertEquals($model->getKey(), $resolvedModel->getKey());
-        $this->assertEquals('model-that-should-bind', $resolvedModel->name);
-    }
+    Route::get('/model-a/{hash_id}', fn ($modelBinding) => $modelBinding->toJson())
+        ->middleware(SubstituteBindings::class);
 
-    #[Test]
-    public function it_can_resolve_a_hash_id_via_route_model_binding_using_custom_route_key_name(): void
-    {
-        // 1. Arrange 🏗
-        ModelA::factory()->count($this->faker->numberBetween(2, 5))->create();
-        $model  = ModelA::factory()->create(['name' => 'model-that-should-bind']);
-        $hashId = $model->hashId;
+    $this->getJson("/model-a/{$hashId}")
+        ->assertOk()
+        ->assertJsonFragment([
+            'id'   => $model->getKey(),
+            'name' => 'model-that-should-bind',
+        ]);
+});
 
-        Route::model('hash_id', ModelA::class);
+it('can resolve a hash id via route model binding using negative one prefix length', function (): void {
+    Config::set(ConfigParameters::PREFIX_LENGTH, -1);
 
-        Route::get('/model-a/{hash_id}', function ($modelBinding) {
-            return $modelBinding->toJson();
-        })->middleware(SubstituteBindings::class);
+    ModelA::factory()->count(fake()->numberBetween(2, 5))->create();
+    $model  = ModelA::factory()->create(['name' => 'model-that-should-bind']);
+    $hashId = $model->hashId;
 
-        // 2. Act 🏋🏻‍
-        $response = $this->getJson("/model-a/{$hashId}");
+    Route::get('/model-a/{modelA}', fn (ModelA $modelA) => $modelA->toJson())
+        ->middleware(SubstituteBindings::class);
 
-        // 3. Assert ✅
-        $response
-            ->assertOk()
-            ->assertJsonFragment([
-                'id'   => $model->getKey(),
-                'name' => 'model-that-should-bind',
-            ]);
-    }
+    $this->getJson("/model-a/{$hashId}")
+        ->assertOk()
+        ->assertJsonFragment([
+            'id'   => $model->getKey(),
+            'name' => 'model-that-should-bind',
+        ]);
+});
 
-    #[Test]
-    public function it_can_resolve_a_hash_id_via_route_model_binding_using_negative_one_prefix_length(): void
-    {
-        // 1. Arrange 🏗
-        Config::set(ConfigParameters::PREFIX_LENGTH, -1);
+it('can resolve a hash id via route model binding using negative one prefix length per model', function (): void {
+    Config::set(ConfigParameters::PREFIX_LENGTH, 5);
+    Config::set(ConfigParameters::PREFIX_LENGTH, -1, ModelA::class);
 
-        ModelA::factory()->count($this->faker->numberBetween(2, 5))->create();
-        $model  = ModelA::factory()->create(['name' => 'model-that-should-bind']);
-        $hashId = $model->hashId;
+    ModelA::factory()->count(fake()->numberBetween(2, 5))->create();
+    $model  = ModelA::factory()->create(['name' => 'model-that-should-bind']);
+    $hashId = $model->hashId;
 
-        Route::get('/model-a/{modelA}', function (ModelA $modelA) {
-            return $modelA->toJson();
-        })->middleware(SubstituteBindings::class);
+    Route::get('/model-a/{modelA}', fn (ModelA $modelA) => $modelA->toJson())
+        ->middleware(SubstituteBindings::class);
 
-        // 2. Act 🏋🏻‍
-        $response = $this->getJson("/model-a/{$hashId}");
+    $this->getJson("/model-a/{$hashId}")
+        ->assertOk()
+        ->assertJsonFragment([
+            'id'   => $model->getKey(),
+            'name' => 'model-that-should-bind',
+        ]);
+});
 
-        // 3. Assert ✅
-        $response
-            ->assertOk()
-            ->assertJsonFragment([
-                'id'   => $model->getKey(),
-                'name' => 'model-that-should-bind',
-            ]);
-    }
+it('throws a model not found exception while routing with model key', function (): void {
+    $this->withoutExceptionHandling();
 
-    #[Test]
-    public function it_can_resolve_a_hash_id_via_route_model_binding_using_negative_one_prefix_length_per_model(): void
-    {
-        // 1. Arrange 🏗
-        Config::set(ConfigParameters::PREFIX_LENGTH, 5);
-        Config::set(ConfigParameters::PREFIX_LENGTH, -1, ModelA::class);
+    $model = ModelA::factory()->create(['name' => 'model-that-should-bind']);
 
-        ModelA::factory()->count($this->faker->numberBetween(2, 5))->create();
-        $model  = ModelA::factory()->create(['name' => 'model-that-should-bind']);
-        $hashId = $model->hashId;
+    Route::model('model_a', ModelA::class);
 
-        Route::get('/model-a/{modelA}', function (ModelA $modelA) {
-            return $modelA->toJson();
-        })->middleware(SubstituteBindings::class);
+    Route::get('/model-a/{model_a}', fn (ModelA $modelBinding) => $modelBinding->toJson())
+        ->middleware(SubstituteBindings::class);
 
-        // 2. Act 🏋🏻‍
-        $response = $this->getJson("/model-a/{$hashId}");
-
-        // 3. Assert ✅
-        $response
-            ->assertOk()
-            ->assertJsonFragment([
-                'id'   => $model->getKey(),
-                'name' => 'model-that-should-bind',
-            ]);
-    }
-
-    #[Test]
-    public function it_throws_a_model_not_found_exception_while_routing_with_model_key(): void
-    {
-        // 1. Arrange 🏗
-        $this->withoutExceptionHandling();
-
-        $model = ModelA::factory()->create(['name' => 'model-that-should-bind']);
-
-        Route::model('model_a', ModelA::class);
-
-        Route::get('/model-a/{model_a}', function (ModelA $modelBinding) {
-            return $modelBinding->toJson();
-        })->middleware(SubstituteBindings::class);
-
-        // 3. Assert ✅
-        $this->expectException(ModelNotFoundException::class);
-
-        // 2. Act 🏋🏻‍
-        $this->getJson("/model-a/{$model->getKey()}");
-    }
-}
+    expect(fn () => $this->getJson("/model-a/{$model->getKey()}"))
+        ->toThrow(ModelNotFoundException::class);
+});
