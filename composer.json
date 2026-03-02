@@ -24,7 +24,7 @@
         "source": "https://github.com/deligoez/laravel-model-hashid"
     },
     "require": {
-        "php": "^8.2|^8.3|^8.4",
+        "php": "^8.3",
         "ext-mbstring": "*",
         "hashids/hashids": "^4.1|^5.0",
         "illuminate/contracts": "^11.0|^12.0"
@@ -34,8 +34,11 @@
         "laravel/pint": "^1.0",
         "larastan/larastan": "^3.0",
         "orchestra/testbench": "^9.0|^10.0",
+        "pestphp/pest": "^4.0",
+        "pestphp/pest-plugin-arch": "^4.0",
+        "pestphp/pest-plugin-laravel": "^4.0",
+        "pestphp/pest-plugin-type-coverage": "^4.0",
         "phpstan/extension-installer": "^1.2",
-        "phpunit/phpunit": "^10.0|^11.0",
         "rector/rector": "^2.0"
     },
     "minimum-stability": "dev",
@@ -53,6 +56,7 @@
     },
     "config": {
         "allow-plugins": {
+            "pestphp/pest-plugin": true,
             "phpstan/extension-installer": true
         },
         "sort-packages": true
@@ -71,8 +75,10 @@
         "test:rector": "rector --dry-run",
         "test:pint": "pint --config=pint.json --test",
         "test:phpstan": "phpstan analyse --configuration=phpstan.neon.dist --ansi",
-        "test:unit": "vendor/bin/phpunit --no-coverage",
-        "test:coverage": "vendor/bin/phpunit --coverage-text",
+        "test:unit": "pest --colors=always --order-by=random",
+        "test:types": "pest --type-coverage --colors=always",
+        "test:coverage": "pest --coverage --colors=always --min=80",
+        "test:profile": "pest --profile --colors=always --order-by=random",
         "test": ["@test:rector", "@test:pint", "@test:phpstan", "@test:unit"]
     }
 }
