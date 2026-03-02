@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Support;
 
-class ConfigParameters
+final class ConfigParameters
 {
+    private function __construct() {}
+
     /*
      * Hash Id configuration file name.
      */
