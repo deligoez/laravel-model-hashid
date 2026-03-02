@@ -10,67 +10,46 @@
 
 </div>
 
-Using this package you can generate, save and, route [Stripe-like](https://gist.github.com/fnky/76f533366f75cf75802c8052b577e2a5) Hash Ids for your Eloquent Models. 
+Generate, save, and route [Stripe-like](https://gist.github.com/fnky/76f533366f75cf75802c8052b577e2a5) Hash Ids for your Laravel Eloquent Models.
 
-Hash Ids are short, unique, and non-sequential, and can generate unique Ids for URLs and hide database row numbers from
-the user. For more information about Hash Ids please visit [hashids.org](https://hashids.org/).
-
-With this package, you can customize Hash Id generation and add a model prefix and also separator.
+Hash Ids are short, unique, and non-sequential identifiers that hide database row numbers from users. For more information, visit [hashids.org](https://hashids.org/).
 
 For a `User` model with an id of `1234`, you can generate Hash Ids like `user_kqYZeLgo`.
 
-So instead of;
-`https://your-endpoint.com/user/1234`   
+```
+https://your-app.com/user/1234          --> before
+https://your-app.com/user/user_kqYZeLgo --> after
+```
 
-You can have endpoints like;   
-`https://your-endpoint.com/user/user_kqYZeLgo`
+You have complete control over Hash Id length, prefix, separator, and alphabet. Check out the [configuration](#configuration) section for details.
 
-You have complete control over your Hash Id length and style. Check out the configuration file for more options.
+## Table of Contents
 
-## Table of contents
-
-- [Features](#features)
-- [Compatibility Table](#compatibility-table)
+- [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
-    - [Model Hash Id Generation](#model-hash-id-generation)
-    - [Routing and Route Model Binding (Optional)](#routing-and-route-model-binding-optional)
-    - [Saving Hash Ids to the Database (Optional)](#saving-hash-ids-to-the-database-optional)
+    - [Hash Id Generation](#hash-id-generation)
+    - [Query Builder Functions](#query-builder-functions)
+    - [Route Model Binding (Optional)](#route-model-binding-optional)
+    - [Saving Hash Ids to Database (Optional)](#saving-hash-ids-to-database-optional)
 - [Hash Id Terminology](#hash-id-terminology)
 - [Configuration](#configuration)
-- [Roadmap](#roadmap)
+- [Upgrading](#upgrading)
 - [Testing](#testing)
-- [Used By](#used-by)
 - [Changelog](#changelog)
 - [Contributing](#contributing)
 - [Security Vulnerabilities](#security-vulnerabilities)
 - [Credits](#credits)
 - [License](#license)
 
-## Features
+## Requirements
 
-- Customizable Hash Id Generation
-  - Hash Id Salt
-  - Length
-  - HashID Alphabet
-  - Model Prefix Length and Case
-  - Separator
-- Model Specific Hash Id Generation
-  - User-defined prefix per Model (optional)
-  - Define separate configurations per Model
-- Route (Model) Binding using Hash Ids (optional)
-- Automatically save Hash Ids to the database (optional)
-
-## Compatibility Table
-
-The table below shows the compatibility across Laravel, PHP, and this package's **current version**.
-
-| Package Version | Laravel version | PHP version          | Compatible |
-|-----------------|-----------------|----------------------|------------|
-| ^4.0            | 11.*, 12.*      | 8.3.*, 8.4.*         |      ✅    |
-| ^3.0            | 11.*, 12.*      | 8.2.*, 8.3.*, 8.4.* |      ✅    |
-| ^2.0            | 9.* - 12.*      | 8.1.* - 8.4.*        |      ✅    |
-| ^1.0            | 8.*             | 8.0.*                |      ✅    |
+| Package | PHP        | Laravel    |
+|---------|------------|------------|
+| ^4.0    | ^8.3       | ^11.0, ^12.0 |
+| ^3.0    | ^8.2       | ^9.0 - ^11.0 |
+| ^2.0    | ^8.1       | ^9.0 - ^12.0 |
+| ^1.0    | ^8.0       | ^8.0       |
 
 ## Installation
 
@@ -85,287 +64,168 @@ The table below shows the compatibility across Laravel, PHP, and this package's 
 
 ## Usage
 
-### Model Hash Id Generation
+### Hash Id Generation
 
-Add the `HasHashId` trait to any Laravel Model that should use Hash Ids.
+Add the `HasHashId` trait to any Eloquent model:
 
 ```php
 use Illuminate\Database\Eloquent\Model;
 use Deligoez\LaravelModelHashId\Traits\HasHashId;
 
-class ModelA extends Model
+class User extends Model
 {
     use HasHashId;
-    
-    ...
 }
 ```
 
-#### Model Attributes and Static Model Functions
-
-You will be able to use `hashId` and `hashIdRaw` attributes and `keyFromHashId()` static model function.
+This gives you `hashId` and `hashIdRaw` attributes, plus a `keyFromHashId()` static method:
 
 ```php
-$modelA = ModelA::find(1234);
-$modelA->hashId;    // model_a_kqYZeLgo
-$modelA->hashIdRaw; // kqYZeLgo
+$user = User::find(1234);
 
-ModelA::keyFromHashId('model_a_kqYZeLgo') // 1234
+$user->hashId;    // 'user_kqYZeLgo'
+$user->hashIdRaw; // 'kqYZeLgo'
+
+User::keyFromHashId('user_kqYZeLgo'); // 1234
 ```
 
-#### Query Builder Functions
+### Query Builder Functions
 
-You can use all finding related Laravel query builder functions with Hash Ids.  
+All finding-related query builder functions work with Hash Ids:
 
 ```php
-// Find a model by its Hash Id.
-ModelA::findByHashId('model_a_kqYZeLgo');
+// Find a model by its Hash Id
+User::findByHashId('user_kqYZeLgo');
 
-// Find multiple models by their Hash Ids.
-ModelA::findManyByHashId(['model_a_kqYZeLgo', 'model_a_ZeLgokqY']);
+// Find multiple models by their Hash Ids
+User::findManyByHashId(['user_kqYZeLgo', 'user_ZeLgokqY']);
 
-// Find a model by its Hash Id or throw an exception.
-ModelA::findOrFailByHashId('model_a_kqYZeLgo');
+// Find or throw ModelNotFoundException
+User::findOrFailByHashId('user_kqYZeLgo');
 
-// Find a model by its Hash Id or or call a callback.
-ModelA::findOrByHashId('model_a_kqYZeLgo');
+// Find or execute a callback
+User::findOrByHashId('user_kqYZeLgo');
 
-// Find a model by its Hash Id or return fresh model instance.
-ModelA::findOrNewByHashId('model_a_kqYZeLgo');
+// Find or return a new model instance
+User::findOrNewByHashId('user_kqYZeLgo');
 
-// Add a where clause on the Hash Id to the query.
-ModelA::whereHashId('model_a_kqYZeLgo');
+// Where clause using Hash Id
+User::whereHashId('user_kqYZeLgo');
 
-// Add a where not clause on the Hash Id to the query.
-ModelA::whereHashIdNot('model_a_kqYZeLgo');
+// Where not clause using Hash Id
+User::whereHashIdNot('user_kqYZeLgo');
 ```
 
-### Routing and Route Model Binding (Optional)
+### Route Model Binding (Optional)
 
-Simply add the `HasHashIdRouting` trait to your model that you want to route using Hash Ids.
+Add the `HasHashIdRouting` trait to enable route model binding with Hash Ids:
 
 ```php
 use Illuminate\Database\Eloquent\Model;
 use Deligoez\LaravelModelHashId\Traits\HasHashIdRouting;
 
-class ModelA extends Model
+class User extends Model
 {
     use HasHashIdRouting;
-    
-    ...
 }
 ```
 
-#### Route Model Binding (Implicit)
-
-You can define a route and/or controller method like this by Laravel conventions.
+#### Implicit Binding
 
 ```php
-// You can call this route with a Hash Id: your-endpoint.com/model-a/model_a_kqYZeLgo
-Route::get('/model-a/{modelA}', function (ModelA $modelA) {
-    // Your ModelA instance
-    $modelA;
-});
-```
-#### Route Model Binding (Explicit)
-
-You can also define a custom model key on your `RouteServiceProvider`.
-
-```php
-Route::model('hash_id', ModelA::class);
-```
-
-```php
-// You can call this route with a Hash Id: your-endpoint.com/model-a/model_a_kqYZeLgo
-Route::get('/model-a/{hash_id}', function ($modelBinding) {
-    // Your ModelA instance
-    $modelBinding;
+// GET /users/user_kqYZeLgo
+Route::get('/users/{user}', function (User $user) {
+    return $user;
 });
 ```
 
-### Saving Hash Ids to the Database (Optional)
+#### Explicit Binding
 
-You can add the `SavesHashId` Trait to any of your Laravel Model that should save the generated Hash Ids.
+Register a custom model key in your `RouteServiceProvider`:
 
-After that, you should set `database_column` setting in the configuration file. You can define `database_column` setting
-per model separately or for all of your models.
+```php
+Route::model('hash_id', User::class);
+```
+
+```php
+// GET /users/user_kqYZeLgo
+Route::get('/users/{hash_id}', function (User $user) {
+    return $user;
+});
+```
+
+### Saving Hash Ids to Database (Optional)
+
+Add the `SavesHashId` trait to automatically persist Hash Ids:
 
 ```php
 use Illuminate\Database\Eloquent\Model;
 use Deligoez\LaravelModelHashId\Traits\SavesHashId;
 
-class ModelA extends Model
+class User extends Model
 {
     use SavesHashId;
-    
-    ...
 }
 ```
 
-> All Hash Id generation or decoding methods work ON-THE-FLY. So you DO NOT need to save Hash Ids to the database for that reason.
+Set the `database_column` in your configuration file (default: `hash_id`). You can configure it globally or per model.
 
-> Since generating a Hash Id requires an integer model id/key, remember that storing the Hash Ids to a database will result in an additional database query.
+> Hash Id generation works **on the fly** -- saving to the database is not required for generation or decoding.
+
+> Since Hash Id generation requires an integer model key, saving to the database results in an additional query after model creation.
 
 ## Hash Id Terminology
 
-A typical Hash Id consist of 3 parts.
+A Hash Id consists of three parts:
 
-- Model Prefix (`model_a`)
-- Separator (`_`)
-- Raw Hash Id (`kqYZeLgo`)
+| Part       | Example     | Required |
+|------------|-------------|----------|
+| Prefix     | `user`      | No       |
+| Separator  | `_`         | No       |
+| Raw Hash Id| `kqYZeLgo`  | Yes      |
 
-Model Prefix and Separator are OPTIONAL. You can generate Hash Ids that only contains Raw Hash Ids.
+You can generate Hash Ids with or without a prefix. Set `prefix_length` to `0` in the config to disable prefixes.
 
 ## Configuration
 
-This is the contents of the published config file:
+Publish the config file and customize:
 
-```php
-<?php
-
-return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Salt String
-    |--------------------------------------------------------------------------
-    |
-    | This salt string is used for generating HashIDs and should be set
-    | to a random string, otherwise these generated HashIDs will not be
-    | safe. Please do this definitely before deploying your application!
-    |
-    */
-
-    'salt' => env('HASHID_SALT', 'your-secret-salt-string'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Raw HashID Length
-    |--------------------------------------------------------------------------
-    |
-    | This is the length of the raw HashID. The model prefix, separator
-    | and the raw HashID are combined all together. So the Model HashID
-    | length is the sum of raw HashID, separator, and model prefix lengths.
-    |
-    | Default: 13
-    |
-    */
-
-    'length' => 13,
-
-    /*
-    |--------------------------------------------------------------------------
-    | HashID Alphabet
-    |--------------------------------------------------------------------------
-    |
-    | This alphabet will generate raw HashIDs. Please keep in mind that it
-    | must contain at least 16 unique characters and can't contain spaces.
-    |
-    | Default: 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890'
-    |
-    */
-
-    'alphabet' => 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Model Prefix Length
-    |--------------------------------------------------------------------------
-    |
-    | Here you can specify the length of the model prefix. By default, they
-    | will generate it from the first letters of short class name.
-    | Set it -1 to use full short class name as prefix.
-    | Set it 0 to not use any prefix at all.
-    |
-    | Default: 3
-    |
-    */
-
-    'prefix_length' => 3,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Model Prefix Case
-    |--------------------------------------------------------------------------
-    |
-    | Here you can set the case of the prefix. Please keep in mind that for
-    | some prefix cases, underscore (‘_’) characters will be added to the
-    | prefix if your model name is multi word.
-    |
-    | Default: 'lower'
-    |
-    | Supported: "lower", "upper", "camel", "snake", "kebab",
-    |            "title", "studly", "plural_studly"
-    |
-    */
-
-    'prefix_case' => 'lower',
-
-    /*
-    |--------------------------------------------------------------------------
-    | HashID Model Prefix Separator
-    |--------------------------------------------------------------------------
-    |
-    | Here you can set the separator for your HashIDs. The separator
-    | will be added between model prefix and the raw HashID.
-    |
-    | Default: '_'
-    |
-    */
-
-    'separator' => '_',
-
-    /*
-    |--------------------------------------------------------------------------
-    | HashID Database Column
-    |--------------------------------------------------------------------------
-    |
-    | By using `SavesHashIDs` trait, you can save model HashIDs to database.
-    | Here you can set the database column name for HashIDs to save.
-    |
-    | Default: 'hash_id'
-    |
-    */
-
-    'database_column' => 'hash_id',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Model Specific Generators
-    |--------------------------------------------------------------------------
-    |
-    | Here you can set specific HashID generators for individual Models.
-    | Each one of the setting above can be defined per model. You can
-    | see an example below as a comment.
-    |
-    */
-
-    'model_generators' => [
-        // App\Models\User::class => [
-        //     'salt'            => 'your-model-specific-salt-string',
-        //     'length'          => 13,
-        //     'alphabet'        => 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890',
-        //     'prefix_length'   => 3,
-        //     'prefix_case'     => 'lower',
-        //     'separator'       => '_',
-        //     'database_column' => 'hash_id',
-        // ],
-
-        // App\Models\Post::class => [
-        //     'salt'            => 'your-model-specific-salt-string',
-        //     'length'          => 13,
-        //     'alphabet'        => 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890', 
-        //     'prefix'          => 'abc', // Custom prefix that is not auto-generated
-        //     'separator'       => '_',
-        // ],
-    ],
-];
+```bash
+php artisan vendor:publish --provider="Deligoez\LaravelModelHashId\LaravelModelHashIdServiceProvider" --tag="config"
 ```
 
-## Roadmap
-- [x] Custom Model Prefixes (Not generated from a Model name) (Thanks to @plunkettscott)
-- [ ] Hash Id Validation  Rules
-- [ ] Generic Generators (Not bound to a Laravel Model)
+| Option             | Default                                                       | Description                                                     |
+|--------------------|---------------------------------------------------------------|-----------------------------------------------------------------|
+| `salt`             | `'your-secret-salt-string'`                                   | Salt for Hash Id generation. **Change this before deploying.**  |
+| `length`           | `13`                                                          | Raw Hash Id length (excluding prefix and separator)             |
+| `alphabet`         | `'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890'` | Characters used in Hash Id generation (min 16 unique chars)  |
+| `prefix_length`    | `3`                                                           | Prefix length from class name. `-1` for full name, `0` for none |
+| `prefix_case`      | `'lower'`                                                     | Prefix case: `lower`, `upper`, `camel`, `snake`, `kebab`, `title`, `studly`, `plural_studly` |
+| `separator`        | `'_'`                                                         | Separator between prefix and raw Hash Id                        |
+| `database_column`  | `'hash_id'`                                                   | Database column name for `SavesHashId` trait                    |
+
+### Model-Specific Configuration
+
+Override any option per model in the `model_generators` array:
+
+```php
+'model_generators' => [
+    App\Models\User::class => [
+        'salt'            => 'user-specific-salt',
+        'length'          => 8,
+        'prefix_length'   => -1, // full class name as prefix
+        'separator'       => '-',
+    ],
+
+    App\Models\Post::class => [
+        'prefix' => 'article', // custom prefix (not generated from class name)
+    ],
+],
+```
+
+## Upgrading
+
+If you are upgrading from v3 to v4, please see the [UPGRADE guide](UPGRADE.md) for a list of breaking changes.
 
 ## Testing
 
@@ -373,12 +233,7 @@ return [
 composer test
 ```
 
-## Used By
-
-This project is used by the following companies/products, you can add yours too:
-
-- [blindnote.com](https://blindnote.com/)
-- [tarfin.com](https://tarfin.com/)
+This runs the full quality gate: Rector, Pint, PHPStan, and Pest.
 
 ## Changelog
 
@@ -390,11 +245,11 @@ Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
 ## Security Vulnerabilities
 
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities. 
+Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
 
 ## Credits
 
-- [Yunus Emre Deligöz](https://github.com/deligoez)
+- [Yunus Emre Deligoz](https://github.com/deligoez)
 - [Scott Plunkett](https://github.com/plunkettscott)
 - [Wade](https://github.com/striebwj)
 - [Laravel Shift](https://github.com/laravel-shift)
