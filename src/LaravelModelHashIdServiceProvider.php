@@ -35,6 +35,7 @@ class LaravelModelHashIdServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
+    #[\Override]
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/model-hashid.php', 'model-hashid');
