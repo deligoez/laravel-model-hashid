@@ -20,3 +20,12 @@ it('saves hash id to a custom column after a model is created', function (): voi
 
     expect(ModelD::find($model->id)->hashId)->toEqual($model->hash);
 });
+
+it('does not change hash id when model is updated', function (): void {
+    $model          = ModelC::factory()->create();
+    $originalHashId = ModelC::find($model->id)->hash_id;
+
+    $model->update(['slug' => 'updated-slug']);
+
+    expect(ModelC::find($model->id)->hash_id)->toEqual($originalHashId);
+});
