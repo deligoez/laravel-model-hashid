@@ -10,7 +10,7 @@ it('can query that a model will not be retrieved by its hash id', function (): v
 
     $results = ModelA::query()
         ->whereHashIdNot($model1->hashId)
-        ->first();
+        ->get();
 
     expect($model2->is($foundModel))->toBeTrue();
 });
