@@ -2,60 +2,31 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashId\Tests\Mixins;
-
-use PHPUnit\Framework\Attributes\Test;
-use Deligoez\LaravelModelHashId\Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class FindOrFailByHashIdMixinTest extends TestCase
-{
-    use RefreshDatabase;
+it('can find or fail a model by its hash id', function (): void {
+    $model = ModelA::factory()->create();
 
-    #[Test]
-    public function it_can_find_or_fail_a_model_by_its_hash_id(): void
-    {
-        // 1️⃣.1️⃣ Arrange 🏗
-        $model = ModelA::factory()->create();
+    $foundModel = ModelA::findOrFailByHashId($model->hashId);
 
-        // 1️⃣.2️⃣ Act 🏋🏻‍
-        $foundModel = ModelA::findOrFailByHashId($model->hashId);
+    expect($model->is($foundModel))->toBeTrue();
 
-        // 1️⃣.3️⃣ Assert ✅
-        $this->assertTrue($model->is($foundModel));
+    $model->delete();
 
-        // 2️⃣.1️⃣ Arrange 🏗
-        $model->delete();
+    expect(fn () => ModelA::findOrFailByHashId($model->hashId))
+        ->toThrow(ModelNotFoundException::class);
+});
 
-        // 2️⃣.3️⃣ Assert ✅
-        $this->expectException(ModelNotFoundException::class);
+it('can find or fail a model by its hash id from specific columns', function (): void {
+    $model = ModelA::factory()->create();
 
-        // 2️⃣.2️⃣ Act 🏋🏻‍
-        ModelA::findOrFailByHashId($model->hashId);
-    }
+    $foundModel = ModelA::findOrFailByHashId($model->hashId, ['id']);
 
-    #[Test]
-    public function it_can_find_or_fail_a_model_by_its_hash_id_from_specific_columns(): void
-    {
-        // 1️⃣.1️⃣ Arrange 🏗
-        $model           = ModelA::factory()->create();
-        $selectedColumns = ['id'];
+    expect($model->is($foundModel))->toBeTrue();
 
-        // 1️⃣.2️⃣ Act 🏋🏻‍
-        $foundModel = ModelA::findOrFailByHashId($model->hashId, $selectedColumns);
+    $model->delete();
 
-        // 1️⃣.3️⃣ Assert ✅
-        $this->assertTrue($model->is($foundModel));
-
-        // 2️⃣.1️⃣ Arrange 🏗
-        $model->delete();
-
-        // 2️⃣.3️⃣ Assert ✅
-        $this->expectException(ModelNotFoundException::class);
-
-        // 2️⃣.2️⃣ Act 🏋🏻‍
-        ModelA::findOrFailByHashId($model->hashId, $selectedColumns);
-    }
-}
+    expect(fn () => ModelA::findOrFailByHashId($model->hashId, ['id']))
+        ->toThrow(ModelNotFoundException::class);
+});
