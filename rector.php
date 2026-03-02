@@ -16,8 +16,8 @@ return RectorConfig::configure()
         __DIR__.'/src',
         __DIR__.'/config',
     ])
-    ->withPhpVersion(PhpVersion::PHP_82)
-    ->withPhpSets(php82: true)
+    ->withPhpVersion(PhpVersion::PHP_83)
+    ->withPhpSets(php83: true)
     ->withPreparedSets(
         codeQuality: true,
         deadCode: true,
