@@ -9,8 +9,7 @@ use Deligoez\LaravelModelHashId\Traits\HasHashId;
 
 class EncodeHashIdCommand extends Command
 {
-    protected $signature = 'hashid:encode {model : The fully qualified model class name} {id : The integer key to encode}';
-
+    protected $signature   = 'hashid:encode {model : The fully qualified model class name} {id : The integer key to encode}';
     protected $description = 'Encode an integer key to a hash ID for a given model';
 
     public function handle(): int
@@ -31,8 +30,7 @@ class EncodeHashIdCommand extends Command
             return self::FAILURE;
         }
 
-        /** @var \Illuminate\Database\Eloquent\Model&HasHashId $model */
-        $model = new $modelClass();
+        $model                         = new $modelClass();
         $model->{$model->getKeyName()} = $id;
 
         $this->info($model->hashId);
