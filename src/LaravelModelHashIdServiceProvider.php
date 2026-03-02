@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashId;
 
 use Illuminate\Support\ServiceProvider;
-use Spatie\LaravelPackageTools\Package;
 use Illuminate\Database\Eloquent\Builder;
 use Deligoez\LaravelModelHashId\Mixins\WhereHashIdMixin;
 use Deligoez\LaravelModelHashId\Mixins\FindByHashIdMixin;
@@ -19,7 +18,6 @@ class LaravelModelHashIdServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any package services.
-     *
      *
      * @throws \ReflectionException
      */
