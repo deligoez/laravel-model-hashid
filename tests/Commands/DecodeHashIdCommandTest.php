@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use Deligoez\LaravelModelHashId\Support\Config;
-use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
+use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 
 it('decodes with explicit model argument', function (): void {
     $model = ModelA::factory()->create();
