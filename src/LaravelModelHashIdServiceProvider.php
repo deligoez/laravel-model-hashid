@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\ColumnDefinition;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 use Deligoez\LaravelModelHashId\Mixins\WhereHashIdMixin;
@@ -35,6 +36,7 @@ class LaravelModelHashIdServiceProvider extends ServiceProvider
 
         $this->bootMixins();
         $this->bootBlueprintMacros();
+        $this->bootBladeDirectives();
     }
 
     /**
@@ -72,6 +74,16 @@ class LaravelModelHashIdServiceProvider extends ServiceProvider
 
             /** @var Blueprint $this */
             return $this->string($resolvedColumn)->nullable()->unique();
+        });
+    }
+
+    /**
+     * Boots the Blade directives.
+     */
+    protected function bootBladeDirectives(): void
+    {
+        Blade::directive('hashid', function (string $expression): string {
+            return "<?php echo e({$expression}->hashId); ?>";
         });
     }
 }
