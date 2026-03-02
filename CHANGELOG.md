@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-model-hashid` will be documented in this file.
 
-## Unreleased (v4.0)
+## 4.0.0 - 2026-03-03
 
 ### Breaking Changes
 - Require PHP ^8.3 (dropped 8.2)
