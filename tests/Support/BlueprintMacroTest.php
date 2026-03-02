@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 it('registers hashId macro on Blueprint', function (): void {
     expect(Blueprint::hasMacro('hashId'))->toBeTrue();
