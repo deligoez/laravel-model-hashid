@@ -65,11 +65,12 @@ You have complete control over your Hash Id length and style. Check out the conf
 
 The table below shows the compatibility across Laravel, PHP, and this package's **current version**.
 
-| Package Version | Laravel version | PHP version            | Compatible |
-|-----------------|-----------------|------------------------|------------|
-| ^3.0            | 11.*, 12.*      | 8.2.*, 8.3.*, 8.4.*   |      ✅    |
-| ^2.0            | 9.* - 12.*      | 8.1.* - 8.4.*         |      ✅    |
-| ^1.0            | 8.*             | 8.0.*                  |      ✅    |
+| Package Version | Laravel version | PHP version          | Compatible |
+|-----------------|-----------------|----------------------|------------|
+| ^4.0            | 11.*, 12.*      | 8.3.*, 8.4.*         |      ✅    |
+| ^3.0            | 11.*, 12.*      | 8.2.*, 8.3.*, 8.4.* |      ✅    |
+| ^2.0            | 9.* - 12.*      | 8.1.* - 8.4.*        |      ✅    |
+| ^1.0            | 8.*             | 8.0.*                |      ✅    |
 
 ## Installation
 
