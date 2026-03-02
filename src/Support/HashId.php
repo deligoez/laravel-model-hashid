@@ -71,8 +71,8 @@ class HashId
         ?int $length = null,
         ?string $alphabet = null,
     ): HashidsInterface {
-        $salt     ??= (string) Config::get(ConfigParameters::SALT);
-        $length   ??= (int) Config::get(ConfigParameters::LENGTH);
+        $salt ??= (string) Config::get(ConfigParameters::SALT);
+        $length ??= (int) Config::get(ConfigParameters::LENGTH);
         $alphabet ??= (string) Config::get(ConfigParameters::ALPHABET);
 
         return new Hashids($salt, $length, $alphabet);
