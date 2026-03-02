@@ -71,7 +71,7 @@
         "test:rector": "rector --dry-run",
         "test:pint": "pint --config=pint.json --test",
         "test:phpstan": "phpstan analyse --configuration=phpstan.neon.dist --ansi",
-        "test:unit": "vendor/bin/testbench package:test",
+        "test:unit": "vendor/bin/phpunit --no-coverage",
         "test:coverage": "vendor/bin/phpunit --coverage-text",
         "test": ["@test:rector", "@test:pint", "@test:phpstan", "@test:unit"]
     }
