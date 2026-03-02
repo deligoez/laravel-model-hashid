@@ -12,3 +12,5 @@
 /rector.php         export-ignore
 /testbench.yaml     export-ignore
 /tests              export-ignore
+/CHANGELOG.md       export-ignore
+/UPGRADE.md         export-ignore
