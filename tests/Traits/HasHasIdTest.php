@@ -130,6 +130,22 @@ class HasHasIdTest extends TestCase
     }
 
     #[Test]
+    public function it_returns_null_if_hash_id_is_valid_format_but_decodes_to_empty(): void
+    {
+        // 1. Arrange 🏗
+        $model  = ModelA::factory()->create();
+        $hashId = $model->hashId;
+        // Corrupt the last character to create a valid-looking but undecodable hash
+        $invalidHashId = mb_substr($hashId, 0, -1).'0';
+
+        // 2. Act 🏋🏻‍
+        $key = ModelA::keyFromHashId($invalidHashId);
+
+        // 3. Assert ✅
+        $this->assertNull($key);
+    }
+
+    #[Test]
     public function it_returns_null_if_hash_id_prefix_does_not_match_model_prefix(): void
     {
         // 1. Arrange 🏗
