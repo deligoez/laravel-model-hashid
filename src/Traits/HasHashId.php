@@ -46,7 +46,7 @@ trait HasHashId
 
         return $key === null
             ? null
-            : $this->hashIdGenerator->encode($this->getKey());
+            : $this->hashIdGenerator->encode($key);
     }
 
     /**
