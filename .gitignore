@@ -11,6 +11,7 @@ composer.lock
 coverage
 docs
 node_modules
+PLAN.md
 phpunit.xml
 testbench.yaml
 vendor
