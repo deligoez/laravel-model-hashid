@@ -90,6 +90,10 @@ class Generator
         $genericPrefixLength = Config::get(ConfigParameters::PREFIX_LENGTH);
 
         if ($genericPrefixLength === -1) {
+            if ($className === null) {
+                return null;
+            }
+
             $genericPrefixLength = mb_strlen(self::buildPrefixForModel($className));
         }
 

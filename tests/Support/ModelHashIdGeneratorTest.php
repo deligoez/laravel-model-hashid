@@ -212,6 +212,12 @@ describe('generator', function (): void {
         expect(Generator::forModel(new ModelA()))->toBeNull();
     });
 
+    it('returns null when parsing with generic prefix length -1 and no class name', function (): void {
+        Config::set(ConfigParameters::PREFIX_LENGTH, -1);
+
+        expect(Generator::parseHashIDForModel('some_hashid'))->toBeNull();
+    });
+
     it('can build a hash id generator from a model instance or class name', function (): void {
         expect(Generator::build(new ModelA()))->toBeInstanceOf(Hashids::class)
             ->and(Generator::build(ModelA::class))->toBeInstanceOf(Hashids::class);
