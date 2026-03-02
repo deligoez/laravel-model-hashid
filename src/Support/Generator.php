@@ -141,11 +141,11 @@ class Generator
      */
     public static function build(Model|string $model): HashidsInterface
     {
-        Config::checkIfModelClassExist($model);
+        Config::checkIfModelClassExists($model);
 
-        $salt     = Config::get(ConfigParameters::SALT, $model);
-        $length   = Config::get(ConfigParameters::LENGTH, $model);
-        $alphabet = Config::get(ConfigParameters::ALPHABET, $model);
+        $salt     = (string) Config::get(ConfigParameters::SALT, $model);
+        $length   = (int) Config::get(ConfigParameters::LENGTH, $model);
+        $alphabet = (string) Config::get(ConfigParameters::ALPHABET, $model);
 
         return new Hashids($salt, $length, $alphabet);
     }
