@@ -6,6 +6,10 @@ namespace Deligoez\LaravelModelHashId;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\ColumnDefinition;
+use Illuminate\Support\Facades\Config;
+use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 use Deligoez\LaravelModelHashId\Mixins\WhereHashIdMixin;
 use Deligoez\LaravelModelHashId\Mixins\FindByHashIdMixin;
 use Deligoez\LaravelModelHashId\Mixins\FindOrByHashIdMixin;
@@ -30,6 +34,7 @@ class LaravelModelHashIdServiceProvider extends ServiceProvider
         }
 
         $this->bootMixins();
+        $this->bootBlueprintMacros();
     }
 
     /**
@@ -55,5 +60,18 @@ class LaravelModelHashIdServiceProvider extends ServiceProvider
         Builder::mixin(new FindOrNewByHashIdMixin());
         Builder::mixin(new WhereHashIdMixin());
         Builder::mixin(new WhereHashIdNotMixin());
+    }
+
+    /**
+     * Boots the Blueprint macros.
+     */
+    protected function bootBlueprintMacros(): void
+    {
+        Blueprint::macro('hashId', function (?string $column = null): ColumnDefinition {
+            $resolvedColumn = $column ?? Config::get(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::DATABASE_COLUMN, 'hash_id');
+
+            /** @var Blueprint $this */
+            return $this->string($resolvedColumn)->nullable()->unique();
+        });
     }
 }
