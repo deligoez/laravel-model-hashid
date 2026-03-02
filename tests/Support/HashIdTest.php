@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 use Hashids\HashidsInterface;
 use Deligoez\LaravelModelHashId\Support\HashId;
-use Deligoez\LaravelModelHashId\Support\Config;
-use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 
 describe('encode', function (): void {
     it('encodes with default config', function (): void {
