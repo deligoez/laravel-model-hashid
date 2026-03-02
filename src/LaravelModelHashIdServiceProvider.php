@@ -11,6 +11,8 @@ use Illuminate\Database\Schema\ColumnDefinition;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Deligoez\LaravelModelHashId\Support\ConfigParameters;
+use Deligoez\LaravelModelHashId\Commands\EncodeHashIdCommand;
+use Deligoez\LaravelModelHashId\Commands\DecodeHashIdCommand;
 use Deligoez\LaravelModelHashId\Mixins\WhereHashIdMixin;
 use Deligoez\LaravelModelHashId\Mixins\FindByHashIdMixin;
 use Deligoez\LaravelModelHashId\Mixins\FindOrByHashIdMixin;
@@ -32,6 +34,11 @@ class LaravelModelHashIdServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../config/model-hashid.php' => config_path('model-hashid.php'),
             ], 'config');
+
+            $this->commands([
+                EncodeHashIdCommand::class,
+                DecodeHashIdCommand::class,
+            ]);
         }
 
         $this->bootMixins();
