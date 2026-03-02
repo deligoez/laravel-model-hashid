@@ -8,7 +8,7 @@ it('can query that a model will not be retrieved by its hash id', function (): v
     $model1 = ModelA::factory()->create();
     $model2 = ModelA::factory()->create();
 
-    $foundModel = ModelA::query()
+    $results = ModelA::query()
         ->whereHashIdNot($model1->hashId)
         ->first();
 
