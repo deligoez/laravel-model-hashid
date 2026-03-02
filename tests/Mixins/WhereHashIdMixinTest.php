@@ -13,3 +13,11 @@ it('can query a model by its hash id', function (): void {
 
     expect($model->is($foundModel))->toBeTrue();
 });
+
+it('returns empty result when hash id is invalid', function (): void {
+    ModelA::factory()->create();
+
+    $result = ModelA::query()->whereHashId('totally-invalid')->get();
+
+    expect($result)->toBeEmpty();
+});
