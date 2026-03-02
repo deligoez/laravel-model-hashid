@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use Illuminate\Foundation\Http\FormRequest;
-use Deligoez\LaravelModelHashId\Traits\DecryptsHashIds;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelB;
+use Deligoez\LaravelModelHashId\Traits\DecryptsHashIds;
 
 function createDecryptingRequest(array $hashIds, array $data): FormRequest
 {
@@ -25,7 +25,7 @@ function createDecryptingRequest(array $hashIds, array $data): FormRequest
         }
     };
 
-    $request = clone $requestClass;
+    $request          = clone $requestClass;
     $request->hashIds = $hashIds;
     $request->merge($data);
 
