@@ -33,8 +33,7 @@ trait HasHashIdRouting
      */
     public function resolveRouteBindingQuery($query, $value, $field = null): Builder|Relation
     {
-        /* @var \Illuminate\Database\Eloquent\Builder $this */
-        $id = $this->getModel()->keyFromHashId($value);
+        $id = static::keyFromHashId($value);
 
         return $query->where($field ?? $this->getRouteKeyName(), $id);
     }
