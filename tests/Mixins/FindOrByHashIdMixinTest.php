@@ -13,7 +13,7 @@ it('can find or a model by its hash id', function (): void {
 
     $model->delete();
 
-    expect(fn () => ModelA::findOrByHashId($model->hashId, function (): void {
+    expect(fn () => ModelA::findOrByHashId($model->hashId, ['*'], function (): void {
         throw new RuntimeException();
     }))->toThrow(RuntimeException::class);
 });
@@ -27,7 +27,7 @@ it('can find or a model by its hash id from specific columns', function (): void
 
     $model->delete();
 
-    expect(fn () => ModelA::findOrByHashId($model->hashId, function (): void {
+    expect(fn () => ModelA::findOrByHashId($model->hashId, ['id'], function (): void {
         throw new RuntimeException();
     }))->toThrow(RuntimeException::class);
 });
