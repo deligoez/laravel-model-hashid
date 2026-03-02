@@ -20,3 +20,7 @@ parameters:
             identifier: binaryOp.invalid
         -
             identifier: trait.unused
+        -
+            identifier: typeCoverage.paramTypeCoverage
+        -
+            identifier: typeCoverage.constantTypeCoverage
