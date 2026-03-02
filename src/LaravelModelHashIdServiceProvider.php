@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId;
 
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\ColumnDefinition;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Config;
-use Deligoez\LaravelModelHashId\Support\ConfigParameters;
-use Deligoez\LaravelModelHashId\Commands\EncodeHashIdCommand;
-use Deligoez\LaravelModelHashId\Commands\DecodeHashIdCommand;
 use Deligoez\LaravelModelHashId\Mixins\WhereHashIdMixin;
 use Deligoez\LaravelModelHashId\Mixins\FindByHashIdMixin;
+use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 use Deligoez\LaravelModelHashId\Mixins\FindOrByHashIdMixin;
 use Deligoez\LaravelModelHashId\Mixins\WhereHashIdNotMixin;
+use Deligoez\LaravelModelHashId\Commands\DecodeHashIdCommand;
+use Deligoez\LaravelModelHashId\Commands\EncodeHashIdCommand;
 use Deligoez\LaravelModelHashId\Mixins\FindManyByHashIdMixin;
 use Deligoez\LaravelModelHashId\Mixins\FindOrNewByHashIdMixin;
 use Deligoez\LaravelModelHashId\Mixins\FindOrFailByHashIdMixin;
@@ -79,7 +79,7 @@ class LaravelModelHashIdServiceProvider extends ServiceProvider
         Blueprint::macro('hashId', function (?string $column = null): ColumnDefinition {
             $resolvedColumn = $column ?? Config::get(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::DATABASE_COLUMN, 'hash_id');
 
-            /** @var Blueprint $this */
+            /* @var Blueprint $this */
             return $this->string($resolvedColumn)->nullable()->unique();
         });
     }
