@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashId\Casts;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Deligoez\LaravelModelHashId\Support\Generator;
+use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
 /**
  * @implements CastsAttributes<string|null, string|int|null>
