@@ -2,42 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashId\Tests\Traits;
-
-use PHPUnit\Framework\Attributes\Test;
-use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashId\Support\Config;
-use Deligoez\LaravelModelHashId\Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelC;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelD;
 use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 
-class SavesHashIdTest extends TestCase
-{
-    use RefreshDatabase;
-    use WithFaker;
+it('saves hash id after a model is created', function (): void {
+    $model = ModelC::factory()->create();
 
-    #[Test]
-    public function it_saves_hash_id_after_a_model_is_created(): void
-    {
-        // 2. Act 🏋🏻‍
-        $model = ModelC::factory()->create();
+    expect(ModelC::find($model->id)->hashId)->toEqual($model->hash_id);
+});
 
-        // 3. Assert ✅
-        $this->assertEquals($model->hash_id, ModelC::find($model->id)->hashId);
-    }
+it('saves hash id to a custom column after a model is created', function (): void {
+    Config::set(ConfigParameters::DATABASE_COLUMN, 'hash', ModelD::class);
 
-    #[Test]
-    public function it_saves_hash_id_to_a_custom_column_after_a_model_is_created(): void
-    {
-        // 1. Arrange 🏗
-        Config::set(ConfigParameters::DATABASE_COLUMN, 'hash', ModelD::class);
+    $model = ModelD::factory()->create();
 
-        // 2. Act 🏋🏻‍
-        $model = ModelD::factory()->create();
-
-        // 3. Assert ✅
-        $this->assertEquals($model->hash, ModelD::find($model->id)->hashId);
-    }
-}
+    expect(ModelD::find($model->id)->hashId)->toEqual($model->hash);
+});
