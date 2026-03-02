@@ -2,213 +2,118 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashId\Tests\Traits;
-
-use Str;
-use PHPUnit\Framework\Attributes\Test;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Str;
 use Deligoez\LaravelModelHashId\Support\Config;
-use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Deligoez\LaravelModelHashId\Support\Generator;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelB;
 use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 
-class HasHasIdTest extends TestCase
-{
-    use RefreshDatabase;
-    use WithFaker;
-
-    // region Trait Initialization
-
-    /**#[Tests \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
-     */
-    public function model_hash_id_salt_can_be_defined(): void
-    {
-        // 1. Arrange 🏗
-        /** @var ModelA $model */
+describe('initialization', function (): void {
+    it('can define model hash id salt', function (): void {
         $model = ModelA::factory()->create();
         $hash  = $model->hashId;
 
-        // 2. Act 🏋🏻‍
         Config::set(ConfigParameters::SALT, Str::random());
 
-        // 3. Assert ✅
         $newHash = ModelA::findOrFail($model->getKey())->hashId;
-        $this->assertNotEquals($hash, $newHash);
-    }
 
-    #[Test]
-    public function model_hash_id_length_can_be_defined(): void
-    {
-        // 1. Arrange 🏗
-        $randomLength = $this->faker->numberBetween(5, 20);
+        expect($newHash)->not->toEqual($hash);
+    });
+
+    it('can define model hash id length', function (): void {
+        $randomLength = fake()->numberBetween(5, 20);
         Config::set(ConfigParameters::LENGTH, $randomLength);
 
-        $model = ModelA::factory()->create();
-
-        // 2. Act 🏋🏻‍
+        $model  = ModelA::factory()->create();
         $hashId = $model->hashId;
 
-        // 3. Assert ✅
-        $length = mb_strlen(Config::get(ConfigParameters::SEPARATOR)) +
+        $expectedLength = mb_strlen(Config::get(ConfigParameters::SEPARATOR)) +
             Config::get(ConfigParameters::PREFIX_LENGTH) +
             $randomLength;
 
-        $this->assertEquals($length, mb_strlen($hashId));
-    }
+        expect(mb_strlen($hashId))->toEqual($expectedLength);
+    });
 
-    #[Test]
-    public function model_hash_id_alphabet_can_be_defined(): void
-    {
-        // 1. Arrange 🏗
+    it('can define model hash id alphabet', function (): void {
         $customAlphabet = 'abcdef1234567890';
         Config::set(ConfigParameters::ALPHABET, $customAlphabet);
 
-        $model = ModelA::factory()->create();
+        $model   = ModelA::factory()->create();
+        $hashId  = $model->hashId;
+        $parsed  = Generator::parseHashIdForModel($hashId);
+        $allowed = mb_str_split($customAlphabet);
 
-        // 2. Act 🏋🏻‍
-        $hashId = $model->hashId;
-
-        // 3. Assert ✅
-        $modelHashId = Generator::parseHashIdForModel($hashId);
-
-        $alphabetAsArray = mb_str_split($customAlphabet);
-        foreach (mb_str_split($modelHashId->hashIdForKey) as $char) {
-            $this->assertContains($char, $alphabetAsArray);
+        foreach (mb_str_split($parsed->hashIdForKey) as $char) {
+            expect($allowed)->toContain($char);
         }
-    }
+    });
 
-    #[Test]
-    public function model_hash_id_alphabet_can_also_be_defined_from_emojis(): void
-    {
-        // 1. Arrange 🏗
+    it('can define model hash id alphabet from emojis', function (): void {
         $customAlphabet = '😀😃😄😁😆😅😂🤣🥲☺️😊😇🙂🙃😉😌';
         Config::set(ConfigParameters::ALPHABET, $customAlphabet);
 
-        $model = ModelA::factory()->create();
+        $model   = ModelA::factory()->create();
+        $hashId  = $model->hashId;
+        $parsed  = Generator::parseHashIDForModel($hashId);
+        $allowed = mb_str_split($customAlphabet);
 
-        // 2. Act 🏋🏻‍
-        $hashId = $model->hashId;
-
-        // 3. Assert ✅
-        $modelHashID = Generator::parseHashIDForModel($hashId);
-
-        $alphabetAsArray = mb_str_split($customAlphabet);
-        foreach (mb_str_split($modelHashID->hashIdForKey) as $char) {
-            $this->assertContains($char, $alphabetAsArray);
+        foreach (mb_str_split($parsed->hashIdForKey) as $char) {
+            expect($allowed)->toContain($char);
         }
-    }
+    });
+});
 
-    // endregion
-
-    // region Trait Static Functions
-
-    #[Test]
-    public function it_can_get_a_model_key_from_hash_id(): void
-    {
-        // 1. Arrange 🏗
+describe('static functions', function (): void {
+    it('can get a model key from hash id', function (): void {
         $model  = ModelA::factory()->create();
         $hashId = $model->hashId;
 
-        // 2. Act 🏋🏻‍
-        $key = ModelA::keyFromHashId($hashId);
+        expect(ModelA::keyFromHashId($hashId))->toEqual($model->getKey());
+    });
 
-        // 3. Assert ✅
-        $this->assertEquals($model->getKey(), $key);
-    }
+    it('returns null if hash id can not be parsed', function (): void {
+        expect(ModelA::keyFromHashId('non-existing-hash-id'))->toBeNull();
+    });
 
-    #[Test]
-    public function it_returns_null_if_hash_id_can_not_parsable(): void
-    {
-        // 2. Act 🏋🏻‍
-        $key = ModelA::keyFromHashId('non-existing-hash-id');
+    it('returns null if hash id is valid format but decodes to empty', function (): void {
+        $model     = ModelA::factory()->create();
+        $hashId    = $model->hashId;
+        $invalidId = mb_substr($hashId, 0, -1).'0';
 
-        // 3. Assert ✅
-        $this->assertNull($key);
-    }
+        expect(ModelA::keyFromHashId($invalidId))->toBeNull();
+    });
 
-    #[Test]
-    public function it_returns_null_if_hash_id_is_valid_format_but_decodes_to_empty(): void
-    {
-        // 1. Arrange 🏗
-        $model  = ModelA::factory()->create();
-        $hashId = $model->hashId;
-        // Corrupt the last character to create a valid-looking but undecodable hash
-        $invalidHashId = mb_substr($hashId, 0, -1).'0';
-
-        // 2. Act 🏋🏻‍
-        $key = ModelA::keyFromHashId($invalidHashId);
-
-        // 3. Assert ✅
-        $this->assertNull($key);
-    }
-
-    #[Test]
-    public function it_returns_null_if_hash_id_prefix_does_not_match_model_prefix(): void
-    {
-        // 1. Arrange 🏗
+    it('returns null if hash id prefix does not match model prefix', function (): void {
         Config::set(ConfigParameters::PREFIX, 'a_custom_prefix', ModelA::class);
         Config::set(ConfigParameters::PREFIX, 'b_custom_prefix', ModelB::class);
 
         ModelA::factory()->create();
         $modelB = ModelB::factory()->create();
 
-        $hashId = $modelB->hashId;
+        expect(ModelA::keyFromHashId($modelB->hashId))->toBeNull();
+    });
+});
 
-        // 2. Act 🏋🏻‍
-        $key = ModelA::keyFromHashId($hashId);
-
-        // 3. Assert ✅
-        $this->assertNull($key);
-    }
-
-    // endregion
-
-    // region Accessors
-
-    #[Test]
-    public function model_has_a_hash_id_attribute(): void
-    {
-        // 1. Arrange 🏗
-        $model = ModelA::factory()->create();
-
-        // 2. Act 🏋🏻‍
+describe('accessors', function (): void {
+    it('has a hash id attribute', function (): void {
+        $model  = ModelA::factory()->create();
         $hashId = $model->hashId;
-        $key    = $model->getKey();
 
-        // 3. Assert ✅
-        $this->assertEquals($key, ModelA::keyFromHashId($hashId));
-    }
+        expect(ModelA::keyFromHashId($hashId))->toEqual($model->getKey());
+    });
 
-    #[Test]
-    public function model_has_a_hash_id_raw_attribute(): void
-    {
-        // 1. Arrange 🏗
+    it('has a hash id raw attribute', function (): void {
         $model = ModelA::factory()->create();
 
-        // 2. Act 🏋🏻‍
-        $hashIdRawAttribute = $model->hashIdRaw;
-
-        // 3. Assert ✅
         $hashIdRaw = Generator::parseHashIDForModel($model->hashId)->hashIdForKey;
-        $this->assertEquals($hashIdRaw, $hashIdRawAttribute);
-    }
 
-    #[Test]
-    public function it_returns_null_if_model_does_not_have_a_key_for_hash_id_raw(): void
-    {
-        // 1. Arrange 🏗
-        /** @var ModelA $model */
+        expect($model->hashIdRaw)->toEqual($hashIdRaw);
+    });
+
+    it('returns null if model does not have a key for hash id raw', function (): void {
         $model = ModelA::factory()->make();
 
-        // 2. Act 🏋🏻‍
-        $hashIdRawAttribute = $model->hashIdRaw;
-
-        // 3. Assert ✅
-        $this->assertNull($hashIdRawAttribute);
-    }
-
-    // endregion
-}
+        expect($model->hashIdRaw)->toBeNull();
+    });
+});
