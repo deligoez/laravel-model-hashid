@@ -10,9 +10,6 @@ final class UnknownHashIdConfigParameterException extends Exception
 {
     /**
      * Create new UnknownHashIdConfigParameterException instance.
-     *
-     *
-     * @return static
      */
     public static function make(string $parameter): self
     {

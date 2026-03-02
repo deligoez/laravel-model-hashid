@@ -4,21 +4,8 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/deligoez/laravel-model-hashid.svg?style=flat-square)](https://packagist.org/packages/deligoez/laravel-model-hashid)
 [![Total Downloads](https://img.shields.io/packagist/dt/deligoez/laravel-model-hashid.svg?style=flat-square)](https://packagist.org/packages/deligoez/laravel-model-hashid)
-![Packagist](https://img.shields.io/packagist/l/deligoez/laravel-model-hashid)       
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=security_rating)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)   
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=coverage)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=ncloc)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=bugs)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)   
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=sqale_index)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=code_smells)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)    
-[![tests](https://github.com/deligoez/laravel-model-hashid/actions/workflows/run-tests.yml/badge.svg)](https://github.com/deligoez/laravel-model-hashid/actions/workflows/run-tests.yml)
-[![code style](https://github.com/deligoez/laravel-model-hashid/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/deligoez/laravel-model-hashid/actions/workflows/php-cs-fixer.yml)
-[![types](https://github.com/deligoez/laravel-model-hashid/actions/workflows/phpstan.yml/badge.svg)](https://github.com/deligoez/laravel-model-hashid/actions/workflows/phpstan.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=deligoez_laravel-model-hashids&metric=alert_status)](https://sonarcloud.io/dashboard?id=deligoez_laravel-model-hashids)   
+![Packagist](https://img.shields.io/packagist/l/deligoez/laravel-model-hashid)
+[![CI](https://github.com/deligoez/laravel-model-hashid/actions/workflows/ci.yml/badge.svg)](https://github.com/deligoez/laravel-model-hashid/actions/workflows/ci.yml)
 [![Open Source Love](https://badges.frapsoft.com/os/v3/open-source.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
 
 </div>
@@ -78,13 +65,11 @@ You have complete control over your Hash Id length and style. Check out the conf
 
 The table below shows the compatibility across Laravel, PHP, and this package's **current version**.
 
-| Package Version | Laravel version        | PHP version               | Compatible |
-|-----------------|------------------------|---------------------------|------------|
-| ^2.0            | 9.* , 10.*, 11.*, 12.* | 8.1.*, 8.2*, 8.3.*, 8.4.* |      ✅    |
-| ^1.0            | 8.*                    | 8.0.*                     |      ✅    |
-|                 | 8.*                    | 7.4.*                     |      ❌    |
-|                 | 8.*                    | 7.3.*                     |      ❌    |
-|                 | 7.x                    | *                         |      ❌    |
+| Package Version | Laravel version | PHP version            | Compatible |
+|-----------------|-----------------|------------------------|------------|
+| ^3.0            | 11.*, 12.*      | 8.2.*, 8.3.*, 8.4.*   |      ✅    |
+| ^2.0            | 9.* - 12.*      | 8.1.* - 8.4.*         |      ✅    |
+| ^1.0            | 8.*             | 8.0.*                  |      ✅    |
 
 ## Installation
 

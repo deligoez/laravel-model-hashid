@@ -22,7 +22,7 @@ class Config
         self::checkIfParameterDefined($parameter);
 
         if ($model !== null) {
-            $className = $model instanceof Model ? get_class($model) : $model;
+            $className = $model instanceof Model ? $model::class : $model;
 
             // Get the model specific configuration value if it exists.
             if (Arr::has(LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::MODEL_GENERATORS), $className.'.'.$parameter)) {
@@ -43,7 +43,7 @@ class Config
         self::checkIfParameterDefined($parameter);
 
         if ($model !== null) {
-            $className = $model instanceof Model ? get_class($model) : $model;
+            $className = $model instanceof Model ? $model::class : $model;
 
             return Arr::has(LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::MODEL_GENERATORS), $className.'.'.$parameter);
         }
@@ -68,7 +68,7 @@ class Config
 
         self::checkIfModelClassExist($model);
 
-        $className = $model instanceof Model ? get_class($model) : $model;
+        $className = $model instanceof Model ? $model::class : $model;
 
         $generatorsConfig = LaravelConfig::get(ConfigParameters::CONFIG_FILE_NAME.'.'.ConfigParameters::MODEL_GENERATORS);
 

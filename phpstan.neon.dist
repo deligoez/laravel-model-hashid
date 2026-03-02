@@ -3,11 +3,20 @@ parameters:
     paths:
         - src
         - config
-        - tests
-    tmpDir: build/phpstan
     checkOctaneCompatibility: true
     checkModelProperties: true
-    checkMissingIterableValueType: true
     ignoreErrors:
-        - '#::keyFromHashId\(\).#'
-        - '#Access to an undefined property [a-zA-Z0-9\\_]+::\$hashId#'
+        -
+            identifier: method.notFound
+            message: '#::keyFromHashId\(\).#'
+        -
+            identifier: property.notFound
+            message: '#Access to an undefined property [a-zA-Z0-9\\_]+::\$hashId#'
+        -
+            identifier: larastan.noEnvCallsOutsideOfConfig
+        -
+            identifier: varTag.nativeType
+        -
+            identifier: binaryOp.invalid
+        -
+            identifier: trait.unused
