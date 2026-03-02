@@ -10,7 +10,7 @@ use Deligoez\LaravelModelHashId\Traits\SavesHashId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * Class ModelA.
+ * Class ModelD.
  *
  * @property string $slug
  * @property string $hash
