@@ -32,6 +32,7 @@ You have complete control over Hash Id length, prefix, separator, and alphabet. 
     - [Query Builder Functions](#query-builder-functions)
     - [Route Model Binding (Optional)](#route-model-binding-optional)
     - [Saving Hash Ids to Database (Optional)](#saving-hash-ids-to-database-optional)
+- [Validation](#validation)
 - [Hash Id Terminology](#hash-id-terminology)
 - [Configuration](#configuration)
 - [Upgrading](#upgrading)
@@ -173,6 +174,36 @@ Set the `database_column` in your configuration file (default: `hash_id`). You c
 > Hash Id generation works **on the fly** -- saving to the database is not required for generation or decoding.
 
 > Since Hash Id generation requires an integer model key, saving to the database results in an additional query after model creation.
+
+## Validation
+
+Two validation rules are provided for validating Hash Ids in form requests and validators.
+
+### `ValidHashId` — Format Validation (No Database Hit)
+
+Checks if a value is a valid Hash Id format. Optionally validates against a specific model (prefix + decode check).
+
+```php
+use Deligoez\LaravelModelHashId\Rules\ValidHashId;
+
+// Generic: any decodable Hash Id
+'token' => [new ValidHashId]
+
+// Model-specific: must decode for User model
+'user_id' => [new ValidHashId(User::class)]
+```
+
+### `HashIdExists` — Database Existence Check
+
+Checks if a Hash Id corresponds to an existing database record. Equivalent to Laravel's `exists` rule for Hash Ids.
+
+```php
+use Deligoez\LaravelModelHashId\Rules\HashIdExists;
+
+'user_id' => [new HashIdExists(User::class)]
+```
+
+Both rules throw an `InvalidArgumentException` if the given model does not use the `HasHashId` trait.
 
 ## Hash Id Terminology
 
