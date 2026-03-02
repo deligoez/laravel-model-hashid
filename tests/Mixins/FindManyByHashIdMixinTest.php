@@ -27,3 +27,25 @@ it('can find many models by their hash ids from specific columns', function (): 
 
     expect($foundModels->pluck('id')->toArray())->toBe($models->pluck('id')->toArray());
 });
+
+it('returns empty collection when given an empty array', function (): void {
+    ModelA::factory()->count(3)->create();
+
+    $result = ModelA::findManyByHashId([]);
+
+    expect($result)->toBeEmpty();
+});
+
+it('ignores invalid hash ids and returns only valid matches', function (): void {
+    $models = ModelA::factory()->count(2)->create();
+
+    $hashIds = [
+        $models[0]->hashId,
+        'totally-invalid-hash',
+        $models[1]->hashId,
+    ];
+
+    $result = ModelA::findManyByHashId($hashIds);
+
+    expect($result)->toHaveCount(2);
+});
