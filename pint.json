@@ -61,10 +61,6 @@
       "property": "single"
     },
     "phpdoc_var_annotation_correct_order": true,
-    "php_unit_fqcn_annotation": true,
-    "php_unit_method_casing": {
-      "case": "snake_case"
-    },
     "void_return": true,
     "explicit_string_variable": true,
     "method_chaining_indentation": true,
