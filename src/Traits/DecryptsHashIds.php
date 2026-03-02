@@ -21,8 +21,10 @@ trait DecryptsHashIds
 
         foreach ($this->hashIds as $field => $modelClass) {
             $value = $this->input($field);
-
-            if ($value === null || !is_string($value)) {
+            if ($value === null) {
+                continue;
+            }
+            if (!is_string($value)) {
                 continue;
             }
 
