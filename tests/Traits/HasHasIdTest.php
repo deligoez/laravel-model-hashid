@@ -41,7 +41,7 @@ describe('initialization', function (): void {
 
         $model   = ModelA::factory()->create();
         $hashId  = $model->hashId;
-        $parsed  = Generator::parseHashIdForModel($hashId);
+        $parsed  = Generator::parseHashIDForModel($hashId);
         $allowed = mb_str_split($customAlphabet);
 
         foreach (mb_str_split($parsed->hashIdForKey) as $char) {
