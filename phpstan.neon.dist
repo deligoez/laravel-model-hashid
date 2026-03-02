@@ -10,6 +10,9 @@ parameters:
             identifier: method.notFound
             message: '#::keyFromHashId\(\).#'
         -
+            identifier: staticMethod.notFound
+            message: '#::keyFromHashId\(\).#'
+        -
             identifier: property.notFound
             message: '#Access to an undefined property [a-zA-Z0-9\\_]+::\$hashId#'
         -
