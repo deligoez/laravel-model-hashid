@@ -2,300 +2,161 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashId\Tests\Support;
-
 use Hashids\Hashids;
-use RuntimeException;
-use PHPUnit\Framework\Attributes\Test;
-use Illuminate\Foundation\Testing\WithFaker;
 use Deligoez\LaravelModelHashId\Support\Config;
-use Deligoez\LaravelModelHashId\Tests\TestCase;
 use Deligoez\LaravelModelHashId\Support\Generator;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelB;
 use Deligoez\LaravelModelHashId\Support\ConfigParameters;
 
-class ModelHashIdGeneratorTest extends TestCase
-{
-    use WithFaker;
-
-    // region prefix
-
-    #[Test]
-    public function it_uses_default_prefix_logic_when_override_is_not_defined(): void
-    {
-        // 1. Arrange 🏗
+describe('prefix', function (): void {
+    it('uses default prefix logic when override is not defined', function (): void {
         $model        = new ModelA();
-        $prefixLength = $this->faker->numberBetween(1, mb_strlen(class_basename($model)));
+        $prefixLength = fake()->numberBetween(1, mb_strlen(class_basename($model)));
         Config::set(ConfigParameters::PREFIX_LENGTH, $prefixLength, $model);
 
-        // 2. Act 🏋🏻‍
         $prefix = Generator::buildPrefixForModel($model);
 
-        // 3. Assert ✅
-        $this->assertEquals($prefixLength, mb_strlen($prefix));
-    }
+        expect(mb_strlen($prefix))->toEqual($prefixLength);
+    });
 
-    #[Test]
-    public function it_can_use_a_defined_prefix_from_a_model_generator(): void
-    {
-        // 1. Arrange 🏗
-        $modelSeparator = '_';
-        $modelPrefix    = 'a_custom_prefix';
+    it('can use a defined prefix from a model generator', function (): void {
+        Config::set(ConfigParameters::SEPARATOR, '_', ModelA::class);
+        Config::set(ConfigParameters::PREFIX, 'a_custom_prefix', ModelA::class);
 
-        Config::set(ConfigParameters::SEPARATOR, $modelSeparator, ModelA::class);
-        Config::set(ConfigParameters::PREFIX, $modelPrefix, ModelA::class);
-
-        $model = ModelA::factory()->create();
-
-        // 2. Act 🏋🏻‍
+        $model  = ModelA::factory()->create();
         $hashId = Generator::forModel($model);
 
-        // 3. Assert ✅
         $modelHash = Generator::parseHashIDForModel($hashId);
 
-        $this->assertEquals($modelPrefix, $modelHash->prefix);
-        $this->assertEquals($modelSeparator, $modelHash->separator);
-        $this->assertEquals($hashId, $model->hashId);
-        $this->assertEquals($model::class, $modelHash->modelClassName);
-    }
+        expect($modelHash->prefix)->toEqual('a_custom_prefix')
+            ->and($modelHash->separator)->toEqual('_')
+            ->and($model->hashId)->toEqual($hashId)
+            ->and($modelHash->modelClassName)->toEqual($model::class);
+    });
+});
 
-    // endregion
-
-    // region prefix_length
-
-    #[Test]
-    public function it_can_set_prefix_length_for_a_model(): void
-    {
-        // 1. Arrange 🏗
+describe('prefix_length', function (): void {
+    it('can set prefix length for a model', function (): void {
         $model        = new ModelA();
-        $prefixLength = $this->faker->numberBetween(1, mb_strlen(class_basename($model)));
+        $prefixLength = fake()->numberBetween(1, mb_strlen(class_basename($model)));
         Config::set(ConfigParameters::PREFIX_LENGTH, $prefixLength, $model);
 
-        // 2. Act 🏋🏻‍
         $prefix = Generator::buildPrefixForModel($model);
 
-        // 3. Assert ✅
-        $this->assertEquals($prefixLength, mb_strlen($prefix));
-    }
+        expect(mb_strlen($prefix))->toEqual($prefixLength);
+    });
 
-    #[Test]
-    public function prefix_length_will_be_the_length_of_class_name_if_prefix_length_is_under_zero(): void
-    {
-        // 1. Arrange 🏗
-        $model        = new ModelA();
-        $prefixLength = -1;
-        Config::set(ConfigParameters::PREFIX_LENGTH, $prefixLength, $model);
+    it('uses full class name length when prefix length is under zero', function (): void {
+        $model = new ModelA();
+        Config::set(ConfigParameters::PREFIX_LENGTH, -1, $model);
 
-        // 2. Act 🏋🏻‍
         $prefix = Generator::buildPrefixForModel($model);
 
-        // 3. Assert ✅
-        $this->assertEquals(mb_strlen(class_basename($model)), mb_strlen($prefix));
-    }
+        expect(mb_strlen($prefix))->toEqual(mb_strlen(class_basename($model)));
+    });
 
-    #[Test]
-    public function it_can_set_prefix_length_to_zero_and_prefix_to_empty(): void
-    {
-        // 1. Arrange 🏗
-        $prefixLength = 0;
-        Config::set(ConfigParameters::PREFIX_LENGTH, $prefixLength);
+    it('can set prefix length to zero and prefix to empty', function (): void {
+        Config::set(ConfigParameters::PREFIX_LENGTH, 0);
 
-        // 2. Act 🏋🏻‍
         $prefix = Generator::buildPrefixForModel(ModelA::class);
 
-        // 3. Assert ✅
-        $this->assertEquals('', $prefix);
-        $this->assertEquals($prefixLength, mb_strlen($prefix));
-    }
+        expect($prefix)->toEqual('')
+            ->and(mb_strlen($prefix))->toEqual(0);
+    });
 
-    #[Test]
-    public function prefix_length_will_be_the_short_class_name_length_if_prefix_length_is_more_than_that(): void
-    {
-        // 1. Arrange 🏗
-        $model        = new ModelA();
-        $prefixLength = 10;
-        Config::set(ConfigParameters::PREFIX_LENGTH, $prefixLength);
-        $shortClassNameLength = mb_strlen(class_basename($model));
+    it('caps prefix length at short class name length', function (): void {
+        $model = new ModelA();
+        Config::set(ConfigParameters::PREFIX_LENGTH, 10);
 
-        // 2. Act 🏋🏻‍
         $prefix = Generator::buildPrefixForModel($model);
 
-        // 3. Assert ✅
-        $this->assertEquals($shortClassNameLength, mb_strlen($prefix));
-    }
+        expect(mb_strlen($prefix))->toEqual(mb_strlen(class_basename($model)));
+    });
 
-    #[Test]
-    public function it_throws_a_runtime_exception_for_class_names_that_does_not_exist(): void
-    {
-        // 3. Assert ✅
-        $this->expectException(RuntimeException::class);
+    it('throws a runtime exception for class names that does not exist', function (): void {
+        expect(fn () => Generator::buildPrefixForModel('model-that-not-exist'))
+            ->toThrow(RuntimeException::class);
+    });
+});
 
-        // 2. Act 🏋🏻‍
-        Generator::buildPrefixForModel('model-that-not-exist');
-    }
-
-    // endregion
-
-    // region prefix_case
-
-    #[Test]
-    public function it_can_build_a_lower_case_prefix_from_a_model(): void
-    {
-        // 1. Arrange 🏗
+describe('prefix_case', function (): void {
+    it('can build a lower case prefix', function (): void {
         Config::set(ConfigParameters::PREFIX_LENGTH, 6);
         Config::set(ConfigParameters::PREFIX_CASE, 'lower');
 
-        $model = new ModelA();
+        expect(Generator::buildPrefixForModel(new ModelA()))->toEqual('modela');
+    });
 
-        // 2. Act 🏋🏻‍
-        $prefix = Generator::buildPrefixForModel($model);
-
-        // 3. Assert ✅
-        $this->assertEquals('modela', $prefix);
-    }
-
-    #[Test]
-    public function it_can_build_a_upper_case_prefix_from_a_model(): void
-    {
-        // 1. Arrange 🏗
+    it('can build an upper case prefix', function (): void {
         Config::set(ConfigParameters::PREFIX_LENGTH, 6);
         Config::set(ConfigParameters::PREFIX_CASE, 'upper');
 
-        $model = new ModelA();
+        expect(Generator::buildPrefixForModel(new ModelA()))->toEqual('MODELA');
+    });
 
-        // 2. Act 🏋🏻‍
-        $prefix = Generator::buildPrefixForModel($model);
-
-        // 3. Assert ✅
-        $this->assertEquals('MODELA', $prefix);
-    }
-
-    #[Test]
-    public function it_can_build_a_camel_case_prefix_from_a_model(): void
-    {
-        // 1. Arrange 🏗
+    it('can build a camel case prefix', function (): void {
         Config::set(ConfigParameters::PREFIX_LENGTH, 6);
         Config::set(ConfigParameters::PREFIX_CASE, 'camel');
 
-        $model = new ModelA();
+        expect(Generator::buildPrefixForModel(new ModelA()))->toEqual('modelA');
+    });
 
-        // 2. Act 🏋🏻‍
-        $prefix = Generator::buildPrefixForModel($model);
-
-        // 3. Assert ✅
-        $this->assertEquals('modelA', $prefix);
-    }
-
-    #[Test]
-    public function it_can_build_a_snake_case_prefix_from_a_model(): void
-    {
-        // 1. Arrange 🏗
+    it('can build a snake case prefix', function (): void {
         Config::set(ConfigParameters::PREFIX_LENGTH, 6);
         Config::set(ConfigParameters::PREFIX_CASE, 'snake');
 
-        $model = new ModelA();
+        expect(Generator::buildPrefixForModel(new ModelA()))->toEqual('model_a');
+    });
 
-        // 2. Act 🏋🏻‍
-        $prefix = Generator::buildPrefixForModel($model);
-
-        // 3. Assert ✅
-        $this->assertEquals('model_a', $prefix);
-    }
-
-    #[Test]
-    public function it_can_build_a_kebab_case_prefix_from_a_model(): void
-    {
-        // 1. Arrange 🏗
+    it('can build a kebab case prefix', function (): void {
         Config::set(ConfigParameters::PREFIX_LENGTH, 6);
         Config::set(ConfigParameters::PREFIX_CASE, 'kebab');
 
-        $model = new ModelA();
+        expect(Generator::buildPrefixForModel(new ModelA()))->toEqual('model-a');
+    });
 
-        // 2. Act 🏋🏻‍
-        $prefix = Generator::buildPrefixForModel($model);
-
-        // 3. Assert ✅
-        $this->assertEquals('model-a', $prefix);
-    }
-
-    #[Test]
-    public function it_can_build_a_title_case_prefix_from_a_model(): void
-    {
-        // 1. Arrange 🏗
+    it('can build a title case prefix', function (): void {
         Config::set(ConfigParameters::PREFIX_LENGTH, 6);
         Config::set(ConfigParameters::PREFIX_CASE, 'title');
 
-        $model = new ModelA();
+        expect(Generator::buildPrefixForModel(new ModelA()))->toEqual('Modela');
+    });
 
-        // 2. Act 🏋🏻‍
-        $prefix = Generator::buildPrefixForModel($model);
-
-        // 3. Assert ✅
-        $this->assertEquals('Modela', $prefix);
-    }
-
-    #[Test]
-    public function it_can_build_a_studly_case_prefix_from_a_model(): void
-    {
-        // 1. Arrange 🏗
+    it('can build a studly case prefix', function (): void {
         Config::set(ConfigParameters::PREFIX_LENGTH, 6);
         Config::set(ConfigParameters::PREFIX_CASE, 'studly');
 
-        $model = new ModelA();
+        expect(Generator::buildPrefixForModel(new ModelA()))->toEqual('ModelA');
+    });
 
-        // 2. Act 🏋🏻‍
-        $prefix = Generator::buildPrefixForModel($model);
-
-        // 3. Assert ✅
-        $this->assertEquals('ModelA', $prefix);
-    }
-
-    #[Test]
-    public function it_can_build_a_plural_studly_case_prefix_from_a_model(): void
-    {
-        // 1. Arrange 🏗
+    it('can build a plural studly case prefix', function (): void {
         Config::set(ConfigParameters::PREFIX_LENGTH, 6);
         Config::set(ConfigParameters::PREFIX_CASE, 'plural_studly');
 
-        $model = new ModelA();
+        expect(Generator::buildPrefixForModel(new ModelA()))->toEqual('ModelAS');
+    });
+});
 
-        // 2. Act 🏋🏻‍
-        $prefix = Generator::buildPrefixForModel($model);
-
-        // 3. Assert ✅
-        $this->assertEquals('ModelAS', $prefix);
-    }
-
-    // endregion
-
-    #[Test]
-    public function it_can_generate_model_hash_ids_using_generic_configuration(): void
-    {
-        // 1. Arrange 🏗
+describe('generator', function (): void {
+    it('can generate model hash ids using generic configuration', function (): void {
         Config::set(ConfigParameters::SEPARATOR, '@');
         Config::set(ConfigParameters::LENGTH, 5);
         Config::set(ConfigParameters::PREFIX_CASE, 'lower');
         Config::set(ConfigParameters::PREFIX_LENGTH, 4);
 
-        $model = ModelA::factory()->create();
-
-        // 2. Act 🏋🏻‍
+        $model  = ModelA::factory()->create();
         $hashId = Generator::forModel($model);
 
-        // 3. Assert ✅
         $modelHash = Generator::parseHashIDForModel($hashId);
 
-        $this->assertEquals('mode', $modelHash->prefix);
-        $this->assertEquals('@', $modelHash->separator);
-        $this->assertEquals($hashId, $model->hashId);
-        $this->assertEquals(null, $modelHash->modelClassName);
-    }
+        expect($modelHash->prefix)->toEqual('mode')
+            ->and($modelHash->separator)->toEqual('@')
+            ->and($model->hashId)->toEqual($hashId)
+            ->and($modelHash->modelClassName)->toBeNull();
+    });
 
-    #[Test]
-    public function it_can_generate_model_hash_ids_with_different_configurations(): void
-    {
-        // 1. Arrange 🏗
+    it('can generate model hash ids with different configurations', function (): void {
         Config::set(ConfigParameters::SEPARATOR, '_', ModelA::class);
         Config::set(ConfigParameters::LENGTH, 5, ModelA::class);
         Config::set(ConfigParameters::PREFIX_CASE, 'upper', ModelA::class);
@@ -309,36 +170,26 @@ class ModelHashIdGeneratorTest extends TestCase
         $modelA = ModelA::factory()->create();
         $modelB = ModelB::factory()->create();
 
-        // 2. Act 🏋🏻‍
         $hashIdA = Generator::forModel($modelA);
         $hashIdB = Generator::forModel($modelB);
 
-        // 3. Assert ✅
         $modelHashA = Generator::parseHashIDForModel($hashIdA);
         $modelHashB = Generator::parseHashIDForModel($hashIdB);
 
-        $this->assertEquals('MOD', $modelHashA->prefix);
-        $this->assertEquals('_', $modelHashA->separator);
-        $this->assertEquals($hashIdA, $modelA->hashId);
-        $this->assertEquals($modelA::class, $modelHashA->modelClassName);
+        expect($modelHashA->prefix)->toEqual('MOD')
+            ->and($modelHashA->separator)->toEqual('_')
+            ->and($modelA->hashId)->toEqual($hashIdA)
+            ->and($modelHashA->modelClassName)->toEqual($modelA::class)
+            ->and($modelHashB->prefix)->toEqual('mode')
+            ->and($modelHashB->separator)->toEqual('#')
+            ->and($modelB->hashId)->toEqual($hashIdB)
+            ->and($modelHashB->modelClassName)->toEqual($modelB::class);
+    });
 
-        $this->assertEquals('mode', $modelHashB->prefix);
-        $this->assertEquals('#', $modelHashB->separator);
-        $this->assertEquals($hashIdB, $modelB->hashId);
-        $this->assertEquals($modelB::class, $modelHashB->modelClassName);
-    }
-
-    #[Test]
-    public function it_can_parse_a_model_hash_ids_into_parts(): void
-    {
-        // 1. Arrange 🏗
-        $modelSeparator    = '_';
-        $modelLength       = 5;
-        $modelPrefixLength = 3;
-
-        Config::set(ConfigParameters::SEPARATOR, $modelSeparator, ModelA::class);
-        Config::set(ConfigParameters::LENGTH, $modelLength, ModelA::class);
-        Config::set(ConfigParameters::PREFIX_LENGTH, $modelPrefixLength, ModelA::class);
+    it('can parse model hash ids into parts', function (): void {
+        Config::set(ConfigParameters::SEPARATOR, '_', ModelA::class);
+        Config::set(ConfigParameters::LENGTH, 5, ModelA::class);
+        Config::set(ConfigParameters::PREFIX_LENGTH, 3, ModelA::class);
 
         Config::set(ConfigParameters::SEPARATOR, '#', ModelB::class);
         Config::set(ConfigParameters::LENGTH, '4', ModelB::class);
@@ -348,60 +199,30 @@ class ModelHashIdGeneratorTest extends TestCase
         $model  = ModelA::factory()->create();
         $hashId = Generator::forModel($model);
 
-        // 2. Act 🏋🏻‍
         $modelHashID = Generator::parseHashIDForModel($hashId);
 
-        // 3. Assert ✅
-        $this->assertEquals($modelLength, mb_strlen($modelHashID->hashIdForKey));
-        $this->assertEquals($modelSeparator, $modelHashID->separator);
-        $this->assertEquals($modelPrefixLength, mb_strlen($modelHashID->prefix));
+        expect(mb_strlen($modelHashID->hashIdForKey))->toEqual(5)
+            ->and($modelHashID->separator)->toEqual('_')
+            ->and(mb_strlen($modelHashID->prefix))->toEqual(3)
+            ->and($modelHashID->hashIdForKey)->toEqual($model->hashIdRaw)
+            ->and($hashId)->toEqual($model->hashId);
+    });
 
-        $this->assertEquals($model->hashIdRaw, $modelHashID->hashIdForKey);
-        $this->assertEquals($model->hashId, $hashId);
-    }
+    it('returns null if model does not have a key', function (): void {
+        expect(Generator::forModel(new ModelA()))->toBeNull();
+    });
 
-    #[Test]
-    public function it_returns_null_if_model_does_not_have_a_key(): void
-    {
-        // 1. Arrange 🏗
-        $model = new ModelA();
+    it('can build a hash id generator from a model instance or class name', function (): void {
+        expect(Generator::build(new ModelA()))->toBeInstanceOf(Hashids::class)
+            ->and(Generator::build(ModelA::class))->toBeInstanceOf(Hashids::class);
+    });
 
-        // 2. Act 🏋🏻‍
-        $hashIdForModel = Generator::forModel($model);
+    it('throws a runtime exception for invalid class names while building', function (): void {
+        expect(fn () => Generator::build('class-name-that-does-not-exist'))
+            ->toThrow(RuntimeException::class);
+    });
 
-        // 3. Assert ✅
-        $this->assertNull($hashIdForModel);
-    }
-
-    #[Test]
-    public function it_can_build_a_hash_id_generator_from_a_model_instance_or_class_name(): void
-    {
-        // 1. Arrange 🏗
-        $model = new ModelA();
-
-        // 2. Act 🏋🏻‍
-        $generatorFromInstance  = Generator::build($model);
-        $generatorFromClassName = Generator::build(ModelA::class);
-
-        // 3. Assert ✅
-        $this->assertInstanceOf(Hashids::class, $generatorFromInstance);
-        $this->assertInstanceOf(Hashids::class, $generatorFromClassName);
-    }
-
-    #[Test]
-    public function it_throws_a_runtime_exception_for_class_names_that_does_not_exist_while_building_a_generator(): void
-    {
-        // 3. Assert ✅
-        $this->expectException(RuntimeException::class);
-
-        // 2. Act 🏋🏻‍
-        Generator::build('class-name-that-does-not-exist');
-    }
-
-    #[Test]
-    public function model_prefix_and_separator_can_be_both_empty(): void
-    {
-        // 1. Arrange 🏗
+    it('can have both empty prefix and separator', function (): void {
         Config::set(ConfigParameters::SEPARATOR, '', ModelA::class);
         Config::set(ConfigParameters::LENGTH, 5, ModelA::class);
         Config::set(ConfigParameters::PREFIX_LENGTH, 0, ModelA::class);
@@ -415,22 +236,19 @@ class ModelHashIdGeneratorTest extends TestCase
         $modelA = ModelA::factory()->create();
         $modelB = ModelB::factory()->create();
 
-        // 2. Act 🏋🏻‍
-        $hashIdForModelA = Generator::forModel($modelA);
-        $hashIdForModelB = Generator::forModel($modelB);
+        $hashIdA = Generator::forModel($modelA);
+        $hashIdB = Generator::forModel($modelB);
 
-        // 3. Assert ✅
-        $modelHashForA = Generator::parseHashIDForModel($hashIdForModelA, ModelA::class);
-        $modelHashForB = Generator::parseHashIDForModel($hashIdForModelB, ModelB::class);
+        $modelHashA = Generator::parseHashIDForModel($hashIdA, ModelA::class);
+        $modelHashB = Generator::parseHashIDForModel($hashIdB, ModelB::class);
 
-        $this->assertEquals('', $modelHashForA->prefix);
-        $this->assertEquals('', $modelHashForA->separator);
-        $this->assertEquals($hashIdForModelA, $modelA->hashId);
-        $this->assertEquals(ModelA::class, $modelHashForA->modelClassName);
-
-        $this->assertEquals('', $modelHashForB->prefix);
-        $this->assertEquals('', $modelHashForB->separator);
-        $this->assertEquals($hashIdForModelB, $modelB->hashId);
-        $this->assertEquals(ModelB::class, $modelHashForB->modelClassName);
-    }
-}
+        expect($modelHashA->prefix)->toEqual('')
+            ->and($modelHashA->separator)->toEqual('')
+            ->and($modelA->hashId)->toEqual($hashIdA)
+            ->and($modelHashA->modelClassName)->toEqual(ModelA::class)
+            ->and($modelHashB->prefix)->toEqual('')
+            ->and($modelHashB->separator)->toEqual('')
+            ->and($modelB->hashId)->toEqual($hashIdB)
+            ->and($modelHashB->modelClassName)->toEqual(ModelB::class);
+    });
+});
