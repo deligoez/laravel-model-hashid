@@ -20,7 +20,6 @@ trait HasHashId
     /**
      * Initialize the HasHasId trait for an instance.
      *
-     *
      * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
     public function initializeHasHashId(): void
@@ -30,7 +29,6 @@ trait HasHashId
 
     /**
      * Get the Hash Id for the model.
-     *
      *
      * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
@@ -53,8 +51,6 @@ trait HasHashId
 
     /**
      * Decode given Hash Id and return the model key.
-     *
-     *
      *
      * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
      */
