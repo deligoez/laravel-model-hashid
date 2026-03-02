@@ -86,8 +86,8 @@ class Generator
         }
 
         $genericLength       = (int) Config::get(ConfigParameters::LENGTH);
-        $genericSeparator    = Config::get(ConfigParameters::SEPARATOR);
-        $genericPrefixLength = Config::get(ConfigParameters::PREFIX_LENGTH);
+        $genericSeparator    = (string) Config::get(ConfigParameters::SEPARATOR);
+        $genericPrefixLength = (int) Config::get(ConfigParameters::PREFIX_LENGTH);
 
         if ($genericPrefixLength === -1) {
             if ($className === null) {
