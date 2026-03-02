@@ -32,6 +32,13 @@ You have complete control over Hash Id length, prefix, separator, and alphabet. 
     - [Query Builder Functions](#query-builder-functions)
     - [Route Model Binding (Optional)](#route-model-binding-optional)
     - [Saving Hash Ids to Database (Optional)](#saving-hash-ids-to-database-optional)
+- [Generic Hash Ids](#generic-hash-ids)
+- [Blueprint Macro](#blueprint-macro)
+- [Hash Id Cast](#hash-id-cast)
+- [Serialization](#serialization)
+- [Blade Directive](#blade-directive)
+- [Decrypting Hash Ids in Form Requests](#decrypting-hash-ids-in-form-requests)
+- [Artisan Commands](#artisan-commands)
 - [Validation](#validation)
 - [Hash Id Terminology](#hash-id-terminology)
 - [Configuration](#configuration)
@@ -174,6 +181,139 @@ Set the `database_column` in your configuration file (default: `hash_id`). You c
 > Hash Id generation works **on the fly** -- saving to the database is not required for generation or decoding.
 
 > Since Hash Id generation requires an integer model key, saving to the database results in an additional query after model creation.
+
+## Generic Hash Ids
+
+Use the `HashId` utility class to encode and decode integers without a model:
+
+```php
+use Deligoez\LaravelModelHashId\Support\HashId;
+
+// Encode with default config
+HashId::encode(1234);                                    // 'kqYZeLgo...'
+
+// Encode with prefix and separator
+HashId::encode(1234, prefix: 'tok', separator: '_');     // 'tok_kqYZeLgo...'
+
+// Encode with custom salt, length, and alphabet
+HashId::encode(1234, salt: 'custom', length: 8);
+
+// Decode
+HashId::decode('tok_kqYZeLgo...', prefix: 'tok');        // 1234
+
+// Build a standalone generator
+$generator = HashId::buildGenerator(salt: 'my-salt', length: 10);
+```
+
+All parameters are optional and fall back to config values.
+
+## Blueprint Macro
+
+A `hashId()` macro is available on the `Blueprint` class for migrations:
+
+```php
+Schema::create('users', function (Blueprint $table) {
+    $table->id();
+    $table->hashId();              // nullable, unique string column (default: 'hash_id')
+    $table->hashId('custom_hash'); // custom column name
+    $table->timestamps();
+});
+```
+
+The default column name comes from the `database_column` config value.
+
+## Hash Id Cast
+
+Use `HashIdCast` to cast attributes in your model:
+
+```php
+use Deligoez\LaravelModelHashId\Casts\HashIdCast;
+
+class User extends Model
+{
+    use HasHashId;
+
+    protected $casts = [
+        'hash_id' => HashIdCast::class,
+    ];
+}
+```
+
+- `get()`: returns the stored string as-is
+- `set()`: converts integers to a full Hash Id, passes strings through, and handles null
+
+## Serialization
+
+Add the `SerializesHashId` trait to replace the primary key with the Hash Id in serialized output (arrays and JSON):
+
+```php
+use Deligoez\LaravelModelHashId\Traits\SerializesHashId;
+
+class User extends Model
+{
+    use HasHashId;
+    use SerializesHashId;
+}
+
+$user = User::find(1234);
+$user->toArray();  // ['id' => 'user_kqYZeLgo', 'name' => 'John', ...]
+$user->toJson();   // {"id":"user_kqYZeLgo","name":"John",...}
+```
+
+This follows the Stripe pattern of exposing Hash Ids in API responses. It respects `$hidden` and `$visible` attributes.
+
+## Blade Directive
+
+Use the `@hashid` directive to output a model's Hash Id in Blade templates:
+
+```blade
+<a href="/users/@hashid($user)">{{ $user->name }}</a>
+```
+
+The output is XSS-safe via Laravel's `e()` helper.
+
+## Decrypting Hash Ids in Form Requests
+
+Add the `DecryptsHashIds` trait to a `FormRequest` to automatically convert Hash Id inputs to integer keys after validation:
+
+```php
+use Deligoez\LaravelModelHashId\Traits\DecryptsHashIds;
+
+class UpdatePostRequest extends FormRequest
+{
+    use DecryptsHashIds;
+
+    protected array $hashIds = [
+        'user_id' => User::class,
+        'post_id' => Post::class,
+    ];
+
+    public function rules(): array
+    {
+        return [
+            'user_id' => ['required', new ValidHashId(User::class)],
+            'post_id' => ['required', new ValidHashId(Post::class)],
+        ];
+    }
+}
+
+// In your controller, $request->user_id is now an integer
+```
+
+## Artisan Commands
+
+Two Artisan commands are available for encoding and decoding Hash Ids:
+
+```bash
+# Encode a key to a Hash Id
+php artisan hashid:encode "App\Models\User" 1234
+
+# Decode a Hash Id (with explicit model)
+php artisan hashid:decode "user_kqYZeLgo" "App\Models\User"
+
+# Decode a Hash Id (auto-detect model from registered generators)
+php artisan hashid:decode "user_kqYZeLgo"
+```
 
 ## Validation
 
