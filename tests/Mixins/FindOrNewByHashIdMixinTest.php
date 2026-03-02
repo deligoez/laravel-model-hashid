@@ -2,56 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Deligoez\LaravelModelHashId\Tests\Mixins;
-
-use PHPUnit\Framework\Attributes\Test;
-use Deligoez\LaravelModelHashId\Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 
-class FindOrNewByHashIdMixinTest extends TestCase
-{
-    use RefreshDatabase;
+it('can find a model by its hash id', function (): void {
+    $model  = ModelA::factory()->create();
+    $hashId = $model->hashId;
 
-    #[Test]
-    public function it_can_find_a_model_by_its_hash_id(): void
-    {
-        // 1. Arrange 🏗
-        $model  = ModelA::factory()->create();
-        $hashId = $model->hashId;
+    $foundModel = ModelA::findOrNewByHashId($hashId);
 
-        // 2. Act 🏋🏻‍
-        /** @var ModelA $foundModel */
-        $foundModel = ModelA::findOrNewByHashId($hashId);
+    expect($model->is($foundModel))->toBeTrue();
+});
 
-        // 3. Assert ✅
-        $this->assertTrue($model->is($foundModel));
-    }
+it('can find a model by its hash id from specific columns', function (): void {
+    $model  = ModelA::factory()->create();
+    $hashId = $model->hashId;
 
-    #[Test]
-    public function it_can_find_a_model_by_its_hash_id_from_specific_columns(): void
-    {
-        // 1. Arrange 🏗
-        $model           = ModelA::factory()->create();
-        $hashId          = $model->hashId;
-        $selectedColumns = ['id'];
+    $foundModel = ModelA::findOrNewByHashId($hashId, ['id']);
 
-        // 2. Act 🏋🏻‍
-        /** @var ModelA $foundModel */
-        $foundModel = ModelA::findOrNewByHashId($hashId, $selectedColumns);
+    expect($model->is($foundModel))->toBeTrue();
+});
 
-        // 3. Assert ✅
-        $this->assertTrue($model->is($foundModel));
-    }
+it('can new a model if hash id not found', function (): void {
+    $newModel = ModelA::findOrNewByHashId('non-existing-hash-id');
 
-    #[Test]
-    public function it_can_new_a_model_if_hash_id_not_found(): void
-    {
-        // 2. Act 🏋🏻‍
-        /** @var ModelA $newModel */
-        $newModel = ModelA::findOrNewByHashId('non-existing-hash-id');
-
-        // 3. Assert ✅
-        $this->assertFalse($newModel->exists);
-    }
-}
+    expect($newModel->exists)->toBeFalse();
+});
