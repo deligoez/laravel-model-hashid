@@ -218,6 +218,34 @@ describe('generator', function (): void {
         expect(Generator::parseHashIDForModel('some_hashid'))->toBeNull();
     });
 
+    it('handles string prefix length -1 in generic parseHashIDForModel path', function (): void {
+        Config::set(ConfigParameters::PREFIX_LENGTH, '-1');
+
+        $model  = ModelA::factory()->create();
+        $hashId = Generator::forModel($model);
+
+        $parsed = Generator::parseHashIDForModel($hashId, ModelA::class);
+
+        expect($parsed)->not->toBeNull()
+            ->and($parsed->prefix)->toEqual('modela');
+    });
+
+    it('handles string config values in generic parseHashIDForModel path', function (): void {
+        Config::set(ConfigParameters::SEPARATOR, '@');
+        Config::set(ConfigParameters::LENGTH, '5');
+        Config::set(ConfigParameters::PREFIX_CASE, 'lower');
+        Config::set(ConfigParameters::PREFIX_LENGTH, '4');
+
+        $model  = ModelA::factory()->create();
+        $hashId = Generator::forModel($model);
+
+        $parsed = Generator::parseHashIDForModel($hashId);
+
+        expect($parsed)->not->toBeNull()
+            ->and($parsed->prefix)->toEqual('mode')
+            ->and($parsed->modelClassName)->toBeNull();
+    });
+
     it('can build a hash id generator from a model instance or class name', function (): void {
         expect(Generator::build(new ModelA()))->toBeInstanceOf(Hashids::class)
             ->and(Generator::build(ModelA::class))->toBeInstanceOf(Hashids::class);
