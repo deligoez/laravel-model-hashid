@@ -15,7 +15,7 @@ class Config
     /**
      * Get the specified Hash Id configuration value.
      *
-     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
+     * @throws UnknownHashIdConfigParameterException
      */
     public static function get(string $parameter, Model|string|null $model = null): string|int|array
     {
@@ -36,7 +36,7 @@ class Config
     /**
      * Check if the specified Hash Id configuration exists.
      *
-     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
+     * @throws UnknownHashIdConfigParameterException
      */
     public static function has(string $parameter, Model|string|null $model = null): bool
     {
@@ -54,7 +54,7 @@ class Config
     /**
      * Set a given Hash Id configuration value.
      *
-     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
+     * @throws UnknownHashIdConfigParameterException
      */
     public static function set(string $parameter, string|int $value, Model|string|null $model = null): void
     {
@@ -80,7 +80,7 @@ class Config
     /**
      * Check for recognized configuration value.
      *
-     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
+     * @throws UnknownHashIdConfigParameterException
      */
     public static function checkIfParameterDefined(string $parameter): void
     {

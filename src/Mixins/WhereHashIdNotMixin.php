@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashId\Mixins;
 
 use Closure;
+use Illuminate\Database\Eloquent\Builder;
 
-/** @mixin \Illuminate\Database\Eloquent\Builder */
+/**
+ * @mixin Builder
+ */
 class WhereHashIdNotMixin
 {
     /**

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Traits;
 
+use Illuminate\Database\Eloquent\Model;
+
 /**
- * @mixin \Illuminate\Database\Eloquent\Model
+ * @mixin Model
  */
 trait SerializesHashId
 {

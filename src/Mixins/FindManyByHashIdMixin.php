@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashId\Mixins;
 
 use Closure;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Support\Arrayable;
 
-/** @mixin \Illuminate\Database\Eloquent\Builder */
+/**
+ * @mixin Builder
+ */
 class FindManyByHashIdMixin
 {
     /**
@@ -24,7 +27,7 @@ class FindManyByHashIdMixin
          */
         return function (Arrayable|array $ids, $columns = ['*']) {
             $ids = $ids instanceof Arrayable ? $ids->toArray() : $ids;
-            /** @var \Illuminate\Database\Eloquent\Builder $this */
+            /** @var Builder $this */
             $ids = array_map(fn (string $hashId) => $this->getModel()->keyFromHashId($hashId), $ids);
 
             return $this->findMany($ids, $columns);

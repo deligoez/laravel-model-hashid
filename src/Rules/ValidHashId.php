@@ -6,6 +6,7 @@ namespace Deligoez\LaravelModelHashId\Rules;
 
 use Closure;
 use InvalidArgumentException;
+use Illuminate\Database\Eloquent\Model;
 use Deligoez\LaravelModelHashId\Traits\HasHashId;
 use Deligoez\LaravelModelHashId\Support\Generator;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -13,7 +14,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 class ValidHashId implements ValidationRule
 {
     /**
-     * @param  class-string<\Illuminate\Database\Eloquent\Model>|null  $model
+     * @param  class-string<Model>|null  $model
      */
     public function __construct(
         private readonly ?string $model = null,

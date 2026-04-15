@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Deligoez\LaravelModelHashId\Traits;
 
 use Hashids\HashidsInterface;
+use Illuminate\Database\Eloquent\Model;
 use Deligoez\LaravelModelHashId\Support\Generator;
+use Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException;
 
 /**
- * @mixin \Illuminate\Database\Eloquent\Model
+ * @mixin Model
  *
  * @property-read string $hashId
  * @property-read string $hashIdRaw
@@ -20,7 +22,7 @@ trait HasHashId
     /**
      * Initialize the HasHashId trait for an instance.
      *
-     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
+     * @throws UnknownHashIdConfigParameterException
      */
     public function initializeHasHashId(): void
     {
@@ -30,7 +32,7 @@ trait HasHashId
     /**
      * Get the Hash Id for the model.
      *
-     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
+     * @throws UnknownHashIdConfigParameterException
      */
     public function getHashIdAttribute(): ?string
     {
@@ -52,7 +54,7 @@ trait HasHashId
     /**
      * Decode given Hash Id and return the model key.
      *
-     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
+     * @throws UnknownHashIdConfigParameterException
      */
     public static function keyFromHashId(string $hashId): ?int
     {

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Deligoez\LaravelModelHashId\Traits;
 
+use Illuminate\Foundation\Http\FormRequest;
+
 /**
- * @mixin \Illuminate\Foundation\Http\FormRequest
+ * @mixin FormRequest
  */
 trait DecryptsHashIds
 {

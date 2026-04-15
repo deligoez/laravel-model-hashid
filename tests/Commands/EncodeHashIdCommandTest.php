@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Database\Eloquent\Model;
 use Deligoez\LaravelModelHashId\Tests\Models\ModelA;
 
 it('encodes a key to a hash id', function (): void {
@@ -19,7 +20,7 @@ it('fails for non-existent class', function (): void {
 });
 
 it('fails for model without HasHashId trait', function (): void {
-    $this->artisan('hashid:encode', ['model' => \Illuminate\Database\Eloquent\Model::class, 'id' => 1])
+    $this->artisan('hashid:encode', ['model' => Model::class, 'id' => 1])
         ->expectsOutputToContain('does not use the HasHashId trait')
         ->assertFailed();
 });

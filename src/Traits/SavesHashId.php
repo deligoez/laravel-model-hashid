@@ -7,13 +7,14 @@ namespace Deligoez\LaravelModelHashId\Traits;
 use Illuminate\Database\Eloquent\Model;
 use Deligoez\LaravelModelHashId\Support\Config;
 use Deligoez\LaravelModelHashId\Support\ConfigParameters;
+use Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException;
 
 trait SavesHashId
 {
     /**
      * Boot the SavesHashId trait for a model.
      *
-     * @throws \Deligoez\LaravelModelHashId\Exceptions\UnknownHashIdConfigParameterException
+     * @throws UnknownHashIdConfigParameterException
      */
     public static function bootSavesHashId(): void
     {
