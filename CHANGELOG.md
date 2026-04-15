@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-model-hashid` will be documented in this file.
 
+## 4.1.0 - 2026-04-15
+
+### Added
+- Laravel 13 support — `illuminate/contracts` constraint now includes `^13.0`
+- CI matrix now tests against Laravel 13 on PHP 8.3 and 8.4
+
+### Changed
+- `orchestra/testbench` dev constraint bumped to include `^11.0` for Laravel 13 testing
+
 ## 4.0.1 - 2026-03-04
 
 ### Fixed

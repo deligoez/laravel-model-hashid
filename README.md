@@ -54,7 +54,7 @@ You have complete control over Hash Id length, prefix, separator, and alphabet. 
 
 | Package | PHP        | Laravel    |
 |---------|------------|------------|
-| ^4.0    | ^8.3       | ^11.0, ^12.0 |
+| ^4.0    | ^8.3       | ^11.0, ^12.0, ^13.0 |
 | ^3.0    | ^8.2       | ^9.0 - ^11.0 |
 | ^2.0    | ^8.1       | ^9.0 - ^12.0 |
 | ^1.0    | ^8.0       | ^8.0       |

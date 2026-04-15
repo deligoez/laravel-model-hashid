@@ -27,13 +27,13 @@
         "php": "^8.3",
         "ext-mbstring": "*",
         "hashids/hashids": "^4.1|^5.0",
-        "illuminate/contracts": "^11.0|^12.0"
+        "illuminate/contracts": "^11.0|^12.0|^13.0"
     },
     "require-dev": {
         "driftingly/rector-laravel": "^2.1",
         "laravel/pint": "^1.0",
         "larastan/larastan": "^3.0",
-        "orchestra/testbench": "^9.0|^10.0",
+        "orchestra/testbench": "^9.0|^10.0|^11.0",
         "pestphp/pest": "^4.0",
         "pestphp/pest-plugin-arch": "^4.0",
         "pestphp/pest-plugin-laravel": "^4.0",
